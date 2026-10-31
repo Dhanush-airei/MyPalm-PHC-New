@@ -1,0 +1,232 @@
+<app-page-header
+  [appTitle]="appTitle"
+  [showLogo]="showLogo"
+  [showBackButton]="showBackButton"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="home-box">
+    <div id="chartContainer8">
+      <!-- Date Picker Component -->
+      <app-date-picker
+        [date]="reportDate"
+        [externalDate]="externalDate"
+        (getRecords)="onDateRangeGet($event)"
+      ></app-date-picker>
+
+      <hr class="bg-white" />
+
+      <!-- Loading State -->
+      @if (pleasewaitflag) {
+      <div class="please-wait">
+        <img
+          class="please-wait__image"
+          src="../../../assets/img/loading.gif"
+          alt="Loading"
+        />
+        <div class="please-wait__text">
+          {{ 'NORECORDSFOUND.loading' | translate }}
+        </div>
+      </div>
+      }
+
+      <!-- Table Data -->
+      @if (!pleasewaitflag) { @if (pressstationhourlyperformanceArr.length > 0)
+      { @for (general of pressstationhourlyperformanceArr; track $index) {
+
+      <!-- Mill Start/Stop Date & Time -->
+      <div class="table-responsive mx-1">
+        <table class="table table-bordered w-100">
+          <tbody>
+            <tr class="table_head bg-table-black">
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.millstartdate' | translate }}
+                </div>
+              </th>
+              <td class="bg-green-color" scope="row">
+                {{ general.start_date }}
+              </td>
+
+              @if (general.stop_date != '') {
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.millstopdate' | translate }}
+                </div>
+              </th>
+              <td class="bg-red-color" scope="row">{{ general.stop_date }}</td>
+              }
+            </tr>
+            <tr class="table_head bg-table-black">
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.millstarttime' | translate }}
+                </div>
+              </th>
+              <td class="bg-green-color" scope="row">
+                {{ general.start_time }}
+              </td>
+
+              @if (general.stop_time != '') {
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.millstoptime' | translate }}
+                </div>
+              </th>
+              <td class="bg-red-color" scope="row">{{ general.stop_time }}</td>
+              }
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Press Data Tables -->
+      <div class="table-responsive mx-1 mt-3">
+        @for (pressname of general.data; track pressname.pressname) {
+        <table class="table table-bordered w-100">
+          <thead>
+            <!-- Table Header -->
+            <tr class="table_head bg-table-black">
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">{{ pressname.pressname }}</div>
+              </th>
+              <th colspan="4" class="p-1 text-orange" scope="colgroup">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.digestor' | translate }}
+                </div>
+              </th>
+              @if (pressdataenableflag == 1) {
+              <th colspan="3" class="p-1 text-orange" scope="colgroup">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.press' | translate }}
+                </div>
+              </th>
+              } @if (general.image == 1) {
+              <th rowspan="2" class="p-1 text-orange" scope="colgroup">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.image' | translate }}
+                </div>
+              </th>
+              }
+              <th rowspan="2" class="p-1 text-orange" scope="colgroup">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.doneby' | translate }}
+                </div>
+              </th>
+            </tr>
+
+            <tr class="table_head bg-table-black">
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.time' | translate }}
+                </div>
+              </th>
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.temperature' | translate }}
+                  <br />(<sup>O</sup>C)
+                </div>
+              </th>
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.motor' | translate }}
+                  <br />(A)
+                </div>
+              </th>
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.level' | translate }}
+                  <br />(%)
+                </div>
+              </th>
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.digestor' | translate }}<br />
+                  {{ 'REPORTPRESSSTATION.drainage' | translate }}
+                </div>
+              </th>
+              @if (pressdataenableflag == 1) {
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.motor' | translate }}
+                  <br />(A)
+                </div>
+              </th>
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.fibre' | translate }}<br />
+                  {{ 'REPORTPRESSSTATION.flow' | translate }}
+                </div>
+              </th>
+              <th class="p-1 text-orange" scope="col">
+                <div class="mdfont text-orange">
+                  {{ 'REPORTPRESSSTATION.hydraulic' | translate }}<br />
+                  {{ 'REPORTPRESSSTATION.pressure' | translate }}<br />(Bar)
+                </div>
+              </th>
+              }
+            </tr>
+          </thead>
+
+          <!-- Table Data Rows -->
+          <tbody>
+            @for (value of pressname.pressdata; track $index) {
+            <tr class="table_head1">
+              <td scope="row">{{ value.time }}</td>
+              <td scope="row">{{ value.temperature }}</td>
+              <td scope="row">{{ value.digestormotoramp }}</td>
+              <td scope="row">{{ value.level }}</td>
+              <td scope="row">{{ value.diegestordrainoillow }}</td>
+              @if (pressdataenableflag == 1) {
+              <td scope="row">{{ value.pressmotoramp }}</td>
+              <td scope="row">{{ value.fiberflow }}</td>
+              <td scope="row">{{ value.hydralicpressure }}</td>
+              } @if (general.image == 1) {
+              <td scope="row">
+                @if (value.temperatureimages != '' || value.motorimages != '' ||
+                value.levelimages != '' || value.drainageimages != '' ||
+                value.pressmotorimages != '' || value.fibreflowimages != '' ||
+                value.hydraulicpressureimages != '') {
+                <button
+                  type="button"
+                  class="btn btn-sm border-blue text-white"
+                  (click)="btn_ViewImages(value.temperatureimages, value.motorimages, value.levelimages, value.drainageimages, value.pressmotorimages, value.fibreflowimages, value.hydraulicpressureimages)"
+                >
+                  <div class="icontext">
+                    {{ 'GENERALBUTTON.viewbutton' | translate }}
+                  </div>
+                </button>
+                } @else {
+                <div>-</div>
+                }
+              </td>
+              }
+              <td scope="row">{{ value.rasiedby }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </div>
+
+      <!-- No Records for this press -->
+      @if (general.data.length == 0) {
+      <div class="nopressstationrecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      }
+
+      <hr class="bg-white" />
+      } }
+
+      <!-- No Records -->
+      @if (norecordsflag) {
+      <div class="norecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      } }
+    </div>
+  </div>
+</ion-content>

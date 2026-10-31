@@ -1,0 +1,765 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color">
+    <ion-buttons slot="start">
+      <ion-button color="white" style="color: #fff" (click)="cancel()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title mode="ios" color="light">
+      <div class="fs-12">{{machinename}}</div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-content-bg">
+  <form [formGroup]="pressstationForm">
+    @if(!viewFlag){
+    <ion-row class="align-items-center">
+      <ion-col size="6">
+        <div class="h7 text-light">
+          {{ 'HOURLYPRESSSTATIONSAVE.observationtime' | translate}}
+          <sup class="text-danger"> *</sup>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <p
+          class="bg-white form-control fs-11 border rounded mb-0"
+          (click)="openTimeModal()"
+        >
+          {{ pressstationForm.get('txt_observationtime')?.value || 'HH:mm' }}
+        </p>
+      </ion-col>
+    </ion-row>
+
+    <div class="hl4line"></div>
+
+    <div class="digestorcard">
+      <div class="text-orange fs-14 fw-bold text-center mb-2">
+        {{digestortitle}}
+      </div>
+
+      <!-- Temperature -->
+      <ion-row class="align-items-center">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.temperature' | translate}} (<sup
+              class="degree"
+              >O</sup
+            >C) <sup class="text-danger"> *</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <!-- <select
+            formControlName="select_temperature"
+            class="h7 form-control text-dark"
+          >
+            <option value="" selected disabled hidden>
+              {{ 'HOURLYPRESSSTATIONSAVE.select' | translate}}
+            </option>
+            <option
+              value="{{parseString(value)}}"
+              *ngFor="let value of temperatureArr"
+            >
+              {{ value.temperature }}
+            </option>
+          </select> -->
+
+          <input
+            type="number"
+            class="h7 form-control text-dark"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate}}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_temperature"
+          />
+        </ion-col>
+        <!-- <ion-col size="2">
+          <div class="h7 text-white">
+            <b><sup class="degree">O</sup>C</b>
+          </div>
+        </ion-col> -->
+      </ion-row>
+
+      @if(temperatureimagesettingsflag == 1){
+      <ion-row class="align-items-center">
+        <ion-col style="text-align: right !important">
+          <!-- <button
+            type="submit"
+            class="btn btn-add"
+            (click)="addImages('Temperature')"
+          >
+            {{ 'HOURLYPRESSSTATIONSAVE.addimages' | translate}}
+          </button> -->
+
+          <button
+            type="submit"
+            class="btn border-blue fs-12 text-white d-inline-flex align-items-center"
+            (click)="imageUpload('Temperature')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="ps-2">
+              {{ 'GENERALBUTTON.uploadbutton' | translate}}</span
+            >
+          </button>
+
+          <button
+            type="submit"
+            class="btn border-orange fs-12 text-white ms-2"
+            (click)="btn_view('Temperature')"
+          >
+            <!-- <ion-icon class="icon" name="eye-outline"></ion-icon> -->
+            {{ 'GENERALBUTTON.viewbutton' | translate}}
+            @if(temperatureimagesArr.length>0){
+            <span> ({{temperatureimagesArr.length}}) </span>
+            }
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+
+      <div class="hl4line"></div>
+
+      <!-- Digestor Motor -->
+      <ion-row class="align-items-center">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.motor' | translate}} (A)<sup
+              class="text-danger"
+              >*</sup
+            >
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <!-- <select
+            formControlName="select_digestormotoramps"
+            class="h7 form-control text-dark"
+          >
+            <option value="" selected disabled hidden>
+              {{ 'HOURLYPRESSSTATIONSAVE.select' | translate}}
+            </option>
+            <option
+              value="{{parseString(value)}}"
+              *ngFor="let value of digestorampsArr"
+            >
+              {{ value.digestoramps }}
+            </option>
+          </select> -->
+
+          <input
+            type="number"
+            class="h7 form-control text-dark"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate}}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_digestormotoramps"
+          />
+        </ion-col>
+        <!-- <ion-col size="2">
+          <div class="h7 text-white"><b>A</b></div>
+        </ion-col> -->
+      </ion-row>
+
+      @if(motorimagesettingsflag == 1){
+      <ion-row class="align-items-center">
+        <ion-col style="text-align: right !important">
+          <button
+            type="submit"
+            class="btn border-blue fs-12 text-white d-inline-flex align-items-center"
+            (click)="imageUpload('Motor')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="ps-2">
+              {{ 'GENERALBUTTON.uploadbutton' | translate}}</span
+            >
+          </button>
+
+          <button
+            type="submit"
+            class="btn border-orange fs-12 text-white ms-2"
+            (click)="btn_view('Motor')"
+          >
+            <!-- <ion-icon class="icon" name="eye-outline"></ion-icon> -->
+            {{ 'GENERALBUTTON.viewbutton' | translate}}
+            @if(motorimagesArr.length>0){
+            <span> ({{motorimagesArr.length}}) </span>
+            }
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+
+      <div class="hl4line"></div>
+
+      <!-- Level -->
+      <ion-row class="align-items-center">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.level' | translate}}
+            <sup class="text-danger"> *</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <select
+            formControlName="select_level"
+            class="h7 form-control text-dark"
+          >
+            <option value="" selected disabled hidden>
+              {{ 'HOURLYPRESSSTATIONSAVE.select' | translate}}
+            </option>
+            @for (value of levelArr; track $index) {
+            <option [value]="parseString(value)">{{ value.percentage }}</option>
+            }
+          </select>
+        </ion-col>
+        <!-- <ion-col size="2"></ion-col> -->
+      </ion-row>
+
+      @if(levelimagesettingsflag == 1){
+      <ion-row class="align-items-center">
+        <ion-col style="text-align: right !important">
+          <button
+            type="submit"
+            class="btn border-blue fs-12 text-white d-inline-flex align-items-center"
+            (click)="imageUpload('Level')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="ps-2">
+              {{ 'GENERALBUTTON.uploadbutton' | translate}}</span
+            >
+          </button>
+
+          <button
+            type="submit"
+            class="btn border-orange fs-12 text-white ms-2"
+            (click)="btn_view('Level')"
+          >
+            <!-- <ion-icon class="icon" name="eye-outline"></ion-icon> -->
+            {{ 'GENERALBUTTON.viewbutton' | translate}}
+            @if(levelimagesArr.length>0){
+            <span> ({{levelimagesArr.length}}) </span>
+            }
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+
+      <div class="hl4line"></div>
+
+      <!-- Digestor Drainage -->
+      <ion-row class="align-items-center">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.digestordrainage' | translate}}
+            <sup class="text-danger">*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <select
+            formControlName="select_digestordrainoilflow"
+            class="h7 form-control text-dark"
+          >
+            <option value="" selected disabled hidden>
+              {{ 'HOURLYPRESSSTATIONSAVE.select' | translate}}
+            </option>
+            @for (value of digestordrainoilflowArr; track $index) {
+            <option [value]="parseString(value)">
+              {{ value.digestordrainpipevalue }}
+            </option>
+            }
+          </select>
+        </ion-col>
+        <!-- <ion-col size="2"></ion-col> -->
+      </ion-row>
+
+      @if(drainageimagesettingsflag == 1){
+      <ion-row class="align-items-center">
+        <ion-col style="text-align: right !important">
+          <button
+            type="submit"
+            class="btn border-blue fs-12 text-white d-inline-flex align-items-center"
+            (click)="imageUpload('Drainage')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="ps-2">
+              {{ 'GENERALBUTTON.uploadbutton' | translate}}</span
+            >
+          </button>
+
+          <button
+            type="submit"
+            class="btn border-orange fs-12 text-white ms-2"
+            (click)="btn_view('Drainage')"
+          >
+            <!-- <ion-icon class="icon" name="eye-outline"></ion-icon> -->
+            {{ 'GENERALBUTTON.viewbutton' | translate}}
+            @if(drainageimagesArr.length>0){
+            <span> ({{drainageimagesArr.length}}) </span>
+            }
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+    </div>
+
+    <hr style="height: 1px; border-top: 1px solid #ffffff" />
+
+    <div class="presscard">
+      <div class="text-orange fs-14 fw-bold text-center mb-2">
+        {{presstitle}}
+      </div>
+      <ion-row class="align-items-center">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.motor' | translate}} (A)<sup
+              class="text-danger"
+              >*</sup
+            >
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control text-dark"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate}}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_pressmotoramps"
+          />
+        </ion-col>
+      </ion-row>
+
+      @if(pressmotorimagesettingsflag == 1){
+      <ion-row class="align-items-center">
+        <ion-col style="text-align: right !important">
+          <button
+            type="submit"
+            class="btn border-blue fs-12 text-white d-inline-flex align-items-center"
+            (click)="imageUpload('PressMotor')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="ps-2">
+              {{ 'GENERALBUTTON.uploadbutton' | translate}}</span
+            >
+          </button>
+
+          <button
+            type="submit"
+            class="btn border-orange fs-12 text-white ms-2"
+            (click)="btn_view('PressMotor')"
+          >
+            <!-- <ion-icon class="icon" name="eye-outline"></ion-icon> -->
+            {{ 'GENERALBUTTON.viewbutton' | translate}}
+            @if(pressmotorimagesArr.length>0){
+            <span> ({{pressmotorimagesArr.length}}) </span>
+            }
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+
+      <div class="hl4line"></div>
+
+      <ion-row class="align-items-center">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.presscakedrainage' | translate}}
+            <sup class="text-danger">*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <select
+            formControlName="select_fiberflow"
+            class="h7 form-control text-dark"
+          >
+            <option value="" selected disabled hidden>
+              {{ 'HOURLYPRESSSTATIONSAVE.select' | translate}}
+            </option>
+            @for (value of fiberflowArr; track $index) {
+            <option [value]="parseString(value)">{{ value.level }}</option>
+            }
+          </select>
+        </ion-col>
+        <!-- <ion-col size="2"></ion-col> -->
+      </ion-row>
+
+      @if(pressfibreflowimagesettingsflag == 1){
+      <ion-row class="align-items-center">
+        <ion-col style="text-align: right !important">
+          <button
+            type="submit"
+            class="btn border-blue fs-12 text-white d-inline-flex align-items-center"
+            (click)="imageUpload('PressFibreFlow')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="ps-2">
+              {{ 'GENERALBUTTON.uploadbutton' | translate}}</span
+            >
+          </button>
+
+          <button
+            type="submit"
+            class="btn border-orange fs-12 text-white ms-2"
+            (click)="btn_view('PressFibreFlow')"
+          >
+            <!-- <ion-icon class="icon" name="eye-outline"></ion-icon> -->
+            {{ 'GENERALBUTTON.viewbutton' | translate}}
+            @if(pressfibreflowimagesArr.length>0){
+            <span> ({{pressfibreflowimagesArr.length}}) </span>
+            }
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+
+      <div class="hl4line"></div>
+
+      <ion-row class="align-items-center">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.hydraulicpressure' | translate}} (Bar)
+            <sup class="text-danger"> *</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control text-dark"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate}}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_hydraulicpressure"
+          />
+        </ion-col>
+      </ion-row>
+
+      @if(presshydraulicpressureimagesettingsflag == 1){
+      <ion-row class="align-items-center">
+        <ion-col style="text-align: right !important">
+          <button
+            type="submit"
+            class="btn border-blue fs-12 text-white d-inline-flex align-items-center"
+            (click)="imageUpload('PressHydraulicPressure')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="ps-2">
+              {{ 'GENERALBUTTON.uploadbutton' | translate}}</span
+            >
+          </button>
+
+          <button
+            type="submit"
+            class="btn border-orange fs-12 text-white ms-2"
+            (click)="btn_view('PressHydraulicPressure')"
+          >
+            <!-- <ion-icon class="icon" name="eye-outline"></ion-icon> -->
+            {{ 'GENERALBUTTON.viewbutton' | translate}}
+            @if(presshydraulicpressureimagesArr.length>0){
+            <span> ({{presshydraulicpressureimagesArr.length}}) </span>
+            }
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+    </div>
+
+    <hr />
+    <div class="notificationcard">
+      <form [formGroup]="remarksForm">
+        <!-- <ion-row class="align-items-center">
+          <ion-col size="4.5">
+            <div class="h7 text-dark">
+              {{ 'MAINTENANCENOTIFICATIONVIEW.inchargeremarks' | translate}}
+            </div>
+          </ion-col>
+          <ion-col size="0.5" style="text-align: center">
+            <div class="h7 text-dark">:</div>
+          </ion-col>
+        </ion-row> -->
+
+        <ion-row class="align-items-center">
+          <ion-col>
+            <div>
+              <textarea
+                class="h7 form-control"
+                formControlName="ta_remarks"
+                placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.typeremark' | translate}}"
+                rows="4"
+                autosize
+              ></textarea>
+            </div>
+          </ion-col>
+        </ion-row>
+      </form>
+    </div>
+    <ion-row style="margin-top: 10px; margin-bottom: 10px">
+      <ion-col size="6" style="text-align: right !important">
+        <button
+          type="submit"
+          class="btn border-green text-white fs-12"
+          (click)="confirm()"
+        >
+          {{ 'GENERALBUTTON.savebutton' | translate}}
+        </button>
+      </ion-col>
+
+      <ion-col size="6" style="text-align: left !important">
+        <button
+          type="submit"
+          class="btn border-red fs-12 text-white"
+          (click)="cancel()"
+        >
+          {{ 'GENERALBUTTON.cancelbutton' | translate}}
+        </button>
+      </ion-col>
+    </ion-row>
+    } @else {
+    <div class="h6" style="margin-left: 10px; margin-top: 10px; color: #3cd2a5">
+      <b>{{ 'HOURLYPRESSSTATIONSAVE.alert' | translate}}</b>
+    </div>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="h7 text-light">
+          {{ 'HOURLYPRESSSTATIONSAVE.observationtime' | translate}}
+          <sup class="text-danger">*</sup>
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="h7 form-control"
+          placeholder="{{ 'HOURLYPRESSSTATIONSAVE.observationtime' | translate}}"
+          value="{{ pressstationForm.get('txt_observationtime')?.value || 'HH:mm' }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <hr style="height: 1px; border-top: 1px solid #ffffff" />
+
+    <div class="digestorcard">
+      <div class="text-orange fs-14 fw-bold text-center mb-2">
+        {{digestortitle}}
+      </div>
+
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.temperature' | translate}} (<sup
+              class="degree"
+              >O</sup
+            >C)<sup class="text-danger">*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="h7 form-control"
+            placeholder="{{ 'HOURLYPRESSSTATIONSAVE.temperature' | translate}}"
+            value="{{view_temperature}}"
+            readonly
+          />
+        </ion-col>
+        <!-- <ion-col size="2">
+          <div class="h7 text-white">
+            <b><sup class="degree">O</sup>C</b>
+          </div>
+        </ion-col> -->
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.motor' | translate}} (A)<sup
+              class="text-danger"
+              >*</sup
+            >
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="h7 form-control"
+            placeholder="{{ 'HOURLYPRESSSTATIONSAVE.motor' | translate}}"
+            value="{{view_digestormotoramps}}"
+            readonly
+          />
+        </ion-col>
+        <!-- <ion-col size="2">
+          <div class="h7 text-white"><b>A</b></div>
+        </ion-col> -->
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.level' | translate}}
+            <sup class="text-danger">*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="h7 form-control"
+            placeholder="{{ 'HOURLYPRESSSTATIONSAVE.level' | translate}}"
+            value="{{view_level}}"
+            readonly
+          />
+        </ion-col>
+        <!-- <ion-col size="2"></ion-col> -->
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.digestordrainage' | translate}}
+            <sup class="text-danger">*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="h7 form-control"
+            placeholder="{{ 'HOURLYPRESSSTATIONSAVE.digestordrainage' | translate}}"
+            value="{{view_digestordrainoilflow}}"
+            readonly
+          />
+        </ion-col>
+        <!-- <ion-col size="2"></ion-col> -->
+      </ion-row>
+    </div>
+
+    <hr style="height: 1px; border-top: 1px solid #ffffff" />
+
+    <div class="presscard">
+      <div class="text-orange fs-14 fw-bold text-center mb-2">
+        {{presstitle}}
+      </div>
+
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.motor' | translate}} (A)<sup
+              class="text-danger"
+              >*</sup
+            >
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="h7 form-control"
+            placeholder="{{ 'HOURLYPRESSSTATIONSAVE.motor' | translate}}"
+            value="{{view_pressmotoramps}}"
+            readonly
+          />
+        </ion-col>
+        <!-- <ion-col size="2">
+          <div class="h7 text-white"><b>A</b></div>
+        </ion-col> -->
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.presscakedrainage' | translate}}
+            <sup class="text-danger">*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="h7 form-control"
+            placeholder="{{ 'HOURLYPRESSSTATIONSAVE.presscakedrainage' | translate}}"
+            value="{{view_fiberflow}}"
+            readonly
+          />
+        </ion-col>
+        <!-- <ion-col size="2"></ion-col> -->
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="h7 text-white">
+            {{ 'HOURLYPRESSSTATIONSAVE.hydraulicpressure' | translate}} (Bar)
+            <sup class="text-danger">*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="h7 form-control"
+            placeholder="{{ 'HOURLYPRESSSTATIONSAVE.hydraulicpressure' | translate}}"
+            value="{{view_hydraulicpressure}}"
+            readonly
+          />
+        </ion-col>
+        <!-- <ion-col size="2">
+          <div class="h7 text-white"><b>Bar</b></div>
+        </ion-col> -->
+      </ion-row>
+    </div>
+
+    <hr style="height: 1px; border-top: 1px solid #ffffff" />
+    @if(remarksForm.get('ta_remarks')?.value != ''){
+    <ion-row class="form-row">
+      <ion-col>
+        <div>
+          <textarea
+            class="h7 form-control"
+            formControlName="ta_copyRemarks"
+            placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.typeremark' | translate}}"
+            rows="4"
+            [value]="remarksForm.get('ta_remarks')?.value"
+            autosize
+            readonly
+          ></textarea>
+        </div>
+      </ion-col>
+    </ion-row>
+    }
+
+    <ion-row style="margin-top: 10px; margin-bottom: 10px">
+      <ion-col size="6" style="text-align: right !important">
+        <button
+          type="submit"
+          [disabled]="isDisabled"
+          class="btn border-green text-white fs-12"
+          (click)="save()"
+        >
+          {{ 'HOURLYPRESSSTATIONSAVE.confirmbutton' | translate}}
+        </button>
+      </ion-col>
+
+      <ion-col size="6" style="text-align: left !important">
+        <button
+          type="submit"
+          class="btn border-red fs-12 text-white"
+          (click)="cancelconfirm()"
+        >
+          {{ 'GENERALBUTTON.cancelbutton' | translate}}
+        </button>
+      </ion-col>
+    </ion-row>
+    }
+    <ion-modal
+      [isOpen]="isTimeModalOpen"
+      cssClass="time-modal"
+      (didDismiss)="onTimeDismiss()"
+    >
+      <ng-template>
+        <div class="time-wrapper">
+          <ion-datetime
+            formControlName="txt_observationtime"
+            presentation="time"
+            hourCycle="h23"
+            locale="en-GB"
+            [showDefaultButtons]="true"
+            doneText="Ok"
+            cancelText="Cancel"
+            (ionChange)="onTimeChange($event)"
+            (ionConfirm)="isTimeModalOpen = false"
+          >
+          </ion-datetime>
+        </div>
+      </ng-template>
+    </ion-modal>
+  </form>
+</ion-content>

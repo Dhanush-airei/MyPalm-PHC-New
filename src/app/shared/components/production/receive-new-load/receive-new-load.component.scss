@@ -1,0 +1,16 @@
+.back-to-select {
+  font-size: 14px;
+  color: #df4759;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 5px;
+  margin-right: 7px;
+  font-weight: bold;
+}
+.image-container {
+  width: 100%;
+  margin-top: 16px;
+  border-radius: 12px;
+  object-fit: cover;
+}

@@ -1,0 +1,1013 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="firstsegment bg-white p-1">
+    <div
+      class="fs-14 text-orange bg-black py-2 text-center rounded border fw-bold mb-1"
+    >
+      Preventive Maintenance
+    </div>
+
+    <!-- PARENT SEGMENT: Routine / Replacement -->
+    <ion-segment
+      (ionChange)="parentSegmentChanged($event)"
+      [ngModel]="parent_segment"
+    >
+      <ion-segment-button value="Routine" class="segment-btn-routine">
+        <ion-label text-wrap class="fs-12">
+          {{ 'PREVENTIVEMAINTENANCE.routine' | translate }}
+        </ion-label>
+      </ion-segment-button>
+
+      <ion-segment-button value="Replacement" class="segment-btn-replacement">
+        <ion-label text-wrap class="fs-12">
+          {{ 'PREVENTIVEMAINTENANCE.replacement' | translate }}
+        </ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <div class="secondsegment px-2">
+    <ion-segment
+      (ionChange)="childSegmentChanged($event)"
+      [ngModel]="child_segment"
+      class="mt-2"
+      mode="md"
+    >
+      <ion-segment-button value="New" class="segment-btn-new">
+        <div class="segment-label-wrapper">
+          <ion-label text-wrap class="fs-12">
+            {{ 'PREVENTIVEMAINTENANCE.new' | translate }}
+          </ion-label>
+          @if (childNewRecords != 0) {
+          <ion-badge class="badgecount badgeblink">
+            {{ childNewRecords }}
+          </ion-badge>
+          }
+        </div>
+      </ion-segment-button>
+
+      <ion-segment-button value="Pending" class="segment-btn-pending">
+        <div class="segment-label-wrapper">
+          <ion-label text-wrap class="fs-12">
+            {{ 'PREVENTIVEMAINTENANCE.pending' | translate }}
+          </ion-label>
+          @if (childPendingRecords != 0) {
+          <ion-badge class="badgecount badgeblink">
+            {{ childPendingRecords }}
+          </ion-badge>
+          }
+        </div>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- SEARCH BAR - Always visible above cards -->
+  <div class="search-container px-2">
+    <ion-searchbar
+      placeholder="{{ 'PREVENTIVEMAINTENANCE.searchrecords' | translate }}"
+      [(ngModel)]="filterTerm"
+      class="custom-searchbar"
+      animated="true"
+      clearIcon="close"
+    ></ion-searchbar>
+  </div>
+
+  <!-- CARDS CONTAINER - Shows based on selected segments -->
+  <div class="cards-container">
+    <!-- ============================================================== -->
+    <!-- ROUTINE SECTION -->
+    <!-- ============================================================== -->
+    @if(parent_segment == 'Routine') {
+
+    <!-- ROUTINE - NEW -->
+    @if(child_segment == 'New') { @if (routinenewlistArr.length > 0) { @for
+    (value of routinenewlistArr | filter: filterTerm; track value.id) {
+    <ion-card
+      class="ropmcard"
+      [style.backgroundColor]="getBackgroundColor(value.statusId, value.machinereplacement)"
+      [style.borderColor]="geBorderColor('RoPM', value.statusId, value.machinereplacement, value.pm_flag)"
+    >
+      <ion-card-header
+        [style.backgroundColor]="geBorderColor('RoPM', value.statusId, value.machinereplacement, value.pm_flag)"
+        [style.color]="getTextColor(value.statusId)"
+      >
+        <div class="form-row">
+          <div class="col">
+            <div class="h6" style="float: left">
+              <b>{{value.notificationno}} - {{value.insDate}}</b>
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        @if (value.stationname !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.station' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.stationname}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.machinename !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.machine' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.machinename}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.partdefect !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.partname' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data" [innerHTML]="value.partdefect"></p>
+          </ion-col>
+        </ion-row>
+        } @if (value.problem !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.problem' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.problem}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.reportBy !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.reportedby' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.reportBy}}</p>
+          </ion-col>
+        </ion-row>
+        }
+        <!-- @if (value.priority_level !== '') {
+        <ion-row>
+          <ion-col size="5">Priority Level</ion-col>
+          <ion-col size="7">
+            <p
+              class="statusdata"
+              [style.color]="getTextColorForPriorityLevel(value.priority_id)"
+            >
+              {{ value.priority_level }}
+            </p>
+          </ion-col>
+        </ion-row>
+        } -->
+        @if (value.statusname !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.status' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p
+              class="statusdata"
+              [style.color]="getStatusTextColor(value.statusId)"
+            >
+              {{ value.statusname }}
+            </p>
+          </ion-col>
+        </ion-row>
+        } @if (value.deny_remarks !== '') {
+        <ion-row>
+          <ion-col size="5">Deny Remarks</ion-col>
+          <ion-col size="7">
+            <p class="data">{{value.deny_remarks}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.reason !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.reason' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.reason}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.remarks !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.remarks' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.remarks}}</p>
+          </ion-col>
+        </ion-row>
+        }
+
+        <ion-row class="row-reverse">
+          <!-- Accept/Update Button - FIRST (Rightmost in row-reverse) -->
+          @if ((value.statusId == '10' || value.statusId == '14') &&
+          (UserContext.designId == 4 || UserContext.designId == 6)) {
+          <button
+            type="button"
+            class="h7 btn btn-accept btn-sm margin-5px"
+            (click)="btn_NotificationAccept(value, 'RoPM')"
+          >
+            <ion-icon class="icon" name="copy-outline"></ion-icon>
+            @if (value.iscompleted == 0) {
+            <span class="icontext">
+              {{ 'GENERALBUTTON.acceptbutton' | translate }}
+            </span>
+            } @if (value.iscompleted == 1) {
+            <span class="icontext">
+              {{ 'GENERALBUTTON.updatebutton' | translate }}
+            </span>
+            }
+          </button>
+          }
+
+          <!-- Assign Button -->
+          @if (value.statusId == '1') {
+          <button
+            type="button"
+            class="h7 btn btn-assign btn-sm margin-5px"
+            (click)="btn_NotificationAssign(value)"
+          >
+            <ion-icon class="icon" name="person-add-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.assignbutton' | translate }}
+            </span>
+          </button>
+          }
+
+          <!-- View Button - LAST (Leftmost in row-reverse) -->
+          <button
+            type="button"
+            class="h7 btn btn-view btn-sm margin-5px"
+            (click)="btn_NotificationView(value)"
+          >
+            <ion-icon class="icon" name="document-text-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.viewbutton' | translate }}
+            </span>
+          </button>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    }
+    <!-- Infinite Scroll for Routine New -->
+    <ion-infinite-scroll
+      threshold="100px"
+      (ionInfinite)="loadMoreData($event)"
+      *ngIf="routinenewlistArr.length > 0 && routinenewhasMoreData"
+    >
+      <ion-infinite-scroll-content
+        class="loadmore"
+        loadingSpinner="bubbles"
+        loadingText="{{'NORECORDSFOUND.loadingmoredata' | translate}}"
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    } @else { @if (!pleasewaitflag) {
+    <div class="no-records">
+      <p>{{ 'NORECORDSFOUND.norecordsfound' | translate }}</p>
+    </div>
+    } }
+
+    <!-- Loading Spinner -->
+    @if (pleasewaitflag) {
+    <div class="please-wait">
+      <img
+        class="please-wait__image"
+        src="../../../assets/img/loading.gif"
+        alt="Loading"
+      />
+      <span class="please-wait__text"
+        >{{ 'NORECORDSFOUND.loading' | translate }}</span
+      >
+    </div>
+    } }
+
+    <!-- ROUTINE - PENDING -->
+    @if(child_segment == 'Pending') { @if (routinependinglistArr.length > 0) {
+    @for (value of routinependinglistArr | filter: filterTerm; track value.id) {
+    <ion-card
+      class="ropmcard"
+      [style.backgroundColor]="getBackgroundColor(value.statusId, value.machinereplacement)"
+      [style.borderColor]="geBorderColor('RoPM', value.statusId, value.machinereplacement, value.pm_flag)"
+    >
+      <ion-card-header
+        [style.backgroundColor]="geBorderColor('RoPM', value.statusId, value.machinereplacement, value.pm_flag)"
+        [style.color]="getTextColor(value.statusId)"
+      >
+        <div class="form-row">
+          <div class="col">
+            <div class="h6" style="float: left">
+              <b>{{value.notificationno}} - {{value.insDate}}</b>
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        @if (value.stationname !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.station' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.stationname}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.machinename !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.machine' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.machinename}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.partdefect !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.partname' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data" [innerHTML]="value.partdefect"></p>
+          </ion-col>
+        </ion-row>
+        } @if (value.problem !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.problem' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.problem}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.reportBy !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.reportedby' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.reportBy}}</p>
+          </ion-col>
+        </ion-row>
+        }
+        <!-- @if (value.priority_level !== '') {
+        <ion-row>
+          <ion-col size="5">Priority Level</ion-col>
+          <ion-col size="7">
+            <p
+              class="statusdata"
+              [style.color]="getTextColorForPriorityLevel(value.priority_id)"
+            >
+              {{ value.priority_level }}
+            </p>
+          </ion-col>
+        </ion-row>
+        } -->
+        @if (value.statusname !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.status' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p
+              class="statusdata"
+              [style.color]="getStatusTextColor(value.statusId)"
+            >
+              {{ value.statusname }}
+            </p>
+          </ion-col>
+        </ion-row>
+        } @if (value.deny_remarks !== '') {
+        <ion-row>
+          <ion-col size="5">Deny Remarks</ion-col>
+          <ion-col size="7">
+            <p class="data">{{value.deny_remarks}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.reason !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.reason' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.reason}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.remarks !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.remarks' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.remarks}}</p>
+          </ion-col>
+        </ion-row>
+        }
+
+        <ion-row class="row-reverse">
+          <!-- Assign button for specific statuses (Foreman) - FIRST -->
+          @if ((value.statusId == '10' || value.statusId == '14') &&
+          (UserContext.designId == 4 || UserContext.designId == 6)) {
+          <button
+            type="button"
+            class="h7 btn btn-accept btn-sm margin-5px"
+            (click)="btn_NotificationAccept(value, 'RePM')"
+          >
+            <ion-icon class="icon" name="copy-outline"></ion-icon>
+            @if (value.iscompleted == 0) {
+            <span class="icontext">
+              {{ 'GENERALBUTTON.acceptbutton' | translate }}
+            </span>
+            } @if (value.iscompleted == 1) {
+            <span class="icontext">
+              {{ 'GENERALBUTTON.updatebutton' | translate }}
+            </span>
+            }
+          </button>
+          }
+
+          <!-- For Other Designations (designationid != 2) -->
+          @if (designationid != 2) {
+          <!-- Upload Images Button - SWAPPED: Now FIRST -->
+          <button
+            type="button"
+            class="h7 btn btn-upload btn-sm margin-5px"
+            (click)="btn_UploadImages(value)"
+          >
+            <ion-icon class="icon" name="images-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.uploadimages' | translate }}
+            </span>
+          </button>
+
+          <!-- Close Button - SWAPPED: Now SECOND -->
+          <button
+            type="button"
+            class="h7 btn btn-close-action btn-sm margin-5px"
+            (click)="btn_NotificationClose(value)"
+          >
+            <ion-icon class="icon" name="close-circle-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.closebutton' | translate }}
+            </span>
+          </button>
+          }
+
+          <!-- For Designation ID 2 (Manager/Admin) -->
+          @if (designationid == 2) {
+
+          <!-- Deny Button -->
+          @if (value.statusId != '2' && value.statusId != '10' && value.statusId
+          != '12') {
+          <!-- <button
+            type="button"
+            class="h7 btn btn-assign btn-sm margin-5px"
+            (click)="btn_Acknowledge(value, 1)"
+          >
+            <ion-icon class="icon" name="close-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'CORRECTIVEMAINTENACE.buttondeny' | translate }}
+            </span>
+          </button> -->
+          }
+
+          <!-- Acknowledge Button -->
+          @if (value.statusId != '2' && value.statusId != '10' && value.statusId
+          != '12') {
+          <button
+            type="button"
+            class="h7 btn btn-acknowledge btn-sm margin-5px"
+            (click)="btn_Acknowledge(value, 0)"
+          >
+            <ion-icon class="icon" name="checkmark-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'PREVENTIVEMAINTENANCE.buttonacknowledge' | translate }}
+            </span>
+          </button>
+          } }
+
+          <!-- View Button - LAST (Leftmost in row-reverse) -->
+          @if (value.statusId != '2' && value.statusId != '6') {
+          <button
+            type="button"
+            class="h7 btn btn-view btn-sm margin-5px"
+            (click)="btn_NotificationView(value)"
+          >
+            <ion-icon class="icon" name="document-text-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.viewbutton' | translate }}
+            </span>
+          </button>
+          }
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    }
+    <!-- Infinite Scroll for Routine Pending -->
+    <ion-infinite-scroll
+      threshold="100px"
+      (ionInfinite)="loadMoreData($event)"
+      *ngIf="routinependinglistArr.length > 0 && routinependinghasMoreData"
+    >
+      <ion-infinite-scroll-content
+        class="loadmore"
+        loadingSpinner="bubbles"
+        loadingText="{{'NORECORDSFOUND.loadingmoredata' | translate}}"
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    } @else { @if (!pleasewaitflag) {
+    <div class="no-records">
+      <p>{{ 'NORECORDSFOUND.norecordsfound' | translate }}</p>
+    </div>
+    } }
+
+    <!-- Loading Spinner -->
+    @if (pleasewaitflag) {
+    <div class="please-wait">
+      <img
+        class="please-wait__image"
+        src="../../../assets/img/loading.gif"
+        alt="Loading"
+      />
+      <span class="please-wait__text"
+        >{{ 'NORECORDSFOUND.loading' | translate }}</span
+      >
+    </div>
+    } } }
+
+    <!-- ============================================================== -->
+    <!-- REPLACEMENT SECTION -->
+    <!-- ============================================================== -->
+    @if(parent_segment == 'Replacement') {
+
+    <!-- REPLACEMENT - NEW -->
+    @if(child_segment == 'New') { @if (replacementnewlistArr.length > 0) { @for
+    (value of replacementnewlistArr | filter: filterTerm; track value.id) {
+    <ion-card
+      class="repmcard"
+      [style.backgroundColor]="getBackgroundColor(value.statusId, value.machinereplacement)"
+      [style.borderColor]="geBorderColor('RePM', value.statusId, value.machinereplacement, value.pm_flag)"
+    >
+      <ion-card-header
+        [style.backgroundColor]="geBorderColor('RePM', value.statusId, value.machinereplacement, value.pm_flag)"
+        [style.color]="getTextColor(value.statusId)"
+      >
+        <div class="form-row">
+          <div class="col">
+            <div class="h6" style="float: left">
+              <b>{{value.notificationno}} - {{value.insDate}}</b>
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        @if (value.stationname !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.station' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.stationname}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.machinename !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.machine' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.machinename}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.partdefect !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.partname' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data" [innerHTML]="value.partdefect"></p>
+          </ion-col>
+        </ion-row>
+        } @if (value.problem !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.problem' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.problem}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.reportBy !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.reportedby' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.reportBy}}</p>
+          </ion-col>
+        </ion-row>
+        }
+        <!-- @if (value.priority_level !== '') {
+        <ion-row>
+          <ion-col size="5">Priority Level</ion-col>
+          <ion-col size="7">
+            <p
+              class="statusdata"
+              [style.color]="getTextColorForPriorityLevel(value.priority_id)"
+            >
+              {{ value.priority_level }}
+            </p>
+          </ion-col>
+        </ion-row>
+        } -->
+        @if (value.statusname !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.status' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p
+              class="statusdata"
+              [style.color]="getStatusTextColor(value.statusId)"
+            >
+              {{ value.statusname }}
+            </p>
+          </ion-col>
+        </ion-row>
+        } @if (value.deny_remarks !== '') {
+        <ion-row>
+          <ion-col size="5">Deny Remarks</ion-col>
+          <ion-col size="7">
+            <p class="data">{{value.deny_remarks}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.reason !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.reason' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.reason}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.remarks !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.remarks' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.remarks}}</p>
+          </ion-col>
+        </ion-row>
+        }
+
+        <ion-row class="row-reverse">
+          <!-- Accept/Update Button - FIRST (Foreman) -->
+          @if ((value.statusId == '10' || value.statusId == '13') &&
+          (UserContext.designId == 4 || UserContext.designId == 6)) {
+          <button
+            type="button"
+            class="h7 btn btn-accept btn-sm margin-5px"
+            (click)="btn_NotificationAccept(value, 'RePM')"
+          >
+            <ion-icon class="icon" name="copy-outline"></ion-icon>
+            @if (value.iscompleted == 0) {
+            <span class="icontext">
+              {{ 'GENERALBUTTON.acceptbutton' | translate }}
+            </span>
+            } @if (value.iscompleted == 1) {
+            <span class="icontext">
+              {{ 'GENERALBUTTON.updatebutton' | translate }}
+            </span>
+            }
+          </button>
+          }
+
+          <!-- Assign Button -->
+          @if (value.statusId == '1') {
+          <button
+            type="button"
+            class="h7 btn btn-assign btn-sm margin-5px"
+            (click)="btn_NotificationAssign(value)"
+          >
+            <ion-icon class="icon" name="person-add-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.assignbutton' | translate }}
+            </span>
+          </button>
+          }
+
+          <!-- View Button - LAST (Leftmost in row-reverse) -->
+          <button
+            type="button"
+            class="h7 btn btn-view btn-sm margin-5px"
+            (click)="btn_NotificationView(value)"
+          >
+            <ion-icon class="icon" name="document-text-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.viewbutton' | translate }}
+            </span>
+          </button>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    }
+    <!-- Infinite Scroll for Replacement New -->
+    <ion-infinite-scroll
+      threshold="100px"
+      (ionInfinite)="loadMoreData($event)"
+      *ngIf="replacementnewlistArr.length > 0 && replacementnewhasMoreData"
+    >
+      <ion-infinite-scroll-content
+        class="loadmore"
+        loadingSpinner="bubbles"
+        loadingText="{{'NORECORDSFOUND.loadingmoredata' | translate}}"
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    } @else { @if (!pleasewaitflag) {
+    <div class="no-records">
+      <p>{{ 'NORECORDSFOUND.norecordsfound' | translate }}</p>
+    </div>
+    } }
+
+    <!-- Loading Spinner -->
+    @if (pleasewaitflag) {
+    <div class="please-wait">
+      <img
+        class="please-wait__image"
+        src="../../../assets/img/loading.gif"
+        alt="Loading"
+      />
+      <span class="please-wait__text"
+        >{{ 'NORECORDSFOUND.loading' | translate }}</span
+      >
+    </div>
+    } }
+
+    <!-- REPLACEMENT - PENDING -->
+    @if(child_segment == 'Pending') { @if (replacementpendinglistArr.length > 0)
+    { @for (value of replacementpendinglistArr | filter: filterTerm; track
+    value.id) {
+    <ion-card
+      class="repmcard"
+      [style.backgroundColor]="getBackgroundColor(value.statusId, value.machinereplacement)"
+      [style.borderColor]="geBorderColor('RePM', value.statusId, value.machinereplacement, value.pm_flag)"
+    >
+      <ion-card-header
+        [style.backgroundColor]="geBorderColor('RePM', value.statusId, value.machinereplacement, value.pm_flag)"
+        [style.color]="getTextColor(value.statusId)"
+      >
+        <div class="form-row">
+          <div class="col">
+            <div class="h6" style="float: left">
+              <b>{{value.notificationno}} - {{value.insDate}}</b>
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        @if (value.stationname !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.station' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.stationname}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.machinename !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.machine' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.machinename}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.partdefect !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.partname' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data" [innerHTML]="value.partdefect"></p>
+          </ion-col>
+        </ion-row>
+        } @if (value.problem !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.problem' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.problem}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.reportBy !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.reportedby' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.reportBy}}</p>
+          </ion-col>
+        </ion-row>
+        }
+        <!-- @if (value.priority_level !== '') {
+        <ion-row>
+          <ion-col size="5">Priority Level</ion-col>
+          <ion-col size="7">
+            <p
+              class="statusdata"
+              [style.color]="getTextColorForPriorityLevel(value.priority_id)"
+            >
+              {{ value.priority_level }}
+            </p>
+          </ion-col>
+        </ion-row>
+        }  -->
+        @if (value.statusname !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.status' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p
+              class="statusdata"
+              [style.color]="getStatusTextColor(value.statusId)"
+            >
+              {{ value.statusname }}
+            </p>
+          </ion-col>
+        </ion-row>
+        } @if (value.reason !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.reason' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.reason}}</p>
+          </ion-col>
+        </ion-row>
+        } @if (value.remarks !== '') {
+        <ion-row>
+          <ion-col size="5"
+            >{{ 'PREVENTIVEMAINTENANCE.remarks' | translate }}</ion-col
+          >
+          <ion-col size="7">
+            <p class="data">{{value.remarks}}</p>
+          </ion-col>
+        </ion-row>
+        }
+
+        <ion-row class="row-reverse">
+          <!-- Assign button for specific statuses (Foreman) - FIRST -->
+          @if ((value.statusId == '10' || value.statusId == '14') &&
+          (UserContext.designId == 4 || UserContext.designId == 6)) {
+          <button
+            type="button"
+            class="h7 btn btn-accept btn-sm margin-5px"
+            (click)="btn_NotificationAccept(value, 'RePM')"
+          >
+            <ion-icon class="icon" name="copy-outline"></ion-icon>
+            @if (value.iscompleted == 0) {
+            <span class="icontext">
+              {{ 'GENERALBUTTON.acceptbutton' | translate }}
+            </span>
+            } @if (value.iscompleted == 1) {
+            <span class="icontext">
+              {{ 'GENERALBUTTON.updatebutton' | translate }}
+            </span>
+            }
+          </button>
+          }
+
+          <!-- For Other Designations (designationid != 2) -->
+          @if (designationid != 2) {
+          <!-- Upload Images Button - NOW FIRST -->
+          <button
+            type="button"
+            class="h7 btn btn-upload btn-sm margin-5px"
+            (click)="btn_UploadImages(value)"
+          >
+            <ion-icon class="icon" name="images-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.uploadimages' | translate }}
+            </span>
+          </button>
+
+          <!-- Close Button - NOW SECOND -->
+          <ion-button
+            fill="clear"
+            size="small"
+            class="h7 btn-close-btn margin-5px"
+            (click)="btn_NotificationClose(value)"
+          >
+            <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.closebutton' | translate }}
+            </span>
+            <ion-icon
+              slot="end"
+              name="close-circle-outline"
+              style="display: none"
+            ></ion-icon>
+          </ion-button>
+          }
+
+          <!-- For Designation ID 2 (Manager/Admin) -->
+          @if (designationid == 2) {
+          <!-- Deny Button -->
+          @if (value.statusId != '2' && value.statusId != '10' && value.statusId
+          != '12') {
+          <!-- <button
+            type="button"
+            class="h7 btn btn-assign btn-sm margin-5px"
+            (click)="btn_Acknowledge(value, 1)"
+          >
+            <ion-icon class="icon" name="close-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'CORRECTIVEMAINTENACE.buttondeny' | translate }}
+            </span>
+          </button> -->
+          }
+
+          <!-- Acknowledge Button -->
+          @if (value.statusId != '2' && value.statusId != '10' && value.statusId
+          != '12') {
+          <button
+            type="button"
+            class="h7 btn btn-acknowledge btn-sm margin-5px"
+            (click)="btn_Acknowledge(value, 0)"
+          >
+            <ion-icon class="icon" name="checkmark-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'PREVENTIVEMAINTENANCE.buttonacknowledge' | translate }}
+            </span>
+          </button>
+          } }
+
+          <!-- View Button - LAST (Leftmost in row-reverse) -->
+          @if (value.statusId != '2' && value.statusId != '6') {
+          <button
+            type="button"
+            class="h7 btn btn-view btn-sm margin-5px"
+            (click)="btn_NotificationView(value)"
+          >
+            <ion-icon class="icon" name="document-text-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.viewbutton' | translate }}
+            </span>
+          </button>
+          }
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    }
+    <!-- Infinite Scroll for Replacement Pending -->
+    <ion-infinite-scroll
+      threshold="100px"
+      (ionInfinite)="loadMoreData($event)"
+      *ngIf="replacementpendinglistArr.length > 0 && replacementpendinghasMoreData"
+    >
+      <ion-infinite-scroll-content
+        class="loadmore"
+        loadingSpinner="bubbles"
+        loadingText="{{'NORECORDSFOUND.loadingmoredata' | translate}}"
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    } @else { @if (!pleasewaitflag) {
+    <div class="no-records">
+      <p>{{ 'NORECORDSFOUND.norecordsfound' | translate }}</p>
+    </div>
+    } }
+
+    <!-- Loading Spinner -->
+    @if (pleasewaitflag) {
+    <div class="please-wait">
+      <img
+        class="please-wait__image"
+        src="../../../assets/img/loading.gif"
+        alt="Loading"
+      />
+      <span class="please-wait__text"
+        >{{ 'NORECORDSFOUND.loading' | translate }}</span
+      >
+    </div>
+    } } }
+  </div>
+</ion-content>

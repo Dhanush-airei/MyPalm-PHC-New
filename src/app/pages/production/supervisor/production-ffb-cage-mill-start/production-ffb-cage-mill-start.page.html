@@ -1,0 +1,65 @@
+<ion-content>
+  <div>
+    <form class="home-box" [formGroup]="ffbcageForm">
+      <div class="title">{{ gettitle }}</div>
+
+      <div class="mt-3">
+        <div class="title">{{ 'FFBCAGES.title' | translate }}</div>
+
+        <!-- In Use -->
+        <ion-row class="mt-3 form-row">
+          <ion-col>
+            <input
+              type="number"
+              class="h7 form-control text-dark fs-12"
+              [placeholder]="'FFBCAGES.inuse' | translate"
+              formControlName="txt_ffbcageinuse"
+              (keypress)="numberFilter($event)"
+            />
+          </ion-col>
+        </ion-row>
+
+        <!-- Not In Use -->
+        <ion-row class="form-row">
+          <ion-col>
+            <input
+              type="number"
+              class="h7 form-control text-dark fs-12"
+              [placeholder]="'FFBCAGES.notinuse' | translate"
+              formControlName="txt_ffbcagenotinuse"
+              (keypress)="numberFilter($event)"
+            />
+          </ion-col>
+        </ion-row>
+
+        <!-- Under Repair -->
+        <ion-row class="form-row">
+          <ion-col>
+            <input
+              type="number"
+              class="h7 form-control text-dark fs-12"
+              [placeholder]="'FFBCAGES.underrepair' | translate"
+              formControlName="txt_ffbcageunderipe"
+              (keypress)="numberFilter($event)"
+            />
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <!-- Buttons -->
+      <ion-row class="mt-3">
+        <ion-col class="buttons">
+          <button
+            type="button"
+            class="cancelbutton"
+            (click)="cancel()"
+          ></button>
+        </ion-col>
+
+        <ion-col class="buttons">
+          <button type="button" class="okaybutton" (click)="save()"></button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+</ion-content>

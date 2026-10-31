@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">MyPalm PHC</string>
+    <string name="title_activity_main">MyPalm PHC</string>
+    <string name="package_name">com.airei.milltracking.mypalm.phc</string>
+    <string name="custom_url_scheme">com.airei.milltracking.mypalm.phc</string>
+</resources>

@@ -1,0 +1,211 @@
+/* ======================================== */
+/* Content Background */
+/* ======================================== */
+ion-content {
+  --ion-background-color: #ffffff;
+}
+
+.notification-view {
+  margin: 10px;
+}
+
+/* ======================================== */
+/* Form Rows */
+/* ======================================== */
+.form-row {
+  margin: 5px;
+  align-items: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ======================================== */
+/* Multiple Parts Table */
+/* ======================================== */
+.multipleparts {
+  table {
+    margin-bottom: 0;
+    margin-left: 2px;
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: 1.42857143;
+    padding: 5px;
+    background-color: #1d2730;
+    border-collapse: collapse;
+    border: 1px solid #dee2e6;
+    width: 100%;
+  }
+
+  .table th {
+    text-align: center;
+    vertical-align: middle;
+    color: #ffffff;
+    padding: 0.3rem !important;
+  }
+
+  /* ---------------------------------------- */
+  /* Data cells inside multiple-parts tables  */
+  /* Make the entire cell (label + value)     */
+  /* black & bold.                            */
+  /* Uses .table td.xxx to beat the global    */
+  /* .table td { color: #ffffff } rule.       */
+  /* ---------------------------------------- */
+  .table td {
+    text-align: left;
+    vertical-align: middle;
+    color: #ffffff !important;
+    font-weight: bold;
+    background-color: transparent;
+    padding: 0.3rem !important;
+  }
+
+  .table_head {
+    background-color: #ff9f0c;
+    color: #000000;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .head {
+    color: #000000;
+    font-weight: normal;
+  }
+
+  .p-1 {
+    padding: 4px !important;
+  }
+
+  /* Value span — black & bold, no background */
+  .assigned-value {
+    color: #ffffff !important;
+    font-weight: bold;
+    background-color: transparent;
+  }
+}
+
+/* ======================================== */
+/* Main Table (general information) */
+/* ======================================== */
+table {
+  margin-top: 10px;
+  font-size: 11px;
+  line-height: 1.42857143;
+  padding: 5px;
+  background-color: #1d2730;
+  border-collapse: collapse;
+  border: 1px solid #dee2e6;
+  width: 100%;
+}
+
+.table td,
+.table th {
+  text-align: center;
+  vertical-align: middle;
+  color: #ffffff;
+  padding: 0.3rem !important;
+}
+
+.table_head {
+  background-color: #3cd2a5;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.data {
+  background-color: #f4fbf9;
+  color: #000000 !important;
+}
+
+.blockdata {
+  color: #000000 !important;
+}
+
+/* ======================================== */
+/* Status cell colors                       */
+/*                                          */
+/* IMPORTANT: Scoped to .table td.status-*  */
+/* so they beat .table td { color: #fff }   */
+/* and use !important on both bg and color. */
+/* ======================================== */
+.table td.status-created {
+  background-color: #e74c3c !important;
+  color: #ffffff !important;
+}
+
+.table td.status-inprogress {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  font-weight: bold;
+}
+
+.table td.status-closed {
+  background-color: #008000 !important;
+  color: #ffffff !important;
+}
+
+/* ======================================== */
+/* Images */
+/* ======================================== */
+.logoimg {
+  width: 50px;
+}
+
+.statusimg {
+  width: 30px;
+}
+
+/* ======================================== */
+/* Title Headers */
+/* ======================================== */
+.titleheader {
+  border-radius: 5px 5px 0 0;
+  text-align: center;
+  background-color: #1d2730;
+  font-size: 14px;
+  color: #ffffff;
+  margin: 10px 0 0 0;
+  padding: 10px;
+}
+
+.title {
+  color: #ff9f0c;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+/* ======================================== */
+/* Notification Card */
+/* ======================================== */
+.notificationcard {
+  border: 1px solid #1d2730;
+  background-color: #f4fbf9;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 0 0 5px 5px;
+  padding: 5px 5px 5px 0;
+}
+
+/* ======================================== */
+/* Text Utilities */
+/* ======================================== */
+.text-dark {
+  color: #000000 !important;
+}
+
+.h7 {
+  font-size: 12px;
+}
+
+.usertext {
+  color: #ffffff;
+  font-size: 15px;
+}
+
+.w-100 {
+  width: 100% !important;
+}

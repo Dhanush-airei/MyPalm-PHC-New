@@ -1,0 +1,82 @@
+<!-- daily-ffa-quality.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="home-box">
+    <!-- Date Ranger Picker -->
+    <app-date-ranger-picker
+      [fromDate]="fromDate"
+      [toDate]="toDate"
+      (getReport)="onDateRangeSelected($event)"
+    ></app-date-ranger-picker>
+
+    <hr />
+
+    <!-- Table Data -->
+    @if (!noRecordsFlag) {
+    <div class="table-responsive">
+      <table class="table table-bordered w-100">
+        <thead>
+          <tr class="table_head bg-table-black">
+            <th class="p-1 text-orange" scope="col">
+              {{ 'OILLOSSESSREPORT.date' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'OILLOSSESSREPORT.time' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'OILLOSSESSREPORT.gutterffa' | translate }} (%)
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'OILLOSSESSREPORT.verticalclarifierffa' | translate }} (%)
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'OILLOSSESSREPORT.doneby' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (value of labOilLossListArr; track $index) {
+          <tr class="table-row">
+            <td class="p-1" scope="row">{{ value.date }}</td>
+            <td class="p-1" scope="row">{{ value.time }}</td>
+            <td class="p-1" scope="row">{{ value.gutter_ffa }}</td>
+            <td class="p-1" scope="row">{{ value.vertical_clarifier_ffa }}</td>
+            <td class="p-1" scope="row">{{ value.insby }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+
+    <!-- No Records -->
+    @if (noRecordsFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+
+    <!-- Loading -->
+    @if (pleaseWaitFlag) {
+    <div class="pleasewait">
+      <div style="width: 100%; text-align: center">
+        <img
+          style="width: 80px; height: 80px"
+          src="../../../assets/img/loading.gif"
+        />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>

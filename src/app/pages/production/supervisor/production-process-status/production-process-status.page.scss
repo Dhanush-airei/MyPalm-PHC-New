@@ -1,0 +1,276 @@
+.form-container {
+  margin-top: 15px;
+}
+
+.form-row {
+  align-items: center;
+}
+
+/* ============================================
+   Month Display Field
+   ============================================ */
+.month-display-field {
+  display: block;
+  width: 100%;
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #ff9f0c;
+  }
+}
+
+/* ============================================
+   Date Modal Styles (matches reference component)
+   ============================================ */
+::ng-deep ion-modal.date-modal {
+  --background: transparent;
+  --box-shadow: none;
+  --width: auto;
+  --height: auto;
+  --border-radius: 24px;
+  --transition: none !important;
+}
+
+::ng-deep ion-modal.date-modal::part(content) {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  width: fit-content;
+  height: fit-content;
+}
+
+::ng-deep ion-modal.date-modal::part(backdrop) {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.calendar-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.calendar-wrapper ion-datetime {
+  --background: #fff;
+  background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  margin: 10px;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+.calendar-wrapper ion-datetime::part(calendar-day) {
+  margin: 5px;
+  padding: 15px;
+}
+
+.calendar-wrapper ion-datetime::part(calendar-day-active) {
+  border-radius: 50%;
+}
+
+/* ============================================
+   Buttons
+   ============================================ */
+.btn-adddata {
+  background-color: transparent;
+  border: 1px solid #3cd2a5;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(60, 210, 165, 0.1);
+  }
+}
+
+.btn-general {
+  background-color: transparent;
+  border: 1px solid #ff9f0c;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 159, 12, 0.1);
+  }
+}
+
+.btn-sm {
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+.border-red {
+  border: 1px solid #ff6060;
+}
+
+.border-blue {
+  border: 1px solid #3880ff;
+}
+
+/* ============================================
+   Table Styles — TRANSPARENT BACKGROUND
+   ============================================ */
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table_head,
+.table_head1 {
+  background: transparent !important;
+}
+
+.bg-table-black {
+  background-color: #1d2730 !important;
+}
+
+.table_head th,
+.table_head1 td {
+  background: transparent !important;
+  color: #fff;
+  font-size: 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #dee2e6;
+  font-size: 11px;
+  line-height: 1.42857143;
+
+  th,
+  td {
+    vertical-align: middle !important;
+    text-align: center;
+    padding: 0.3rem !important;
+  }
+}
+
+.text-orange {
+  color: #ff9f0c !important;
+}
+
+.text-red {
+  color: #ff6060 !important;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.icontext {
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.mdfont {
+  font-size: 11px;
+}
+
+.td_date {
+  max-width: 80px;
+  min-width: 80px;
+}
+
+.min-w-100 {
+  min-width: 100px !important;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border-top: 1px solid #c2c2c2;
+  margin: 10px 0;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+/* ============================================
+   Loading + No Records — Normal flow
+   ============================================ */
+.please-wait {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff;
+  padding: 40px 16px;
+  min-height: 200px;
+
+  &__image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 8px;
+  }
+
+  &__text {
+    display: block;
+  }
+}
+
+.norecords {
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff;
+  padding: 40px 16px;
+  min-height: 100px;
+}
+
+.mx-1 {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.p-1 {
+  padding: 4px !important;
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.float-left {
+  float: left;
+}
+
+.h7 {
+  font-size: 13px;
+}

@@ -1,0 +1,104 @@
+<!-- <app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header> -->
+
+<ion-content class="ion-content-bg">
+  <div class="home-box">
+    <!-- Today's Notification Button -->
+    @if (todaysnotificationArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal ion-padding-top">
+      <button
+        type="submit"
+        class="btn checkcard"
+        (click)="gettodaysnotification()"
+      >
+        {{ 'SEGREGATENOTIFICATION.current' | translate }} - {{ currentdate }}
+        @if (todaysnotificationcount != 0) {
+        <ion-badge class="todaybadge">{{ todaysnotificationcount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    }
+
+    <!-- Today's Notifications -->
+    @if (todaysnotificationflag) { @for (value of todaysnotificationArr; track
+    value.id) {
+    <div class="card marigin-10px">
+      <ion-row class="marigin-10px row-reverse">
+        <ion-col>
+          <div class="h7" style="float: right; color: #ff9f0c">
+            <b>{{ value.notification_date }}</b>
+          </div>
+          <div class="h6 text-dark"><b>{{ value.title }}</b></div>
+          <div class="h7 text-dark">{{ value.notification_text }}</div>
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+    } }
+
+    <!-- Separator -->
+    @if (todaysnotificationArr.length > 0) {
+    <hr />
+    }
+
+    <!-- Older Notifications Button -->
+    @if (oldernotificationArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal">
+      <button
+        type="submit"
+        class="btn checkcard"
+        (click)="getoldernotification()"
+      >
+        {{ 'SEGREGATENOTIFICATION.previous' | translate }} @if
+        (oldernotificationcount != 0) {
+        <ion-badge class="olderbadge">{{ oldernotificationcount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    }
+
+    <!-- Older Notifications -->
+    @if (oldernotificationflag) { @for (value of oldernotificationArr; track
+    value.id) {
+    <div class="card marigin-10px">
+      <ion-row class="marigin-10px row-reverse">
+        <ion-col>
+          <div class="h7" style="float: right; color: #ff9f0c">
+            <b>{{ value.notification_date }}</b>
+          </div>
+          <div class="h6 text-dark"><b>{{ value.title }}</b></div>
+          <div class="h7 text-dark">{{ value.notification_text }}</div>
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </div>
+    } }
+
+    <!-- No Records -->
+    @if (enableflag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>

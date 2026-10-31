@@ -1,0 +1,796 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Segment Tabs -->
+  <ion-toolbar>
+    <div class="firstsegment">
+      <ion-segment
+        (ionChange)="segmentChanged($event)"
+        [(ngModel)]="tabsSegment"
+      >
+        <ion-segment-button value="cpostock">
+          <ion-label text-wrap class="h7">CPO Stock</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="pkostock">
+          <ion-label text-wrap class="h7">PKO Stock</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="pkstock">
+          <ion-label text-wrap class="h7">PK Stock</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-toolbar>
+
+  <div class="home-box">
+    <!-- ======================== CPO Stock ======================== -->
+    @if (tabsSegment == 'cpostock') {
+    <form [formGroup]="cpoaddForm">
+      <!-- Date Row -->
+      <ion-row style="margin-top: 5px">
+        <ion-col size="2" style="font-size: 12px; color: #ffffff">
+          {{ 'CPOORSTOCKSCREEN.logdate' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="text"
+            class="h7 form-control readonly"
+            formControlName="txt_logdate"
+            placeholder="DD-MM-YYYY"
+            (click)="openCpoLogDatePicker()"
+            readonly
+          />
+        </ion-col>
+        <ion-col size="2" style="font-size: 12px; color: #ffffff">
+          {{ 'CPOORSTOCKSCREEN.entrydate' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="text"
+            class="h7 form-control readonly"
+            formControlName="txt_entrydate"
+            placeholder="DD-MM-YYYY"
+            (click)="openCpoEntryDatePicker()"
+            readonly
+          />
+        </ion-col>
+      </ion-row>
+
+      <div class="hl4line"></div>
+
+      <!-- Brought Forward -->
+      <ion-row style="margin-top: 5px; align-items: center">
+        <ion-col size="6" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.broughtforward' | translate }} (B/F) (MT)
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_broughtforward"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Headers -->
+      <ion-row style="margin-top: 5px; align-items: center">
+        <ion-col size="4.5"></ion-col>
+        <ion-col size="3.75" class="header-label">MT</ion-col>
+        <ion-col size="3.75" class="header-label">FFA</ion-col>
+      </ion-row>
+
+      <!-- Tank 1 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4.5" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.storagetank' | translate }} 1
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank1mt"
+            (input)="onCpoChange('1')"
+          />
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank1ffa"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Tank 2 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4.5" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.storagetank' | translate }} 2
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank2mt"
+            (input)="onCpoChange('2')"
+          />
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank2ffa"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Tank 3 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4.5" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.storagetank' | translate }} 3
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank3mt"
+            (input)="onCpoChange('3')"
+          />
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank3ffa"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Tank 5 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4.5" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.storagetank' | translate }} 5
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank5mt"
+            (input)="onCpoChange('5')"
+          />
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank5ffa"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Tank 6 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4.5" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.storagetank' | translate }} 6
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank6mt"
+            (input)="onCpoChange('6')"
+          />
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank6ffa"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Tank 7 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4.5" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.storagetank' | translate }} 7
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank7mt"
+            (input)="onCpoChange('7')"
+          />
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank7ffa"
+          />
+        </ion-col>
+      </ion-row>
+
+      <div class="hl4line"></div>
+
+      <!-- Total CPO Stock -->
+      <ion-row style="margin-top: 5px; align-items: center">
+        <ion-col size="6" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.totalcpostock' | translate }} (MT)
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            (keypress)="decimalFilter($event)"
+            [value]="addcpo"
+            readonly
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Save Button -->
+      <div style="text-align: center; margin: 20px 0px 10px 0px">
+        <button
+          type="submit"
+          [disabled]="isCpoDisabled"
+          class="h6 btn btn-save"
+          (click)="cpoSaveData()"
+        >
+          {{ 'GENERALBUTTON.savebutton' | translate }}
+        </button>
+      </div>
+    </form>
+    }
+
+    <!-- ======================== PKO Stock ======================== -->
+    @if (tabsSegment == 'pkostock') {
+    <form [formGroup]="pkoaddForm">
+      <!-- Date Row -->
+      <ion-row style="margin-top: 5px">
+        <ion-col size="2" style="font-size: 12px; color: #ffffff">
+          {{ 'CPOORSTOCKSCREEN.logdate' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="text"
+            class="h7 form-control readonly"
+            formControlName="txt_logdate"
+            placeholder="DD-MM-YYYY"
+            (click)="openPkoLogDatePicker()"
+            readonly
+          />
+        </ion-col>
+        <ion-col size="2" style="font-size: 12px; color: #ffffff">
+          {{ 'CPOORSTOCKSCREEN.entrydate' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="text"
+            class="h7 form-control readonly"
+            formControlName="txt_entrydate"
+            placeholder="DD-MM-YYYY"
+            (click)="openPkoEntryDatePicker()"
+            readonly
+          />
+        </ion-col>
+      </ion-row>
+
+      <div class="hl4line"></div>
+
+      <!-- Brought Forward -->
+      <ion-row style="margin-top: 5px; align-items: center">
+        <ion-col size="6" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.broughtforward' | translate }} (B/F) (MT)
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_broughtforward"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Headers -->
+      <ion-row style="margin-top: 5px; align-items: center">
+        <ion-col size="4.5"></ion-col>
+        <ion-col size="3.75" class="header-label">MT</ion-col>
+        <ion-col size="3.75" class="header-label">FFA</ion-col>
+      </ion-row>
+
+      <!-- Tank 1 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4.5" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.storagetank' | translate }} 1
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank1mt"
+            (input)="onPkoChange('1')"
+          />
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank1ffa"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Tank 2 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4.5" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.storagetank' | translate }} 2
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank2mt"
+            (input)="onPkoChange('2')"
+          />
+        </ion-col>
+        <ion-col size="3.75">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_storagetank2ffa"
+          />
+        </ion-col>
+      </ion-row>
+
+      <div class="hl4line"></div>
+
+      <!-- Total PKO Stock -->
+      <ion-row style="margin-top: 5px; align-items: center">
+        <ion-col size="6" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.totalpkostock' | translate }} (MT)
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            (keypress)="decimalFilter($event)"
+            [value]="addpko"
+            readonly
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Save Button -->
+      <div style="text-align: center; margin: 20px 0px 10px 0px">
+        <button
+          type="submit"
+          [disabled]="isPkoDisabled"
+          class="h6 btn btn-save"
+          (click)="pkoSaveData()"
+        >
+          {{ 'GENERALBUTTON.savebutton' | translate }}
+        </button>
+      </div>
+    </form>
+    }
+
+    <!-- ======================== PK Stock ======================== -->
+    @if (tabsSegment == 'pkstock') {
+    <form [formGroup]="pkaddForm">
+      <!-- Date Row -->
+      <ion-row style="margin-top: 5px">
+        <ion-col size="2" style="font-size: 12px; color: #ffffff">
+          {{ 'CPOORSTOCKSCREEN.logdate' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="text"
+            class="h7 form-control readonly"
+            formControlName="txt_logdate"
+            placeholder="DD-MM-YYYY"
+            (click)="openPkLogDatePicker()"
+            readonly
+          />
+        </ion-col>
+        <ion-col size="2" style="font-size: 12px; color: #ffffff">
+          {{ 'CPOORSTOCKSCREEN.entrydate' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="text"
+            class="h7 form-control readonly"
+            formControlName="txt_entrydate"
+            placeholder="DD-MM-YYYY"
+            (click)="openPkEntryDatePicker()"
+            readonly
+          />
+        </ion-col>
+      </ion-row>
+
+      <div class="hl4line"></div>
+
+      <!-- Brought Forward -->
+      <ion-row style="margin-top: 5px; align-items: center">
+        <ion-col size="6" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.broughtforward' | translate }} (B/F) (MT)
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_broughtforward"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Headers -->
+      <ion-row style="margin-top: 5px; align-items: center">
+        <ion-col size="4"></ion-col>
+        <ion-col size="4" class="header-label">MT</ion-col>
+        <ion-col size="4" class="header-label">Ullage</ion-col>
+      </ion-row>
+
+      <!-- Kernel Silo 1 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.kernelsilo' | translate }} 1
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_kernelsilo1mt"
+            (input)="onPkChange('1')"
+          />
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_kernelsilo1ullage"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Kernel Silo 2 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.kernelsilo' | translate }} 2
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_kernelsilo2mt"
+            (input)="onPkChange('2')"
+          />
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_kernelsilo2ullage"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Kernel Silo 3 -->
+      <ion-row style="align-items: center">
+        <ion-col size="4" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.kernelsilo' | translate }} 3
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_kernelsilo3mt"
+            (input)="onPkChange('3')"
+          />
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_kernelsilo3ullage"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Kernel Bunker -->
+      <ion-row style="align-items: center">
+        <ion-col size="4" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.kernelbunker' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_kernelsilokernelbunkermt"
+            (input)="onPkChange('4')"
+          />
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_kernelsilokernelbunkerullage"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Floor -->
+      <ion-row style="align-items: center">
+        <ion-col size="4" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.floor' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_floormt"
+            (input)="onPkChange('5')"
+          />
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_floorullage"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Others -->
+      <ion-row style="align-items: center">
+        <ion-col size="4" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.others' | translate }}
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_othersmt"
+            (input)="onPkChange('6')"
+          />
+        </ion-col>
+        <ion-col size="4">
+          <input
+            type="number"
+            class="h7 form-control"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_othersullage"
+          />
+        </ion-col>
+      </ion-row>
+
+      <div class="hl4line"></div>
+
+      <!-- Total PK Stock -->
+      <ion-row style="margin-top: 5px; align-items: center">
+        <ion-col size="6" class="suptitle">
+          {{ 'CPOORSTOCKSCREEN.totalpkstock' | translate }} (MT)
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            (keypress)="decimalFilter($event)"
+            [value]="addpk"
+            readonly
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Save Button -->
+      <div style="text-align: center; margin: 20px 0px 10px 0px">
+        <button
+          type="submit"
+          [disabled]="isPkDisabled"
+          class="h6 btn btn-save"
+          (click)="pkSaveData()"
+        >
+          {{ 'GENERALBUTTON.savebutton' | translate }}
+        </button>
+      </div>
+    </form>
+    }
+  </div>
+</ion-content>
+
+<!-- ======================== CPO Date Modals ======================== -->
+<!-- CPO Log Date Modal -->
+<ion-modal
+  [isOpen]="isCpoLogDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onCpoLogDateDismiss()"
+>
+  <ng-template>
+    <div class="picker-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempCpoLogDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onCpoLogDateChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- CPO Entry Date Modal -->
+<ion-modal
+  [isOpen]="isCpoEntryDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onCpoEntryDateDismiss()"
+>
+  <ng-template>
+    <div class="picker-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempCpoEntryDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onCpoEntryDateChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- ======================== PKO Date Modals ======================== -->
+<!-- PKO Log Date Modal -->
+<ion-modal
+  [isOpen]="isPkoLogDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onPkoLogDateDismiss()"
+>
+  <ng-template>
+    <div class="picker-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempPkoLogDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onPkoLogDateChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- PKO Entry Date Modal -->
+<ion-modal
+  [isOpen]="isPkoEntryDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onPkoEntryDateDismiss()"
+>
+  <ng-template>
+    <div class="picker-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempPkoEntryDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onPkoEntryDateChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- ======================== PK Date Modals ======================== -->
+<!-- PK Log Date Modal -->
+<ion-modal
+  [isOpen]="isPkLogDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onPkLogDateDismiss()"
+>
+  <ng-template>
+    <div class="picker-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempPkLogDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onPkLogDateChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- PK Entry Date Modal -->
+<ion-modal
+  [isOpen]="isPkEntryDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onPkEntryDateDismiss()"
+>
+  <ng-template>
+    <div class="picker-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempPkEntryDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onPkEntryDateChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

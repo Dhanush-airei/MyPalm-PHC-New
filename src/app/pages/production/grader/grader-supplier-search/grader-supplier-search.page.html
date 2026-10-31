@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color">
+    <ion-title color="light" mode="ios" class="fs-14">
+      {{ 'GRADINGHOME.selectsupplier' | translate}}
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()" class="fs-12">
+        <ion-icon slot="icon-only" color="light" name="close-outline">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <form [formGroup]="supplierSearchForm">
+    <ion-toolbar mode="md" class="bg-brown-color">
+      <ion-searchbar
+        mode="md"
+        #search
+        debounce="500"
+        formControlName="search"
+        placeholder="{{ 'SEARCHVEHICLE.search' | translate}}"
+        (ionInput)="onSearch($event)"
+      >
+      </ion-searchbar>
+    </ion-toolbar>
+  </form>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    @for (item of supplierArr; track item.id) {
+
+    <ion-item button detail="false" (click)="selectSupplier(item)">
+      <ion-label [style.color]="getTextColor(item.status)" class="fs-12">
+        {{ item.supplier_name }}
+      </ion-label>
+    </ion-item>
+
+    }
+  </ion-list>
+
+  @if (noRecords) {
+
+  <div class="norecords text-center">
+    <ion-text color="medium">
+      {{ 'SEARCHVEHICLE.nosupplierfound' | translate}}
+    </ion-text>
+  </div>
+
+  }
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="{{ 'SEARCHSUPPLIER.loadingmoredata' | translate }}"
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

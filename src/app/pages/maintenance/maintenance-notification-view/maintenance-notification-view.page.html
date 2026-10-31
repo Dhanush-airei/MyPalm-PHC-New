@@ -1,0 +1,975 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color">
+    <ion-buttons slot="start">
+      <ion-button class="back-button" (click)="btn_close()">
+        <ion-icon icon="chevron-back-outline"></ion-icon>
+        <span class="icontext">
+          {{ 'MAINTENANCENOTIFICATIONVIEW.back' | translate}}</span
+        >
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-content-bg">
+  <div class="m-2">
+    <ion-row class="ion-align-items-center">
+      <ion-col size="2" class="ion-text-center"
+        ><img class="logoimg" src="../../../assets/img/logo.png"
+      /></ion-col>
+
+      <ion-col size="8" class="ion-text-center">
+        <p class="text-white fs-15 ion-no-margin">
+          {{ 'MAINTENANCENOTIFICATIONVIEW.maintenance' | translate}}<br />
+          {{ 'MAINTENANCENOTIFICATIONVIEW.notificationform' | translate}}
+        </p>
+      </ion-col>
+
+      <ion-col size="2" class="ion-text-center">
+        <img class="statusimg" [src]="notificationStatusImage" />
+      </ion-col>
+    </ion-row>
+
+    <!-- Maintenance Notification Details -->
+    <table class="maintenance-table">
+      @if(notificationstatus!=''){
+      <tr>
+        <td>{{ 'MAINTENANCENOTIFICATIONVIEW.status' | translate}}</td>
+
+        @if (notificationstatusid == '1') {
+        <!-- Created -->
+        <td class="status-created">{{ notificationstatus }}</td>
+        } @else if (notificationstatusid == '7') {
+        <!-- Completed -->
+        <td class="status-completed">{{ notificationstatus }}</td>
+        } @else {
+        <!-- Progress -->
+        <td class="status-progress">{{ notificationstatus }}</td>
+        }
+      </tr>
+
+      } @if (notificationno && notificationno.trim() !== '') {
+      <tr>
+        <td width="50%">{{ 'MAINTENANCENOTIFICATIONVIEW.id' | translate }}</td>
+
+        <td width="50%" class="data">{{ notificationno }}</td>
+      </tr>
+      } @if (notificationtype && notificationtype.trim() !== '') {
+      <tr>
+        <td width="50%">
+          {{ 'MAINTENANCENOTIFICATIONVIEW.notificationtype' | translate }}
+        </td>
+
+        <td width="50%" class="data">{{ notificationtype }}</td>
+      </tr>
+      } @if (breakdowncoding && breakdowncoding.trim() !== '') {
+      <tr>
+        <td width="50%">
+          @if (fromscreen == 'CM' || fromscreen == 'CMVIEW') { {{
+          'MAINTENANCENOTIFICATIONVIEW.problem' | translate }} } @else { {{
+          'MAINTENANCENOTIFICATIONVIEW.condition' | translate }} }
+        </td>
+
+        <td width="50%" class="data">{{ breakdowncoding }}</td>
+      </tr>
+      }@if (maintenancetype && maintenancetype.trim() !== '') {
+      <tr>
+        <td width="50%">
+          {{ 'MAINTENANCENOTIFICATIONVIEW.maintenancetype' | translate }}
+        </td>
+
+        <td width="50%" class="data">{{ maintenancetype }}</td>
+      </tr>
+      }@if (reportedby && reportedby.trim() !== '') {
+      <tr>
+        <td width="50%">
+          {{ 'MAINTENANCENOTIFICATIONVIEW.reportedby' | translate }}
+        </td>
+
+        <td width="50%" class="data">{{ reportedby }}</td>
+      </tr>
+      }@if(breakdownremarks!=''){
+      <tr>
+        <td>{{ 'MAINTENANCENOTIFICATIONVIEW.initialcomplaint' | translate}}</td>
+        <td width="50%" class="data">{{breakdownremarks}}</td>
+      </tr>
+      }
+    </table>
+  </div>
+
+  @if (!detailsnorecordFlag) {
+  <div class="m-2">
+    <div class="titleheader">
+      <div class="col">
+        <div class="title text-uppercase fw-bold">
+          {{ 'MAINTENANCENOTIFICATIONVIEW.maintenancenotificationdetails' |
+          translate}}
+        </div>
+      </div>
+    </div>
+
+    <div class="notificationcard">
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.stationname' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{station}}</div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.machineryname' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{equipment}}</div>
+        </ion-col>
+      </ion-row>
+
+      @if (partdefect != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          @if (fromscreen == 'CM' || fromscreen == 'CMVIEW') {
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.partdefect' | translate}}
+          </div>
+          } @if (fromscreen == 'RoPM' || fromscreen == 'RoPMVIEW') {
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.partname' | translate}}
+          </div>
+          } @if (fromscreen == 'RePM' || fromscreen == 'RePMVIEW') {
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.partname' | translate}}
+          </div>
+          }
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{partdefect}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (maximumrunninghours != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.lifetimehours' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{maximumrunninghours}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (currentrunninghours != '' && cmpartslistArr.length <= 0 &&
+      ropmpartslistArr.length <= 0 && repmpartslistArr.length <= 0) {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.currentrunninghours' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{currentrunninghours}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (extendedmaximumrunninghours != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.extendhours' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{extendedmaximumrunninghours}}</div>
+        </ion-col>
+      </ion-row>
+      }
+
+      <!-- CM Multiple Parts - Start -->
+      @if ((fromscreen == 'CM' || fromscreen == 'CMVIEW') &&
+      cmpartslistArr.length > 0) {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="4.5">
+            <div class="h7 text-dark">
+              {{ 'MAINTENANCENOTIFICATIONVIEW.partdefect' | translate}}
+            </div>
+          </ion-col>
+          <ion-col size="0.5" style="text-align: center">
+            <div class="h7 text-dark">:</div>
+          </ion-col>
+          <ion-col size="7"> </ion-col>
+        </ion-row>
+
+        @for (value of cmpartslistArr; track $index; let i = $index) {
+        <div class="multipleparts">
+          <table style="width: 100%; height: 100%" class="table table-bordered">
+            <tr class="table_head">
+              <th
+                colspan="3"
+                style="padding: 4px !important"
+                class="text-black"
+              >
+                ({{i+1}}) {{value.partname}}
+              </th>
+            </tr>
+
+            <tr>
+              <td scope="row" colspan="2">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.currentrunninghours' |
+                translate}} : @if (value.runninghours != '') {
+                {{value.runninghours}} } @if (value.runninghours == '') { - }
+              </td>
+            </tr>
+
+            <tr>
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.damagetype' | translate}} : @if
+                (value.damagetype != '') { {{value.damagetype}} } @if
+                (value.damagetype == '') { - }
+              </td>
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.smallactivity' | translate}} :
+                @if (value.activity != '') { {{value.activity}} } @if
+                (value.activity == '') { - }
+              </td>
+            </tr>
+          </table>
+        </div>
+        }
+      </div>
+      }
+      <!-- CM Multiple Parts - End -->
+
+      <!-- RoPM Multiple Parts - Start (task = 0 and showonlytask = 0) -->
+      @if ((fromscreen == 'RoPM' || fromscreen == 'RoPMVIEW') &&
+      ropmpartslistArr.length > 0 && tasklistflag == 0 && showtasklistonlyflag
+      == 0) {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="4.5">
+            <div class="h7 text-dark">
+              {{ 'MAINTENANCENOTIFICATIONVIEW.partsname' | translate}}
+            </div>
+          </ion-col>
+          <ion-col size="0.5" style="text-align: center">
+            <div class="h7 text-dark">:</div>
+          </ion-col>
+          <ion-col size="7"> </ion-col>
+        </ion-row>
+
+        @for (value of ropmpartslistArr; track $index; let i = $index) {
+        <div class="multipleparts">
+          <table style="width: 100%; height: 100%" class="table table-bordered">
+            <tr class="table_head">
+              <th
+                colspan="3"
+                style="padding: 4px !important"
+                class="text-black"
+              >
+                ({{i+1}}) {{value.partname}}
+              </th>
+            </tr>
+
+            <tr>
+              @if (value.condition != '') {
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.condition' | translate}} :
+                {{value.condition}}
+              </td>
+              } @if (value.condition == '') {
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.condition' | translate}} : -
+              </td>
+              }
+
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.current' | translate}}<br />{{
+                'MAINTENANCENOTIFICATIONVIEW.runninghourscurrent' | translate}}
+                : {{value.runninghours}}
+              </td>
+            </tr>
+
+            @if (value.maintenancetype != '' && value.damagetype != '') {
+            <tr>
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.maintenancetype' | translate}} :
+                {{value.maintenancetype}}
+              </td>
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.damagetype' | translate}} :
+                {{value.damagetype}}
+              </td>
+            </tr>
+            }
+          </table>
+        </div>
+        }
+      </div>
+      }
+      <!-- RoPM Multiple Parts - End (task = 0 and showonlytask = 0) -->
+
+      <!-- RoPM Multiple Parts - Start (task = 1 and showonlytask = 0) -->
+      @if ((fromscreen == 'RoPM' || fromscreen == 'RoPMVIEW') &&
+      ropmpartslistArr.length > 0 && tasklistflag == 1 && showtasklistonlyflag
+      == 0) {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="4.5">
+            <div class="h7 text-dark">
+              {{ 'MAINTENANCENOTIFICATIONVIEW.partsname' | translate}}
+            </div>
+          </ion-col>
+          <ion-col size="0.5" style="text-align: center">
+            <div class="h7 text-dark">:</div>
+          </ion-col>
+          <ion-col size="7"> </ion-col>
+        </ion-row>
+
+        @for (value of ropmpartslistArr; track $index; let i = $index) {
+        <div class="multipleparts">
+          <table style="width: 100%; height: 100%" class="table table-bordered">
+            <tr class="table_head">
+              <th
+                colspan="4"
+                style="padding: 4px !important"
+                class="text-black"
+              >
+                ({{i+1}}) {{value.partname}}
+              </th>
+            </tr>
+            <tr class="current_table_head">
+              <th colspan="4" style="padding: 4px !important">
+                <span class="current_head">
+                  {{ 'MAINTENANCENOTIFICATIONVIEW.current' | translate}} {{
+                  'MAINTENANCENOTIFICATIONVIEW.runninghourscurrent' |
+                  translate}} : {{value.runninghours}}
+                </span>
+              </th>
+            </tr>
+
+            @for (item of value.tasklist; track $index; let i = $index) {
+            <tr class="task_table_head">
+              <th
+                colspan="4"
+                style="padding: 4px !important"
+                class="text-black"
+              >
+                <span class="head"
+                  >Task List ({{i+1}}) : {{item.taskname}}</span
+                >
+              </th>
+            </tr>
+            <tr width="100%" class="current_table_head">
+              @if (item.condition != 'Not Done' && (item.condition != 'Good' ||
+              item.remarks == '') && item.condition != '' &&
+              item.maintenancetype == '') {
+              <td
+                colspan="2"
+                style="text-align: center"
+                width="50%"
+                scope="row"
+              >
+                Status : {{item.condition}}
+              </td>
+              } @if ((item.condition == 'Not Done' || item.condition == 'Good')
+              && item.maintenancetype == '' && item.remarks != '') {
+              <td style="text-align: center" scope="row" width="50%">
+                Status : {{item.condition}}
+              </td>
+              } @if ((item.condition != '') && item.maintenancetype != '') {
+              <td scope="row" width="50%">Status : {{item.condition}}</td>
+              } @if (item.condition == 'Good' && item.maintenancetype == '' &&
+              item.remarks != '') {
+              <td scope="row" width="50%">Remarks : {{item.remarks}}</td>
+              } @if (item.condition == 'Not Done' && item.maintenancetype == ''
+              && item.remarks != '') {
+              <td scope="row" width="50%">Reason : {{item.remarks}}</td>
+              } @if (item.maintenancetype != '') {
+              <td scope="row" width="50%">
+                Maintenance Type : {{item.maintenancetype}}
+              </td>
+              }
+            </tr>
+            <tr width="100%" class="current_table_head">
+              @if (item.damagetype != '' && item.remarks == '') {
+              <td
+                colspan="2"
+                style="text-align: center"
+                scope="row"
+                width="50%"
+              >
+                Damage Type : {{item.damagetype}}
+              </td>
+              } @if (item.damagetype != '' && item.remarks != '') {
+              <td scope="row" width="50%">Damage Type : {{item.damagetype}}</td>
+              } @if (item.remarks != '' && item.condition != 'Not Done' &&
+              item.condition != 'Good') {
+              <td scope="row" width="50%">Remarks : {{item.remarks}}</td>
+              }
+            </tr>
+            }
+          </table>
+        </div>
+        }
+      </div>
+      }
+      <!-- RoPM Multiple Parts - End (task = 1 and showonlytask = 0) -->
+
+      <!-- RoPM Multiple Parts - Start (task = 1 and showonlytask = 1) -->
+      @if ((fromscreen == 'RoPM' || fromscreen == 'RoPMVIEW') &&
+      ropmpartslistArr.length > 0 && tasklistflag == 1 && showtasklistonlyflag
+      == 1) {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="4.5">
+            <div class="h7 text-dark">
+              {{ 'MAINTENANCENOTIFICATIONVIEW.partsname' | translate}}
+            </div>
+          </ion-col>
+          <ion-col size="0.5" style="text-align: center">
+            <div class="h7 text-dark">:</div>
+          </ion-col>
+          <ion-col size="7"> </ion-col>
+        </ion-row>
+
+        @for (value of ropmpartslistArr; track $index; let i = $index) {
+        <div class="multipleparts">
+          <table style="width: 100%; height: 100%" class="table table-bordered">
+            <tr class="table_head">
+              <th
+                colspan="4"
+                style="padding: 4px !important"
+                class="text-black"
+              >
+                ({{i+1}}) {{value.partname}}
+              </th>
+            </tr>
+            <tr class="current_table_head">
+              <th colspan="4" style="padding: 4px !important">
+                <span class="current_head">
+                  {{ 'MAINTENANCENOTIFICATIONVIEW.current' | translate}} {{
+                  'MAINTENANCENOTIFICATIONVIEW.runninghourscurrent' |
+                  translate}} : {{value.runninghours}}
+                </span>
+              </th>
+            </tr>
+
+            @for (item of value.tasklist; track $index; let i = $index) {
+            <tr class="task_table_head">
+              <th
+                colspan="4"
+                style="padding: 4px !important; text-align: left !important"
+                class="text-black"
+              >
+                ({{i+1}}) : {{item.taskname}}
+              </th>
+            </tr>
+            }
+          </table>
+        </div>
+        }
+      </div>
+      }
+      <!-- RoPM Multiple Parts - End (task = 1 and showonlytask = 1) -->
+
+      <!-- RePM Multiple Parts - Start -->
+      @if ((fromscreen == 'RePM' || fromscreen == 'RePMVIEW') &&
+      repmpartslistArr.length > 0) {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="4.5" class="text-black">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.partsname' | translate}}
+          </ion-col>
+          <ion-col size="0.5" style="text-align: center">
+            <div class="h7 text-dark">:</div>
+          </ion-col>
+          <ion-col size="7"> </ion-col>
+        </ion-row>
+
+        @for (value of repmpartslistArr; track $index; let i = $index) {
+        <div class="multipleparts">
+          <table style="width: 100%; height: 100%" class="table table-bordered">
+            <tr class="table_head">
+              <th
+                colspan="3"
+                style="padding: 4px !important"
+                class="text-black"
+              >
+                ({{i+1}}) {{value.partname}}
+              </th>
+            </tr>
+
+            <tr>
+              @if (value.condition != '') {
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.smallactivity' | translate}} :
+                {{value.condition}}
+              </td>
+              } @if (value.condition == '') {
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.smallactivity' | translate}} : -
+              </td>
+              }
+
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.current' | translate}}<br />{{
+                'MAINTENANCENOTIFICATIONVIEW.runninghourscurrent' | translate}}
+                : {{value.currentrunninghours}}
+              </td>
+            </tr>
+
+            @if (value.maximumrunninghours != '' &&
+            value.extendedmaximumrunninghours != '') {
+            <tr>
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.maximum' | translate}}<br />{{
+                'MAINTENANCENOTIFICATIONVIEW.submaximum' | translate}} :
+                {{value.maximumrunninghours}}
+              </td>
+              <td scope="row" style="width: 50%">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.extentedmaximum' |
+                translate}}<br />{{ 'MAINTENANCENOTIFICATIONVIEW.subextented' |
+                translate}} : {{value.extendedmaximumrunninghours}}
+              </td>
+            </tr>
+            } @if (value.condition == 'Serviced' && value.updatebutton == 1 &&
+            fromscreen != 'RePMVIEW' && this.UserContext.designId == 2) {
+            <tr>
+              <td colspan="2">
+                <button
+                  type="button"
+                  class="btn btn-update float-right"
+                  (click)="callmodalcontroller(value)"
+                >
+                  {{ 'GENERALBUTTON.updatebutton' | translate}}
+                </button>
+              </td>
+            </tr>
+            }
+          </table>
+        </div>
+        }
+      </div>
+      }
+      <!-- RePM Multiple Parts - End -->
+
+      @if (breakdowncauses != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.breakdowncauses' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{breakdowncauses}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (damage != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.damagetype' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{damage}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (priority_id != 0) {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">Priority Level</div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div
+            class="h7 fw-bold"
+            [style.color]="getTextColorForPriorityLevel(priority_id)"
+          >
+            {{priority_level}}
+          </div>
+        </ion-col>
+      </ion-row>
+      } @if (incharge != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.incharge' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{incharge}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (remarks != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.remarks' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{remarks}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (createddatetime != '' && schduleddatetime == '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.createddateandtime' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{createddatetime}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (createddatetime != '' && schduleddatetime != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.createddateandtime' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{createddatetime}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (schduleddatetime != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">Scheduled Date & Time</div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{schduleddatetime}}</div>
+        </ion-col>
+      </ion-row>
+      }
+
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.images' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          @if (imagesArr.length > 0) {
+          <button
+            type="submit"
+            class="btn btn-imageview"
+            (click)="btn_view_images()"
+          >
+            <span class="icontext">
+              {{ 'GENERALBUTTON.viewbutton' | translate}} ({{imagesArr.length}})
+            </span>
+          </button>
+          } @if (imagesArr.length == 0) {
+          <div class="h7 text-dark">-</div>
+          }
+        </ion-col>
+      </ion-row>
+
+      @if (detailsFlag) {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.aiprediction' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <button
+            type="button"
+            class="h7 btn btn-imageview btn-sm"
+            (click)="AIView()"
+          >
+            <span class="icontext"
+              >{{ 'MAINTENANCENOTIFICATIONVIEW.details' | translate}}</span
+            >
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+    </div>
+  </div>
+  }
+
+  <!-- Repair Activity -->
+  @if (!repairactivitynorecordFlag) {
+  <div class="m-2">
+    <div class="titleheader">
+      <div class="col">
+        <div class="title text-uppercase fw-bold">
+          {{ 'MAINTENANCENOTIFICATIONVIEW.activity' | translate}}
+        </div>
+      </div>
+    </div>
+
+    <div class="notificationcard">
+      @if (activity != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.smallactivity' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{activity}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (partreceiveddatetime != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.partreceived' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{partreceiveddatetime}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (activitycompletiondatetime != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.activitycompletion' | translate}}
+            <br />
+            {{ 'MAINTENANCENOTIFICATIONVIEW.activitycompletiondatetime' |
+            translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{activitycompletiondatetime}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (carriedoutby != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.carriedoutby' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{carriedoutby}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (verifiedby != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.verifiedby' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{verifiedby}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (inchargeremarks != '') {
+      <div>
+        <form [formGroup]="remarksForm" style="padding: 0px !important">
+          <ion-row class="form-row">
+            <ion-col size="4.5">
+              <div class="h7 text-dark">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.inchargeremarks' | translate}}
+              </div>
+            </ion-col>
+            <ion-col size="0.5" style="text-align: center">
+              <div class="h7 text-dark">:</div>
+            </ion-col>
+            <ion-col size="7">
+              <div class="h7 blockdata">{{inchargeremarks}}</div>
+            </ion-col>
+          </ion-row>
+        </form>
+      </div>
+      }
+    </div>
+  </div>
+  }
+
+  <!-- Job Authorization -->
+  @if (!jobauthorizationnorecordFlag) {
+  <div class="m-2">
+    <div class="titleheader">
+      <div class="col">
+        <div class="title text-uppercase fw-bold">
+          <b
+            >{{ 'MAINTENANCENOTIFICATIONVIEW.jobacknowledgement' |
+            translate}}</b
+          >
+        </div>
+      </div>
+    </div>
+
+    <div class="notificationcard">
+      @if (authorizedby != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.acknowlegedby' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{authorizedby}}</div>
+        </ion-col>
+      </ion-row>
+      } @if (authorizeddatetime != '') {
+      <ion-row class="form-row">
+        <ion-col size="4.5">
+          <div class="h7 text-dark">
+            {{ 'MAINTENANCENOTIFICATIONVIEW.acknowledged' | translate}}<br />{{
+            'MAINTENANCENOTIFICATIONVIEW.acknowledgeddatetime' | translate}}
+          </div>
+        </ion-col>
+        <ion-col size="0.5" style="text-align: center">
+          <div class="h7 text-dark">:</div>
+        </ion-col>
+        <ion-col size="7">
+          <div class="h7 blockdata">{{authorizeddatetime}}</div>
+        </ion-col>
+      </ion-row>
+      }
+    </div>
+  </div>
+  } @if (fromscreen != 'CMVIEW' && fromscreen != 'RoPMVIEW' && fromscreen !=
+  'RePMVIEW' && this.UserContext.designId != 2) {
+  <div class="m-2">
+    <div class="titleheader">
+      <div class="col">
+        <div class="title text-uppercase fw-bold">
+          {{ 'MAINTENANCENOTIFICATIONVIEW.remarks' | translate}}
+        </div>
+      </div>
+    </div>
+    <div class="notificationcard">
+      <form [formGroup]="remarksForm">
+        <ion-row class="form-row">
+          <ion-col size="4.5">
+            <div class="h7 text-dark">
+              {{ 'MAINTENANCENOTIFICATIONVIEW.inchargeremarks' | translate}}
+            </div>
+          </ion-col>
+          <ion-col size="0.5" style="text-align: center">
+            <div class="h7 text-dark">:</div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="form-row">
+          <ion-col>
+            <div>
+              <textarea
+                class="h7 form-control fs-12"
+                formControlName="ta_remarks"
+                placeholder="{{ 'SUPERVISORDASHBOARD.remarksmandatory' | translate}}"
+                rows="4"
+              ></textarea>
+            </div>
+          </ion-col>
+        </ion-row>
+      </form>
+    </div>
+  </div>
+
+  <div style="text-align: center">
+    <button
+      type="submit"
+      [disabled]="isDisabled"
+      class="h6 btn btn-success"
+      (click)="authorizenotification()"
+      style="margin-top: 10px; margin-bottom: 10px"
+    >
+      {{ 'GENERALBUTTON.closebutton' | translate}}
+    </button>
+  </div>
+  } @if (fromscreen != 'CMVIEW' && fromscreen != 'RoPMVIEW' && fromscreen !=
+  'RePMVIEW' && this.UserContext.designId == 2) {
+  <div style="text-align: center">
+    <form [formGroup]="rejectRemarksForm" class="p-0 m-2">
+      <textarea
+        class="h7 form-control fs-12"
+        formControlName="ta_remarks"
+        [placeholder]="'PRESSSTATIONLOGSHEET.enterremark' | translate"
+        rows="4"
+      ></textarea>
+    </form>
+
+    <button
+      type="submit"
+      class="h6 btn btn-success"
+      [disabled]="isDisabled"
+      (click)="authorizenotification()"
+      style="margin-top: 10px; margin-bottom: 10px"
+    >
+      {{ (rejectbtnflag == 0 ? 'MAINTENANCENOTIFICATIONVIEW.acknowledge' :
+      'GENERALBUTTON.savebutton') | translate }}
+    </button>
+  </div>
+  }
+</ion-content>

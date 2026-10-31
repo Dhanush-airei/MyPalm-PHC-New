@@ -1,0 +1,65 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Map Container -->
+  <div #map id="dealermap"></div>
+
+  <!-- Total Supplier By Category -->
+  @if (supplierDetails.length > 0) {
+  <ion-card class="bg-card">
+    <ion-card-header>
+      <ion-row>
+        <ion-col style="font-weight: bold; text-transform: uppercase">
+          {{ 'SUPPLYCHAIN.totalsupplierbycategory' | translate }}
+        </ion-col>
+      </ion-row>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-row>
+        @for (eachitem of supplierDetails; track eachitem.category_id) {
+        <ion-col size="6">
+          <ion-row style="height: 100%">
+            <ion-col class="categorytxt" size="7.5">
+              {{ eachitem.category }}
+            </ion-col>
+            <ion-col class="categorytxt" size="0.5"> : </ion-col>
+            <ion-col class="vertical-align-content categorytxt" size="3">
+              <div class="h7">{{ eachitem.value }}</div>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        }
+      </ion-row>
+
+      <ion-row style="text-align: center">
+        <ion-col
+          size="12"
+          class="categorytxt"
+          style="color: #ff6060; font-weight: bold"
+        >
+          {{ 'SUPPLYCHAIN.total' | translate }}: {{ totalSupplier }}
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  }
+
+  <!-- No Records -->
+  @if (showNoRecords && supplierDetails.length === 0) {
+  <div class="norecords">{{ 'NORECORDSFOUND.norecordsfound' | translate }}</div>
+  }
+
+  <!-- Loading Indicator -->
+  @if (pleaseWaitFlag) {
+  <div class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>{{ 'COMMON.loading' | translate }}</p>
+  </div>
+  }
+</ion-content>

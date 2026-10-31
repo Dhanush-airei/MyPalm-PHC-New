@@ -1,0 +1,547 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="firstsegment bg-white p-1">
+    <div
+      class="fs-14 text-orange bg-black py-2 text-center rounded border fw-bold mb-1"
+    >
+      Corrective Maintenance
+    </div>
+
+    <ion-segment
+      (ionChange)="segmentChanged($event)"
+      [ngModel]="tabs_segment"
+      class="custom-segment"
+    >
+      <ion-segment-button value="New" class="segment-btn-new">
+        <ion-label text-wrap class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.new' | translate }}
+        </ion-label>
+        @if (newrecords != 0) {
+        <ion-badge class="badgecount badgeblink"> {{ newrecords }} </ion-badge>
+        }
+      </ion-segment-button>
+
+      <ion-segment-button value="Pending" class="segment-btn-pending">
+        <ion-label text-wrap class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.pending' | translate }}
+        </ion-label>
+        @if (pendingrecords != 0) {
+        <ion-badge class="badgecount badgeblink">
+          {{ pendingrecords }}
+        </ion-badge>
+        }
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  @switch (tabs_segment) { @case ('New') { @if (!newnorecordflag) {
+  <ion-searchbar
+    placeholder="{{ 'CORRECTIVEMAINTENACE.searchrecords' | translate }}"
+    [(ngModel)]="filterTerm"
+    class="custom-searchbar px-2"
+    animated="true"
+    clearIcon="close"
+  >
+  </ion-searchbar>
+
+  @for ( value of cmnewlistArr | filter: filterTerm; track value.id ) {
+  <ion-card
+    class="mx-2 mb-2 mt-0"
+    [style.backgroundColor]="
+            getBackgroundColor(value.breakdowncodingid)
+          "
+    [style.borderColor]="
+            geBorderColor(value.breakdowncodingid)
+          "
+  >
+    <ion-card-header
+      class="p-2"
+      [style.backgroundColor]="
+              geBorderColor(value.breakdowncodingid)
+            "
+      [style.color]="
+              getTextColor(value.breakdowncodingid)
+            "
+    >
+      <b>{{ value.notificationno }} - {{ value.insDate }}</b>
+    </ion-card-header>
+
+    <ion-card-content class="px-1">
+      @if (value.stationname != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.station' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.stationname }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.machinename != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.machine' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.machinename }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.partdefect != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.affectedpart' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12" [innerHTML]="value.partdefect"></p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.problem != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.problem' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.problem }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.reportBy != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.reportedby' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.reportBy }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.priority_id != 0) {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12"> Priority Level </ion-col>
+
+        <ion-col size="7">
+          <p
+            class="fw-bold fs-12"
+            [style.color]="
+                      getTextColorForPriorityLevel(value.priority_id)
+                    "
+          >
+            {{ value.priority_level }}
+          </p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.statusname != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.status' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p
+            class="statusdata fs-12"
+            [style.color]="
+                      getStatusTextColor(value.statusId)
+                    "
+          >
+            {{ value.statusname }}
+          </p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.deny_remarks != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">Deny Remark</ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.deny_remarks }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.reason != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12"
+          >{{ 'CORRECTIVEMAINTENACE.reason' | translate }}</ion-col
+        >
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.reason }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.remarks != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12"
+          >{{ 'CORRECTIVEMAINTENACE.remarks' | translate }}</ion-col
+        >
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.remarks }}</p>
+        </ion-col>
+      </ion-row>
+
+      }
+
+      <ion-row class="flex-row-reverse gap-2">
+        <button
+          type="button"
+          class="btn btn-sm btn-view d-flex justify-content-center align-items-center fs-12"
+          (click)="btn_NotificationFormView(value)"
+        >
+          <ion-icon class="me-1" name="document-text-outline"> </ion-icon>
+
+          <span class="icontext">
+            {{ 'GENERALBUTTON.viewbutton' | translate }}
+          </span>
+        </button>
+
+        @if (value.statusId == '1') {
+        <button
+          type="button"
+          class="btn btn-sm btn-assign d-flex justify-content-center align-items-center fs-12"
+          (click)="btn_NotificationAssign(value)"
+        >
+          <ion-icon class="me-1" name="person-add-outline"> </ion-icon>
+
+          <span class="icontext">
+            {{ 'GENERALBUTTON.assignbutton' | translate }}
+          </span>
+        </button>
+
+        } @if ( value.statusId == '10' || value.statusId == '13' ||
+        value.statusId == '14' ) {
+
+        <button
+          type="button"
+          class="btn btn-sm border-green d-flex justify-content-center align-items-center fs-12"
+          (click)="btn_NotificationAccept(value)"
+        >
+          <ion-icon class="me-1" name="copy-outline"> </ion-icon>
+
+          @if (value.iscompleted == 0) {
+
+          <span class="icontext">
+            {{ 'GENERALBUTTON.acceptbutton' | translate }}
+          </span>
+
+          } @else {
+
+          <span class="icontext">
+            {{ 'GENERALBUTTON.updatebutton' | translate }}
+          </span>
+
+          }
+        </button>
+
+        }
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  } } @if (newnorecordflag) {
+
+  <div class="norecords">{{ 'NORECORDSFOUND.norecordsfound' | translate }}</div>
+  } } @case ('Pending') { @if (!pendingnorecordflag) {
+  <ion-searchbar
+    placeholder="{{ 'CORRECTIVEMAINTENACE.searchrecords' | translate }}"
+    [(ngModel)]="filterTerm"
+    class="custom-searchbar px-2"
+    animated="true"
+    clearIcon="close"
+  >
+  </ion-searchbar>
+
+  @for ( value of cmpendinglistArr | filter: filterTerm; track value.id ) {
+  <ion-card
+    class="mx-2 mb-2 mt-0"
+    [style.backgroundColor]="
+            getBackgroundColor(value.breakdowncodingid)
+          "
+    [style.borderColor]="
+            geBorderColor(value.breakdowncodingid)
+          "
+  >
+    <ion-card-header
+      class="p-2"
+      [style.backgroundColor]="
+              geBorderColor(value.breakdowncodingid)
+            "
+      [style.color]="
+              getTextColor(value.breakdowncodingid)
+            "
+    >
+      <b>{{ value.notificationno }} - {{ value.insDate }}</b>
+    </ion-card-header>
+
+    <ion-card-content class="px-1">
+      @if (value.stationname != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.station' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.stationname }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.machinename != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.machine' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.machinename }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.partdefect != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.affectedpart' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12" [innerHTML]="value.partdefect"></p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.problem != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.problem' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.problem }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.reportBy != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.reportedby' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.reportBy }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.priority_id != 0) {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12"> Priority Level </ion-col>
+
+        <ion-col size="7">
+          <p
+            class="fw-bold fs-12"
+            [style.color]="getTextColorForPriorityLevel(value.priority_id)"
+          >
+            <b>{{ value.priority_level }}</b>
+          </p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.statusname != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">
+          {{ 'CORRECTIVEMAINTENACE.status' | translate }}
+        </ion-col>
+
+        <ion-col size="7">
+          <p
+            class="statusdata fs-12"
+            [style.color]="
+                      getStatusTextColor(value.statusId)
+                    "
+          >
+            {{ value.statusname }}
+          </p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.deny_remarks != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12">Deny Remark</ion-col>
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.deny_remarks }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.reason != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12"
+          >{{ 'CORRECTIVEMAINTENACE.reason' | translate }}</ion-col
+        >
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.reason }}</p>
+        </ion-col>
+      </ion-row>
+
+      } @if (value.remarks != '') {
+
+      <ion-row>
+        <ion-col size="5" class="fs-12"
+          >{{ 'CORRECTIVEMAINTENACE.remarks' | translate }}</ion-col
+        >
+
+        <ion-col size="7">
+          <p class="text-black fs-12">{{ value.remarks }}</p>
+        </ion-col>
+      </ion-row>
+
+      }
+
+      <ion-row class="flex-row-reverse gap-2">
+        <!-- VIEW -->
+        @if(value.statusId != '2' && value.statusId != '6'){
+        <button
+          type="button"
+          class="btn btn-sm btn-view d-flex justify-content-center align-items-center fs-12"
+          (click)="btn_NotificationFormView(value)"
+        >
+          <ion-icon class="me-1" name="document-text-outline"> </ion-icon>
+
+          <span class="icontext">
+            {{ 'GENERALBUTTON.viewbutton' | translate }}
+          </span>
+        </button>
+        }
+
+        <!-- DENY + ACKNOWLEDGE -->
+        @if ( UserContext.designId === 2 && value.statusId != '2' &&
+        value.statusId != '10' && value.statusId != '12' ) {
+
+        <!-- DENY -->
+        <button
+          type="button"
+          class="btn btn-sm btn-assign d-flex justify-content-center align-items-center fs-12"
+          (click)="btn_Acknowledge(value, '1')"
+        >
+          <ion-icon class="me-1" name="close-outline"> </ion-icon>
+
+          <span class="icontext">
+            {{ 'CORRECTIVEMAINTENACE.buttondeny' | translate }}
+          </span>
+        </button>
+
+        <!-- ACKNOWLEDGE -->
+        <button
+          type="button"
+          class="btn btn-sm btn-acknowlege d-flex justify-content-center align-items-center fs-12"
+          (click)="btn_Acknowledge(value, '0')"
+        >
+          <ion-icon class="me-1" name="checkmark-outline"> </ion-icon>
+
+          <span class="icontext">
+            {{ 'CORRECTIVEMAINTENACE.buttonacknowledge' | translate }}
+          </span>
+        </button>
+        }
+
+        <!-- ACCEPT / UPDATE -->
+        @if ( UserContext.designId != 2) {
+
+        <button
+          type="button"
+          class="btn btn-sm border-red d-flex justify-content-center align-items-center fs-12"
+          (click)="btn_NotificationClose(value)"
+        >
+          <ion-icon class="me-1" name="close-circle-outline"> </ion-icon>
+
+          <span class="icontext">
+            {{ 'GENERALBUTTON.closebutton' | translate}}
+          </span>
+        </button>
+        <button
+          type="button"
+          class="btn btn-sm border-green d-flex justify-content-center align-items-center fs-12"
+          (click)="btn_UploadImages(value)"
+        >
+          <ion-icon class="me-1" name="images-outline"> </ion-icon>
+
+          <span class="icontext">
+            {{ 'GENERALBUTTON.uploadimages' | translate}}
+          </span>
+        </button>
+
+        }
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  } } @if (pendingnorecordflag) {
+
+  <div class="norecords">{{ 'NORECORDSFOUND.norecordsfound' | translate }}</div>
+  } } }
+
+  <ion-infinite-scroll
+    threshold="100px"
+    (ionInfinite)="
+      tabs_segment === 'New'
+        ? newpagination($event)
+        : pendingpagination($event)
+    "
+    [disabled]="
+    tabs_segment === 'New'
+      ? !newhasMoreData
+      : !pendinghasMoreData
+    "
+  >
+    <ion-infinite-scroll-content
+      class="loadmore"
+      loadingSpinner="bubbles"
+      loadingText="{{ 'NORECORDSFOUND.loadingmoredata' | translate }}"
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  @if (pleasewaitflag) {
+  <div class="please-wait">
+    <img
+      class="please-wait__image"
+      src="../../../../../assets/img/loading.gif"
+      alt="Loading"
+    />
+
+    <span class="please-wait__text">
+      {{ "NORECORDSFOUND.loading" | translate }}
+    </span>
+  </div>
+
+  }
+</ion-content>

@@ -1,0 +1,461 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Username with banner image -->
+  <app-user-profile></app-user-profile>
+
+  <!-- Press Station Section - For userdesignation 7 -->
+  <div class="home-box">
+    @if (isPressStationUser) {
+    <div class="home-box">
+      <!-- Last Updated Record Title -->
+      <div class="titleheader">
+        <div class="col">
+          <div class="title text-uppercase">
+            {{ 'PRESSSTATIONPOPUP.lastupdatedrecord' | translate }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Press Station Alert Cards -->
+      <div class="checkcard">
+        @for (value of pressStationAlertArr; track $index; let i = $index) {
+        <div class="home">
+          <div class="station-title">
+            <b>{{ value.title }}</b>
+          </div>
+
+          <!-- Info Table -->
+          <table class="table table-bordered">
+            <tr>
+              <td class="label-cell">
+                <span class="mdfont"
+                  >{{ 'PRESSSTATIONPOPUP.lastupdatedon' | translate }}</span
+                >
+              </td>
+              <td>{{ value.date }} {{ value.time }}</td>
+            </tr>
+            <tr>
+              <td class="label-cell">
+                <span class="mdfont"
+                  >{{ 'PRESSSTATIONPOPUP.doneby' | translate }}</span
+                >
+              </td>
+              <td>{{ value.doneby }}</td>
+            </tr>
+          </table>
+
+          <!-- Digester Table -->
+          <table class="table table-bordered">
+            <tr>
+              <th colspan="2" class="header-orange">
+                <span class="para"
+                  >{{ 'PRESSSTATIONPOPUP.digestor' | translate }}</span
+                >
+              </th>
+            </tr>
+            <tr>
+              <td class="label-bold">
+                {{ 'PRESSSTATIONPOPUP.temperature' | translate }} (°C)
+              </td>
+              <td>{{ value.digestertemperature }}</td>
+            </tr>
+            <tr>
+              <td class="label-bold">
+                {{ 'PRESSSTATIONPOPUP.motor' | translate }}
+              </td>
+              <td>{{ value.digestermotor }}</td>
+            </tr>
+            <tr>
+              <td class="label-bold">
+                {{ 'PRESSSTATIONPOPUP.level' | translate }} (%)
+              </td>
+              <td>{{ value.diegesterlevel }}</td>
+            </tr>
+            <tr>
+              <td class="label-bold">
+                {{ 'PRESSSTATIONPOPUP.digestordrainage' | translate }}
+              </td>
+              <td>{{ value.digesterdrainage }}</td>
+            </tr>
+          </table>
+
+          <!-- Press Table - Conditional -->
+          @if (pressDataEnableFlag === 1) {
+          <table class="table table-bordered">
+            <tr>
+              <th colspan="2" class="header-black">
+                <span class="para-white"
+                  >{{ 'PRESSSTATIONPOPUP.press' | translate }}</span
+                >
+              </th>
+            </tr>
+            <tr>
+              <td class="label-bold">
+                {{ 'PRESSSTATIONPOPUP.motor' | translate }}
+              </td>
+              <td>{{ value.pressmotor }}</td>
+            </tr>
+            <tr>
+              <td class="label-bold">
+                {{ 'PRESSSTATIONPOPUP.presscakedrainage' | translate }}
+              </td>
+              <td>{{ value.presscakedrainage }}</td>
+            </tr>
+            <tr>
+              <td class="label-bold">
+                {{ 'PRESSSTATIONPOPUP.hydraulicpressure' | translate }}
+              </td>
+              <td>{{ value.presshydraulicpressure }}</td>
+            </tr>
+          </table>
+          } @if ((i + 1) < pressStationAlertArr.length) {
+          <hr />
+          }
+        </div>
+        }
+
+        <!-- No Records Found -->
+        @if (enableFlag) {
+        <div class="nolastupdatedrecords">
+          {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+        </div>
+        }
+
+        <!-- Add New Data Button -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-ok" (click)="btnPressStation()">
+            {{ 'GENERALBUTTON.addnewdatabutton' | translate }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      @if (pleaseWaitFlag) {
+      <div class="pleasewait">
+        <div class="text-center">
+          <img src="../../../assets/img/loading.gif" class="loading-img" />
+        </div>
+        {{ 'NORECORDSFOUND.loading' | translate }}
+      </div>
+      }
+    </div>
+    }
+
+    <!-- Sterilizer Station Section - For userdesignation 8 -->
+    @if (isSterilizerStationUser) {
+    <!-- Flow Flag = 0 - Door Open Later Records -->
+    @if (flowFlag === 0) {
+    <!-- Door Open Later Records View -->
+    @if (uiNoRecordFlag) {
+    <div class="updatelatertitleheader text-uppercase">
+      {{ 'STERILIZATIONSTATIONPOPUP.dooropentimeupdaterecord' | translate }}
+    </div>
+
+    @for (value of sterilizerListArr; track $index) {
+    <ion-card class="bg-card">
+      <ion-card-content>
+        <ion-row>
+          <ion-col>
+            <p class="title-content">
+              {{ value.sterilizer }} &nbsp;&nbsp;&nbsp;&nbsp; {{
+              value.lastupdatedon }}
+            </p>
+          </ion-col>
+        </ion-row>
+
+        @if (value.cycleno !== '') {
+        <ion-row>
+          <ion-col size="6"
+            >{{ 'STERILIZATIONSTATIONPOPUP.cycle' | translate }}</ion-col
+          >
+          <ion-col size="6"><p class="data">: {{ value.cycleno }}</p></ion-col>
+        </ion-row>
+        } @if (value.door_shut_time !== '') {
+        <ion-row>
+          <ion-col size="6"
+            >{{ 'STERILIZATIONSTATIONPOPUP.doorshutdatetime' | translate
+            }}</ion-col
+          >
+          <ion-col size="6"
+            ><p class="data">: {{ value.door_shut_time }}</p></ion-col
+          >
+        </ion-row>
+        } @if (value.door_open_time !== '') {
+        <ion-row>
+          <ion-col size="6"
+            >{{ 'STERILIZATIONSTATIONPOPUP.dooropendatetime' | translate
+            }}</ion-col
+          >
+          <ion-col size="6"
+            ><p class="data">: {{ value.door_open_time }}</p></ion-col
+          >
+        </ion-row>
+        } @if (value.backpressurereceiver !== '') {
+        <ion-row>
+          <ion-col size="6"
+            >{{ 'STERILIZATIONSTATIONPOPUP.bpv' | translate }} [PSI]</ion-col
+          >
+          <ion-col size="6"
+            ><p class="data">: {{ value.backpressurereceiver }}</p></ion-col
+          >
+        </ion-row>
+        } @if (value.p1 !== '') {
+        <ion-row>
+          <ion-col size="6"
+            >{{ 'STERILIZATIONSTATIONPOPUP.p1peak' | translate }} [PSI]</ion-col
+          >
+          <ion-col size="6"><p class="data">: {{ value.p1 }}</p></ion-col>
+        </ion-row>
+        } @if (value.p2 !== '') {
+        <ion-row>
+          <ion-col size="6"
+            >{{ 'STERILIZATIONSTATIONPOPUP.p2peak' | translate }} [PSI]</ion-col
+          >
+          <ion-col size="6"><p class="data">: {{ value.p2 }}</p></ion-col>
+        </ion-row>
+        } @if (value.p3 !== '') {
+        <ion-row>
+          <ion-col size="6"
+            >{{ 'STERILIZATIONSTATIONPOPUP.p3peak' | translate }} [PSI]</ion-col
+          >
+          <ion-col size="6"><p class="data">: {{ value.p3 }}</p></ion-col>
+        </ion-row>
+        }
+
+        <ion-row class="float-right">
+          <ion-col>
+            <button
+              type="button"
+              class="btn btn-update btn-sm"
+              (click)="callModalController(value)"
+            >
+              {{ 'GENERALBUTTON.updatebutton' | translate }}
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    } }
+
+    <!-- Last Updated Records View -->
+    @if (!uiNoRecordFlag) {
+    <div class="titleheader">
+      <div class="col">
+        <div class="title text-uppercase">
+          {{ 'STERILIZATIONSTATIONPOPUP.lastupdatedrecord' | translate }}
+        </div>
+      </div>
+    </div>
+
+    <div class="checkcard">
+      @for (general of sterilizerStationAlertArr; track $index; let i = $index)
+      {
+      <div class="home">
+        <table class="table table-bordered">
+          <tr>
+            <td class="label-cell">
+              <span class="mdfont"
+                >{{ 'STERILIZATIONSTATIONPOPUP.lastupdatedon' | translate
+                }}</span
+              >
+            </td>
+            <td>{{ general.lastupdatedon }}</td>
+          </tr>
+          <tr>
+            <td class="label-cell">
+              <span class="mdfont"
+                >{{ 'STERILIZATIONSTATIONPOPUP.doneby' | translate }}</span
+              >
+            </td>
+            <td>{{ general.rasiedby }}</td>
+          </tr>
+        </table>
+
+        <table class="table table-bordered">
+          <tr>
+            <th colspan="2" class="header-orange">
+              <span class="para">{{ general.sterilizer }}</span>
+            </th>
+          </tr>
+          <tr>
+            <td class="label-bold">
+              {{ 'STERILIZATIONSTATIONPOPUP.cycle' | translate }}
+            </td>
+            <td>{{ general.cycleno }}</td>
+          </tr>
+
+          @if (getLanguage !== 'French') {
+          <tr>
+            <td class="label-bold">
+              {{ 'STERILIZATIONSTATIONPOPUP.doorshutdatetime' | translate }}
+            </td>
+            <td>{{ general.door_shut_time }}</td>
+          </tr>
+          <tr>
+            <td class="label-bold">
+              {{ 'STERILIZATIONSTATIONPOPUP.dooropendatetime' | translate }}
+            </td>
+            <td>{{ general.door_open_time }}</td>
+          </tr>
+          <tr>
+            <td class="label-bold">
+              {{ 'STERILIZATIONSTATIONPOPUP.backpressure' | translate }}<br />{{
+              'STERILIZATIONSTATIONPOPUP.receiver' | translate }} [PSI]
+            </td>
+            <td>{{ general.backpressurereceiver }}</td>
+          </tr>
+          } @else {
+          <tr>
+            <td class="label-bold">
+              {{ 'STERILIZATIONSTATIONPOPUP.doorsshut' | translate }}<br />{{
+              'STERILIZATIONSTATIONPOPUP.shutdatetime' | translate }}
+            </td>
+            <td>{{ general.door_shut_time }}</td>
+          </tr>
+          <tr>
+            <td class="label-bold">
+              {{ 'STERILIZATIONSTATIONPOPUP.dooropen' | translate }}<br />{{
+              'STERILIZATIONSTATIONPOPUP.opendatetime' | translate }}
+            </td>
+            <td>{{ general.door_open_time }}</td>
+          </tr>
+          <tr>
+            <td class="label-bold">
+              {{ 'STERILIZATIONSTATIONPOPUP.backpressure' | translate }}<br />{{
+              'STERILIZATIONSTATIONPOPUP.receiver' | translate }} [PSI]
+            </td>
+            <td>{{ general.backpressurereceiver }}</td>
+          </tr>
+          }
+
+          <tr>
+            <td class="label-bold">
+              {{ 'STERILIZATIONSTATIONPOPUP.p1peak' | translate }} [PSI]
+            </td>
+            <td>{{ general.p1 }}</td>
+          </tr>
+          <tr>
+            <td class="label-bold">
+              {{ 'STERILIZATIONSTATIONPOPUP.p2peak' | translate }} [PSI]
+            </td>
+            <td>{{ general.p2 }}</td>
+          </tr>
+          <tr>
+            <td class="label-bold">
+              {{ 'STERILIZATIONSTATIONPOPUP.p3peak' | translate }} [PSI]
+            </td>
+            <td>{{ general.p3 }}</td>
+          </tr>
+        </table>
+      </div>
+      } @if (enableFlag) {
+      <div class="nolastupdatedrecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      }
+
+      <div class="text-center">
+        <button
+          type="button"
+          class="btn btn-ok"
+          (click)="btnSterilizerStation()"
+        >
+          {{ 'GENERALBUTTON.addnewdatabutton' | translate }}
+        </button>
+      </div>
+    </div>
+    }
+
+    <!-- Loading State -->
+    @if (pleaseWaitFlag) {
+    <div class="pleasewait">
+      <div class="text-center">
+        <img src="../../../assets/img/loading.gif" class="loading-img" />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    } }
+
+    <!-- Flow Flag = 1 - Sensor Data View -->
+    @if (flowFlag === 1) { @for (value of sterilizerSensorListArr; track $index)
+    {
+    <ion-card class="bg-card">
+      <ion-card-content>
+        @if (value.sterilizer !== '') {
+        <ion-row>
+          <ion-col>
+            <p class="title-content">
+              {{ value.sterilizer }} &nbsp;&nbsp;&nbsp;&nbsp; {{ value.date }}
+              {{ value.time }}
+            </p>
+          </ion-col>
+        </ion-row>
+        } @if (value.cycleno !== '') {
+        <ion-row>
+          <ion-col size="6"
+            >{{ 'STERILIZATIONSTATIONPOPUP.cycle' | translate }}</ion-col
+          >
+          <ion-col size="6"><p class="data">: {{ value.cycleno }}</p></ion-col>
+        </ion-row>
+        } @if (value.door_shut_time !== '') {
+        <ion-row>
+          <ion-col size="6"
+            >{{ 'STERILIZATIONSTATIONPOPUP.doorshutdatetime' | translate
+            }}</ion-col
+          >
+          <ion-col size="6"
+            ><p class="data">: {{ value.door_shut_time }}</p></ion-col
+          >
+        </ion-row>
+        } @if (value.door_open_time !== '') {
+        <ion-row>
+          <ion-col size="6"
+            >{{ 'STERILIZATIONSTATIONPOPUP.dooropendatetime' | translate
+            }}</ion-col
+          >
+          <ion-col size="6"
+            ><p class="data">: {{ value.door_open_time }}</p></ion-col
+          >
+        </ion-row>
+        }
+
+        <ion-row class="mt-1">
+          <ion-col>
+            <button
+              type="button"
+              class="btn btn-update float-right"
+              (click)="btnUpdateSensorData(value)"
+            >
+              {{ 'GENERALBUTTON.updatebutton' | translate }}
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    }
+
+    <!-- Loading State -->
+    @if (pleaseWaitFlag) {
+    <div class="pleasewait">
+      <div class="text-center">
+        <img src="../../../assets/img/loading.gif" class="loading-img" />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    }
+
+    <!-- No Records State -->
+    @if (noRecordFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    } } }
+  </div>
+</ion-content>

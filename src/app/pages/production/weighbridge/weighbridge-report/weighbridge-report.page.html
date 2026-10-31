@@ -1,0 +1,107 @@
+<app-page-header
+  [appTitle]="appTitle"
+  [showLogo]="showLogo"
+  [showBackButton]="showBackButton"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <app-date-ranger-picker
+    [fromDate]="fromDate"
+    [toDate]="toDate"
+    (getReport)="onDateRangeGet($event)"
+  ></app-date-ranger-picker>
+
+  <hr class="bg-white" />
+
+  @if (pleasewaitflag) {
+  <div class="please-wait">
+    <img
+      class="please-wait__image"
+      src="../../../../../assets/img/loading.gif"
+      alt="Loading"
+    />
+
+    <span class="please-wait__text">
+      {{ "NORECORDSFOUND.loading" | translate }}
+    </span>
+  </div>
+  }
+
+  <!-- Table data -->
+  @if (!pleasewaitflag) {
+
+  <!-- Grading list -->
+  @if(gradinglistArr.length > 0){
+  <div class="table-responsive mx-1">
+    <table class="table table-bordered w-100">
+      <!-- ================= HEADER ================= -->
+
+      <thead>
+        <tr class="table_head bg-table-black">
+          <th class="p-1 text-orange" scope="col">
+            {{ 'GRADINGREPORT.sno' | translate }}
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.datetime' | translate }}
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.suppliername' | translate }}
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.vehiclenumber' | translate }}
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.netweight' | translate }}
+            <br />
+            (MT)
+          </th>
+        </tr>
+      </thead>
+
+      <!-- ================= DATA ================= -->
+
+      <tbody>
+        @for (value of gradinglistArr; track $index; let i = $index) {
+
+        <tr class="table_head1">
+          <!-- S.No -->
+          <td scope="row">{{ i + 1 }}</td>
+
+          <!-- Date Time -->
+          <td scope="row">{{ value.insdt }}</td>
+
+          <!-- Supplier -->
+          <td scope="row">{{ value.supplier_name }}</td>
+
+          <!-- Vehicle -->
+          <td scope="row">{{ value.vehicle_no }}</td>
+
+          <!-- Net Weight -->
+          <td scope="row">
+            @if (value.net_weight === '' || value.net_weight === null) {
+            <button
+              type="button"
+              class="btn btn-update btn-sm"
+              (click)="openUpdateModal(value)"
+            >
+              {{ 'GENERALBUTTON.updatebutton' | translate }}
+            </button>
+            } @else { {{ value.net_weight }} }
+          </td>
+        </tr>
+
+        }
+      </tbody>
+    </table>
+  </div>
+  }
+  <!-- no records found -->
+  @if(gradinglistArr.length === 0){
+  <div class="norecords">{{ 'NORECORDSFOUND.norecordsfound' | translate}}</div>
+  } }
+</ion-content>

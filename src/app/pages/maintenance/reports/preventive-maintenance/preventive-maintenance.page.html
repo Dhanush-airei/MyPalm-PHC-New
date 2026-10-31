@@ -1,0 +1,546 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Segment Tabs -->
+  <ion-toolbar>
+    <div class="firstsegment">
+      <ion-segment
+        (ionChange)="segmentChanged($event)"
+        [(ngModel)]="tabsSegment"
+      >
+        <ion-segment-button value="Routine">
+          <ion-label text-wrap class="h7">
+            {{ 'PREVENTIVEMAINTENANCE.routine' | translate }}
+          </ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="Replacement">
+          <ion-label text-wrap class="h7">
+            {{ 'PREVENTIVEMAINTENANCE.replacement' | translate }}
+          </ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-toolbar>
+
+  <div class="home-box">
+    <!-- ======================== Routine Segment ======================== -->
+    @if (tabsSegment == 'Routine') {
+    <form [formGroup]="routineForm">
+      <ion-row>
+        <ion-col size="9.5">
+          <!-- From Date / To Date -->
+          <ion-row class="ion-align-items-center">
+            <ion-col size="2" class="ion-align-self-center">
+              <div class="h7 text-white">
+                <b>{{ 'REPORTCORRECTIVEMAINTENANCE.fromdate' | translate }}</b>
+              </div>
+            </ion-col>
+
+            <ion-col size="4">
+              <input
+                type="text"
+                class="h7 form-control readonly"
+                formControlName="routine_from_date"
+                placeholder="DD-MM-YYYY"
+                (click)="openRoutineFromDateTimePicker()"
+                readonly
+              />
+            </ion-col>
+
+            <ion-col size="2" class="ion-align-self-center">
+              <div class="h7 text-white">
+                <b>{{ 'REPORTCORRECTIVEMAINTENANCE.todate' | translate }}</b>
+              </div>
+            </ion-col>
+
+            <ion-col size="4">
+              <input
+                type="text"
+                class="h7 form-control readonly"
+                formControlName="routine_to_date"
+                placeholder="DD-MM-YYYY"
+                (click)="openRoutineToDateTimePicker()"
+                readonly
+              />
+            </ion-col>
+          </ion-row>
+
+          <!-- Incharge Person -->
+          <ion-row class="ion-align-items-center mt-10">
+            <ion-col size="6">
+              <div class="h7 text-white"><b>Incharge Person</b></div>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-select
+                mode="md"
+                [interfaceOptions]="inchargeOption"
+                formControlName="routine_select_incharge_person"
+                [okText]="'GENERALBUTTON.okay' | translate"
+                [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+                class="selectdropdown"
+                placeholder="{{ 'GENERALBUTTON.select' | translate }}"
+                (ionChange)="routineInchargeChange($event)"
+              >
+                <ion-select-option value="">
+                  {{ 'SUPERVISORDASHBOARD.select' | translate }}
+                </ion-select-option>
+
+                @for (value of inchargePersonArr; track value.userId) {
+                <ion-select-option [value]="value.userId">
+                  {{ value.name }}
+                </ion-select-option>
+                }
+              </ion-select>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+        <!-- Get Button -->
+        <ion-col size="2.5" class="btn-column">
+          <button
+            type="button"
+            class="h7 btn btn-general btn-sm w-100"
+            style="height: 31px"
+            (click)="getRoutineNotification()"
+          >
+            {{ 'GENERALBUTTON.getrecords' | translate }}
+          </button>
+        </ion-col>
+      </ion-row>
+      <hr />
+    </form>
+
+    <!-- Table Data - Routine -->
+    @if (routineNotificationListArr.length > 0) {
+    <div class="table-responsive">
+      <table class="table table-bordered w-100">
+        <thead>
+          <tr class="table_head bg-table-black">
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.datetime' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.notificationid' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.station' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.machine' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.assignedto' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.taskstarttime' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.taskcompletiontime' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.totaltaskexecutionduration' |
+              translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.status' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.detail' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (value of routineNotificationListArr; track $index) {
+          <tr class="table-row">
+            <td class="p-1" scope="row">{{ value.insDate }}</td>
+            <td class="p-1" scope="row">{{ value.notificationno }}</td>
+            <td class="p-1" scope="row">{{ value.stationname }}</td>
+            <td class="p-1" scope="row">{{ value.equipment }}</td>
+
+            @if (value.carriedoutby != '') {
+            <td class="p-1" scope="row">{{ value.carriedoutby }}</td>
+            } @else {
+            <td class="p-1" scope="row">-</td>
+            }
+
+            <!-- @if (value.task_start_time != '') { -->
+            <td class="p-1" scope="row">{{ value.task_start_time }}</td>
+            <!-- } @else {
+            <td class="p-1" scope="row">-</td>
+            } -->
+            <!-- @if (value.task_completion_time != '') { -->
+            <td class="p-1" scope="row">{{ value.task_completion_time }}</td>
+            <!-- } 
+            @else {
+            <td class="p-1" scope="row">-</td>
+            }  -->
+            <!-- @if (value.total_task_execution_duration != '') { -->
+            <td class="p-1" scope="row">
+              {{ value.total_task_execution_duration }}
+            </td>
+            <!-- } @else {
+            <td class="p-1" scope="row">-</td>
+            } -->
+
+            <td
+              class="p-1 status-cell"
+              scope="row"
+              [style.background-color]="getStatusTextColor(value.statusId)"
+            >
+              {{ value.statusname }}
+            </td>
+
+            <td class="p-1" scope="row">
+              <button
+                type="button"
+                class="btn btn-sm border-blue text-white"
+                (click)="callModalController(value, 'Routine')"
+              >
+                <span class="icontext"
+                  >{{ 'GENERALBUTTON.viewbutton' | translate }}</span
+                >
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+
+    <!-- No Records - Routine -->
+    @if (routineNoRecordFlag) {
+    <div class="empty-state-wrapper">
+      <div class="norecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+    </div>
+    }
+
+    <!-- Loading - Routine -->
+    @if (routinePleaseWaitFlag) {
+    <div class="empty-state-wrapper">
+      <div class="pleasewait">
+        <div style="width: 100%; text-align: center">
+          <img
+            style="width: 80px; height: 80px"
+            src="../../../assets/img/loading.gif"
+          />
+        </div>
+        {{ 'NORECORDSFOUND.loading' | translate }}
+      </div>
+    </div>
+    } }
+
+    <!-- ======================== Replacement Segment ======================== -->
+    @if (tabsSegment == 'Replacement') {
+    <form [formGroup]="replacementForm">
+      <ion-row>
+        <ion-col size="9.5">
+          <!-- From Date / To Date -->
+          <ion-row class="ion-align-items-center">
+            <ion-col size="2" class="ion-align-self-center">
+              <div class="h7 text-white">
+                <b>{{ 'PREVENTIVEMAINTENANCE.fromdate' | translate }}</b>
+              </div>
+            </ion-col>
+
+            <ion-col size="4">
+              <input
+                type="text"
+                class="h7 form-control readonly"
+                formControlName="replacement_from_date"
+                placeholder="DD-MM-YYYY"
+                (click)="openReplacementFromDateTimePicker()"
+                readonly
+              />
+            </ion-col>
+
+            <ion-col size="2" class="ion-align-self-center">
+              <div class="h7 text-white">
+                <b>{{ 'PREVENTIVEMAINTENANCE.todate' | translate }}</b>
+              </div>
+            </ion-col>
+
+            <ion-col size="4">
+              <input
+                type="text"
+                class="h7 form-control readonly"
+                formControlName="replacement_to_date"
+                placeholder="DD-MM-YYYY"
+                (click)="openReplacementToDateTimePicker()"
+                readonly
+              />
+            </ion-col>
+          </ion-row>
+
+          <!-- Incharge Person -->
+          <ion-row class="ion-align-items-center mt-10">
+            <ion-col size="6">
+              <div class="h7 text-white"><b>Incharge Person</b></div>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-select
+                mode="md"
+                [interfaceOptions]="inchargeOption"
+                formControlName="replacement_select_incharge_person"
+                [okText]="'GENERALBUTTON.okay' | translate"
+                [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+                class="selectdropdown"
+                placeholder="{{ 'GENERALBUTTON.select' | translate }}"
+                (ionChange)="replacementInchargeChange($event)"
+              >
+                <ion-select-option value="">
+                  {{ 'SUPERVISORDASHBOARD.select' | translate }}
+                </ion-select-option>
+
+                @for (value of inchargePersonArr; track value.userId) {
+                <ion-select-option [value]="value.userId">
+                  {{ value.name }}
+                </ion-select-option>
+                }
+              </ion-select>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+        <!-- Get Button -->
+        <ion-col size="2.5" class="btn-column">
+          <button
+            type="button"
+            class="h7 btn btn-general btn-sm w-100"
+            style="height: 31px"
+            (click)="getReplacementNotification()"
+          >
+            {{ 'GENERALBUTTON.getrecords' | translate }}
+          </button>
+        </ion-col>
+      </ion-row>
+      <hr />
+    </form>
+
+    <!-- Table Data - Replacement -->
+    @if (replacementNotificationListArr.length > 0) {
+    <div class="table-responsive">
+      <table class="table table-bordered w-100">
+        <thead>
+          <tr class="table_head bg-table-black">
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.datetime' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.notificationid' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.station' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.machine' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.assignedto' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.taskstarttime' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.taskcompletiontime' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.totaltaskexecutionduration' |
+              translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.status' | translate }}
+            </th>
+            <th class="p-1 text-orange" scope="col">
+              {{ 'PREVENTIVEMAINTENANCE.detail' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (value of replacementNotificationListArr; track $index) {
+          <tr class="table-row">
+            <td class="p-1" scope="row">{{ value.insDate }}</td>
+            <td class="p-1" scope="row">{{ value.notificationno }}</td>
+            <td class="p-1" scope="row">{{ value.stationname }}</td>
+            <td class="p-1" scope="row">{{ value.equipment }}</td>
+
+            @if (value.carriedoutby != '') {
+            <td class="p-1" scope="row">{{ value.carriedoutby }}</td>
+            } @else {
+            <td class="p-1" scope="row">-</td>
+            }
+
+            <!-- @if (value.task_start_time != '') { -->
+            <td class="p-1" scope="row">{{ value.task_start_time }}</td>
+            <!-- } @else {
+            <td class="p-1" scope="row">-</td>
+            } -->
+            <!-- @if (value.task_completion_time != '') { -->
+            <td class="p-1" scope="row">{{ value.task_completion_time }}</td>
+            <!-- } 
+            @else {
+            <td class="p-1" scope="row">-</td>
+            }  -->
+            <!-- @if (value.total_task_execution_duration != '') { -->
+            <td class="p-1" scope="row">
+              {{ value.total_task_execution_duration }}
+            </td>
+            <!-- } @else {
+            <td class="p-1" scope="row">-</td>
+            } -->
+
+            <td
+              class="p-1 status-cell"
+              scope="row"
+              [style.background-color]="getStatusTextColor(value.statusId)"
+            >
+              {{ value.statusname }}
+            </td>
+
+            <td class="p-1" scope="row">
+              <button
+                type="button"
+                class="btn btn-sm border-blue text-white"
+                (click)="callModalController(value, 'Replacement')"
+              >
+                <span class="icontext"
+                  >{{ 'GENERALBUTTON.viewbutton' | translate }}</span
+                >
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+
+    <!-- No Records - Replacement -->
+    @if (replacementNoRecordFlag) {
+    <div class="empty-state-wrapper">
+      <div class="norecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+    </div>
+    }
+
+    <!-- Loading - Replacement -->
+    @if (replacementPleaseWaitFlag) {
+    <div class="empty-state-wrapper">
+      <div class="pleasewait">
+        <div style="width: 100%; text-align: center">
+          <img
+            style="width: 80px; height: 80px"
+            src="../../../assets/img/loading.gif"
+          />
+        </div>
+        {{ 'NORECORDSFOUND.loading' | translate }}
+      </div>
+    </div>
+    } }
+  </div>
+</ion-content>
+
+<!-- ================= FROM DATE MODAL - ROUTINE ================= -->
+<ion-modal
+  [isOpen]="isRoutineFromDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onRoutineFromDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempRoutineFromDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        [preferWheel]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onRoutineFromDateChange($event)"
+        [max]="maxDate"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- ================= TO DATE MODAL - ROUTINE ================= -->
+<ion-modal
+  [isOpen]="isRoutineToDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onRoutineToDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempRoutineToDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        [preferWheel]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onRoutineToDateChange($event)"
+        [min]="tempRoutineFromDate"
+        [max]="maxDate"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- ================= FROM DATE MODAL - REPLACEMENT ================= -->
+<ion-modal
+  [isOpen]="isReplacementFromDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onReplacementFromDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempReplacementFromDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        [preferWheel]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onReplacementFromDateChange($event)"
+        [max]="maxDate"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- ================= TO DATE MODAL - REPLACEMENT ================= -->
+<ion-modal
+  [isOpen]="isReplacementToDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onReplacementToDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempReplacementToDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        [preferWheel]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onReplacementToDateChange($event)"
+        [min]="tempReplacementFromDate"
+        [max]="maxDate"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

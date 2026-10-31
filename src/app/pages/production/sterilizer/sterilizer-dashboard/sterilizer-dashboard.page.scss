@@ -1,0 +1,290 @@
+/* sterilizer-dashboard.page.scss */
+
+.home-box {
+  padding: 10px 10px 0px 10px;
+}
+
+.home {
+  padding: 0px;
+}
+
+.station-title {
+  font-size: 15px;
+  text-align: center;
+  color: #000000;
+  text-transform: uppercase;
+}
+
+.titleheader {
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid #ffffff;
+  text-align: center;
+  background-color: #000000;
+  padding: 5px 0px 5px 0px;
+  margin-top: 10px;
+}
+
+.title {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff9f0c;
+}
+
+.updatelatertitleheader {
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid #ffffff;
+  background-color: black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0px;
+  padding: 5px 0px 5px 0px;
+  color: #ff9f0c;
+}
+
+.checkcard {
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 0px 0px 5px 5px;
+  background-color: #f7f7f7;
+  margin: 0px 0px 10px 0px;
+  padding: 5px 5px 5px 5px;
+  background-image: url(../../../../../assets/img/palmbg.png);
+  background-size: cover;
+}
+
+.bg-card {
+  --background: #ffffff;
+  background-image: url(../../../../../assets/img/palmbg.png);
+  background-size: cover;
+  border-radius: 0px 0px 5px 5px;
+  border: 1px solid #ffffff;
+  margin: 0px 0px 10px 0px;
+
+  ion-row {
+    margin-top: -6px;
+  }
+
+  ion-col {
+    font-size: 11px;
+  }
+
+  ion-card-content {
+    padding: 10px 10px 5px 10px;
+  }
+
+  .title-content {
+    font-size: 15px;
+    color: #1d2730;
+    font-weight: bold;
+  }
+
+  .data {
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+  }
+
+  .btn-update {
+    background-color: none;
+    border-color: #ff9f0c;
+    box-shadow: none;
+  }
+
+  .btn-update:hover {
+    color: #ff9f0c;
+  }
+}
+
+/* ================= TABLE ================= */
+
+.table {
+  font-size: 11px;
+  line-height: 1.42857143;
+  padding: 5px;
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+.table td,
+.table th {
+  color: #000000;
+  padding: 0.3rem !important;
+  border: 1px solid #dee2e6;
+  background-color: transparent;
+}
+
+/* IMPORTANT:
+   - Removed border-radius from .table th — this is the main culprit
+     for the white corner artifacts behind the Press / Digestor titles.
+   - Applied border-radius only to the header-specific classes below
+     so the rounded look is preserved where it's wanted. */
+.table th {
+  padding: 0.3rem !important;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #ffffff;
+}
+
+/* Kill any white background the browser might paint behind
+   inline children sitting on top of a colored <th>.
+   This covers: <span class="para">, <span class="para-white">,
+   <span class="mdfont">, <sup>, and any other inline element. */
+.table th span,
+.table td span,
+.table th sup,
+.table td sup,
+.table th .para,
+.table td .para,
+.table th .para-white,
+.table td .para-white,
+.table th .mdfont,
+.table td .mdfont,
+.table th .para *,
+.table td .para *,
+.table th .para-white *,
+.table td .para-white * {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.label-cell {
+  padding: 4px !important;
+  text-align: start;
+}
+
+.label-bold {
+  width: 50%;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* ================= HEADER CELLS ================= */
+
+.header-orange {
+  padding: 5px 0px 5px 0px !important;
+  background-color: #ff9f0c !important;
+  background: #ff9f0c !important;
+  color: #000000 !important;
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid #ff9f0c !important;
+}
+
+.header-black {
+  padding: 5px 0px 5px 0px !important;
+  background-color: #000000 !important;
+  background: #000000 !important;
+  border: 1px solid #ffffff !important;
+  color: #ff9f0c !important;
+  border-radius: 5px 5px 0px 0px;
+}
+
+/* ================= INLINE TEXT ================= */
+
+.para {
+  font-size: 12px;
+  text-align: center;
+  text-transform: uppercase;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #000000;
+  display: inline-block;
+  padding: 0;
+}
+
+.para-white {
+  font-size: 12px;
+  text-align: center;
+  text-transform: uppercase;
+  background: transparent !important;
+  background-color: transparent !important;
+  color: #ff9f0c;
+  display: inline-block;
+  padding: 0;
+}
+
+.mdfont {
+  font-size: 11px;
+  font-weight: bold;
+  color: #000000;
+  padding: 0px;
+  background: transparent !important;
+  background-color: transparent !important;
+  display: inline-block;
+}
+
+/* ================= STATE MESSAGES ================= */
+
+.nolastupdatedrecords {
+  text-align: center;
+  margin-top: 50%;
+  margin-bottom: 50%;
+  font-size: 14px;
+  color: #000000;
+}
+
+.norecords {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.pleasewait {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 65%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.loading-img {
+  width: 80px;
+  height: 80px;
+}
+
+/* ================= BUTTONS & UTILITIES ================= */
+
+.btn-ok {
+  font-size: 12px !important;
+  border-color: #30beff;
+  color: #000000;
+}
+
+.btn-perfomance {
+  color: #ffffff;
+  border-color: #ff6060;
+  height: 100%;
+}
+
+.text-center {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.float-right {
+  float: right;
+}
+
+.mt-1 {
+  margin-top: 5px;
+}
+
+.m-2 {
+  margin: 2px;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border-top: 1px dashed #000000;
+}

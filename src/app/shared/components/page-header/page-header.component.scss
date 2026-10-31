@@ -1,0 +1,100 @@
+.custom-header {
+  ion-toolbar {
+    --background: #202933;
+    --color: #fff;
+    --min-height: 56px;
+    --padding-start: 0;
+    --padding-end: 0;
+    position: relative;
+  }
+}
+
+.header-container {
+  position: relative;
+  width: 100%;
+  height: 56px;
+}
+
+/* Fixed Left Section */
+.left-section {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 100px;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+
+  z-index: 10;
+}
+
+/* Fixed Center Title */
+.title-section {
+  position: absolute;
+  left: 0; /* Same as left width */
+  right: 0; /* Same as right width */
+  top: 0;
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+
+  // white-space: nowrap;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+
+  z-index: 1;
+}
+
+/* Fixed Right Section */
+.right-section {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  width: 100px; /* Fixed width */
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 2px;
+
+  z-index: 10;
+}
+
+/* Logo */
+.left-section img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.notification-badge {
+  top: -5px;
+  right: -2px;
+  font-size: 10px;
+  background: red;
+  animation: badgeBlink 1s infinite;
+}
+@keyframes badgeBlink {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}

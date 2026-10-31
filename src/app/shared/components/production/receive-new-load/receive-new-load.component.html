@@ -1,0 +1,220 @@
+<form [formGroup]="form">
+  <!-- Supplier Name -->
+  <ion-row class="align-items-center">
+    <ion-col size="6">
+      <div class="text-white fw-bold fs-12">
+        {{ "GRADINGHOME.suppliername" | translate }}
+      </div>
+    </ion-col>
+
+    <ion-col size="6">
+      @if (!showManualSupplier) {
+        <input
+          type="text"
+          class="form-control fs-12 readonly"
+          formControlName="supplier_name"
+          placeholder="{{ 'GRADINGHOME.selectsupplier' | translate }}"
+          readonly
+          (click)="openSupplierSearch()"
+        />
+      }
+
+      @if (showManualSupplier) {
+        <input
+          type="text"
+          class="form-control fs-12"
+          formControlName="supplier_name"
+          placeholder="Enter Supplier"
+          (keypress)="alphanumberFilter($event)"
+        />
+      }
+    </ion-col>
+  </ion-row>
+  @if (showManualSupplier) {
+    <div class="back-to-select" (click)="backToSelectSupplier()">
+      <ion-icon color="danger" name="arrow-undo-outline"></ion-icon>
+      <span>{{ "GENERALBUTTON.select" | translate }}</span>
+    </div>
+  }
+
+  <!-- Vehicle Number -->
+  <ion-row class="align-items-center">
+    <ion-col size="6">
+      <div class="text-white fw-bold fs-12">
+        {{ "GRADINGHOME.vehicle" | translate }}
+      </div>
+    </ion-col>
+
+    <ion-col size="6">
+      @if (!showManualVehicle) {
+        <input
+          type="text"
+          class="form-control fs-12 readonly"
+          formControlName="vehicle_no"
+          placeholder="Search Vehicle"
+          readonly
+          (click)="openVehicleSearch()"
+        />
+      }
+
+      @if (showManualVehicle) {
+        <input
+          type="text"
+          class="form-control fs-12"
+          formControlName="vehicle_no"
+          placeholder="Enter Vehicle Number"
+          (keypress)="alphanumberFilter($event)"
+        />
+      }
+    </ion-col>
+  </ion-row>
+  @if (showManualVehicle) {
+    <div class="back-to-select" (click)="backToSelectVehicleNo()">
+      <ion-icon
+        class="icon"
+        color="danger"
+        name="arrow-undo-outline"
+      ></ion-icon>
+      <span class="icontext"
+        ><b>{{ "GENERALBUTTON.select" | translate }}</b></span
+      >
+    </div>
+  }
+
+  <!-- Hard Bunches (%) -->
+  <ion-row class="align-items-center">
+    <ion-col size="6">
+      <div class="text-white fw-bold fs-12">
+        {{ "GRADINGHOME.hardbunches" | translate }} <b>(%)</b>
+      </div>
+    </ion-col>
+
+    <ion-col size="6">
+      <input
+        type="number"
+        class="fs-12 form-control"
+        formControlName="hardbunches"
+        placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+        (keypress)="decimalFilter($event)"
+        (blur)="formatDecimal('hardbunches')"
+      />
+    </ion-col>
+  </ion-row>
+
+  <!-- Hard bunch image -->
+  <ion-row class="align-items-center">
+    <ion-col size="6"> </ion-col>
+
+    <ion-col size="6" class="d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn btn-sm border-blue text-white fs-12 d-inline-flex align-items-center gap-2 me-1"
+        (click)="imageUpload('HB')"
+      >
+        <ion-icon class="icon" name="camera-outline"></ion-icon>
+        <span class="icontext">
+          {{ "GENERALBUTTON.uploadbutton" | translate }}</span
+        >
+      </button>
+
+      <button
+        type="button"
+        class="btn btn-sm border-orange text-white fs-12"
+        (click)="showImages()"
+      >
+        {{ "GENERALBUTTON.viewbutton" | translate }}
+        @if (hardbunchesimagesArr.length > 0) {
+          <span>({{ hardbunchesimagesArr.length }})</span>
+        }
+      </button>
+    </ion-col>
+  </ion-row>
+
+  <!-- Long stalk (%) -->
+  <ion-row class="align-items-center">
+    <ion-col size="6">
+      <div class="text-white fw-bold fs-12">
+        {{ "GRADINGHOME.underripebunches" | translate }} <b>(%)</b>
+      </div>
+    </ion-col>
+
+    <ion-col size="6">
+      <input
+        type="number"
+        class="form-control fs-12"
+        formControlName="underripebunches"
+        placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+        (keypress)="decimalFilter($event)"
+        (blur)="formatDecimal('underripebunches')"
+      />
+    </ion-col>
+  </ion-row>
+
+  <!-- Ripe Bunches (%) -->
+  <ion-row class="align-items-center">
+    <ion-col size="6">
+      <div class="text-white fw-bold fs-12">
+        {{ "GRADINGHOME.ripeness" | translate }} <b>(%)</b>
+      </div>
+    </ion-col>
+
+    <ion-col size="6">
+      <input
+        type="number"
+        class="form-control fs-12"
+        formControlName="ripeness"
+        placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+        (keypress)="decimalFilter($event)"
+        (blur)="formatDecimal('ripeness')"
+      />
+    </ion-col>
+  </ion-row>
+
+  <!-- Rotten bunches (%) -->
+  <ion-row class="align-items-center">
+    <ion-col size="6">
+      <div class="text-white fw-bold fs-12">
+        {{ "GRADINGHOME.overdue" | translate }} <b>(%)</b>
+      </div>
+    </ion-col>
+
+    <ion-col size="6">
+      <input
+        type="number"
+        class="form-control fs-12"
+        formControlName="overdue"
+        placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+        (keypress)="decimalFilter($event)"
+        (blur)="formatDecimal('overdue')"
+      />
+    </ion-col>
+  </ion-row>
+
+  <!-- Loose fruit (%) -->
+  <ion-row class="align-items-center">
+    <ion-col size="6">
+      <div class="text-white fw-bold fs-12">
+        {{ "GRADINGHOME.loosefruits" | translate }} <b>(%)</b>
+      </div>
+    </ion-col>
+
+    <ion-col size="6">
+      <input
+        type="number"
+        class="form-control fs-12"
+        formControlName="loosefruits"
+        placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+        (keypress)="decimalFilter($event)"
+        (blur)="formatDecimal('loosefruits')"
+      />
+    </ion-col>
+  </ion-row>
+  <button
+    type="button"
+    class="btn border-green text-white btn-sm d-block mx-auto my-3 px-5"
+    [disabled]="isLoading"
+    (click)="onSubmit()"
+  >
+    {{ "GENERALBUTTON.savebutton" | translate }}
+  </button>
+</form>

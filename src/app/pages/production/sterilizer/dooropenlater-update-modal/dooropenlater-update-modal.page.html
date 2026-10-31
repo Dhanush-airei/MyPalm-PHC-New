@@ -1,0 +1,170 @@
+<ion-header>
+  <ion-toolbar class="modal-toolbar">
+    <ion-title></ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="btnClose()">
+        <ion-icon color="light" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="home">
+    <!-- Sterilizer Details Table -->
+    <table class="table table-bordered">
+      <tr>
+        <th colspan="2" class="header-orange">{{ params.sterilizer }}</th>
+      </tr>
+
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.cycle' | translate }}
+        </td>
+        <td>{{ params.cycleno }}</td>
+      </tr>
+
+      @if (getLanguage !== 'French') {
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.doorshutdatetime' | translate }}
+        </td>
+        <td>{{ params.door_shut_time }}</td>
+      </tr>
+      } @else {
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.doorsshut' | translate }}<br />
+          {{ 'STERILIZATIONSTATIONPOPUP.shutdatetime' | translate }}
+        </td>
+        <td>{{ params.door_shut_time }}</td>
+      </tr>
+      } @if (getLanguage !== 'French') {
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.dooropendatetime' | translate }}
+        </td>
+        <td>{{ params.door_open_time }}</td>
+      </tr>
+      } @else {
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.dooropen' | translate }}<br />
+          {{ 'STERILIZATIONSTATIONPOPUP.opendatetime' | translate }}
+        </td>
+        <td>{{ params.door_open_time }}</td>
+      </tr>
+      } @if (getLanguage !== 'French') {
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.bpv' | translate }} [PSI]
+        </td>
+        <td>{{ params.backpressurereceiver }}</td>
+      </tr>
+      } @else {
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.backpressure' | translate }}<br />
+          {{ 'STERILIZATIONSTATIONPOPUP.receiver' | translate }} [PSI]
+        </td>
+        <td>{{ params.backpressurereceiver }}</td>
+      </tr>
+      }
+
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.p1peak' | translate }} [PSI]
+        </td>
+        <td>{{ params.p1 }}</td>
+      </tr>
+
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.p2peak' | translate }} [PSI]
+        </td>
+        <td>{{ params.p2 }}</td>
+      </tr>
+
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.p3peak' | translate }} [PSI]
+        </td>
+        <td>{{ params.p3 }}</td>
+      </tr>
+
+      <tr>
+        <td class="label-bold">
+          {{ 'STERILIZATIONSTATIONPOPUP.doneby' | translate }}
+        </td>
+        <td>{{ params.rasiedby }}</td>
+      </tr>
+    </table>
+
+    <!-- Update Form -->
+    <form [formGroup]="doorOpenLaterForm">
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="text-light label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.dooropentime' | translate }}
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <!--
+            Hidden IonDatetimeButton: purely for opening the picker
+            programmatically. Not visible to the user.
+          -->
+          <ion-datetime-button
+            #hiddenPickerBtn
+            datetime="doorOpenPicker"
+            class="hidden-datetime-button"
+          ></ion-datetime-button>
+
+          <!-- Our custom visual field (matches the previous UI) -->
+          <div class="date-picker-wrapper" (click)="openPickerViaButton()">
+            <span class="date-display">
+              {{ displayDateTime || 'DD-MM-YYYY HH:mm' }}
+            </span>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="button-row">
+        <ion-col size="12" class="text-center">
+          <button
+            type="submit"
+            [disabled]="isDisabled"
+            class="btn btn-save"
+            (click)="save()"
+          >
+            {{ 'GENERALBUTTON.savebutton' | translate }}
+          </button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+</ion-content>
+
+<!--
+  The modal + datetime pair. Ionic's ion-datetime-button talks to this
+  modal through the shared `id="doorOpenPicker"` attribute.
+-->
+<ion-modal #pickerModal [keepContentsMounted]="true" class="date-modal">
+  <ng-template>
+    <ion-datetime
+      id="doorOpenPicker"
+      #dateTimePicker
+      presentation="date-time"
+      [preferWheel]="true"
+      [showDefaultButtons]="true"
+      [showDefaultTimeLabel]="true"
+      [showDefaultTitle]="true"
+      doneText="{{ 'GENERALBUTTON.okay' | translate }}"
+      cancelText="{{ 'GENERALBUTTON.cancelbutton' | translate }}"
+      [(ngModel)]="pickerValue"
+      (ionChange)="onDateTimeChange($event)"
+      (ionCancel)="onDateTimeCancel()"
+      (ionConfirm)="onDateTimeConfirm()"
+    >
+    </ion-datetime>
+  </ng-template>
+</ion-modal>

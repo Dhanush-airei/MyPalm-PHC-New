@@ -1,0 +1,38 @@
+.content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 45%;
+  transform: translateY(-50%);
+}
+
+ion-header {
+  .modaltoolbar {
+    border-bottom: 1px solid #ffffff71;
+  }
+}
+
+ion-footer {
+  background-color: #1d2730;
+  border-top: 1px solid #ffffff71;
+  .footerbutton {
+    margin: 10px 0px 10px 0px;
+  }
+}
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+
+  .icon {
+    display: flex;
+    align-items: center;
+  }
+
+  .icontext {
+    display: flex;
+    align-items: center;
+    line-height: 1; // prevents text baseline from pushing icon off-center
+  }
+}

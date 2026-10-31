@@ -1,0 +1,322 @@
+.content {
+  text-align: center;
+}
+
+ion-header {
+  .modaltoolbar {
+    border-bottom: 1px solid #ffffff71;
+  }
+}
+
+.problemheader {
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid #ffffff;
+  text-align: center;
+  background-color: #000000;
+  margin: 0px 5px 0px 5px;
+  padding: 5px 0px 5px 0px;
+}
+
+.problemtitle {
+  border-radius: 5px 5px 0px 0px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff9f0c;
+}
+
+.breakdownform {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 45%;
+  transform: translateY(-50%);
+}
+.stepstoolbar {
+  --background: transparent;
+}
+
+.steps {
+  padding: 10px;
+}
+
+form {
+  padding: 0px !important;
+}
+
+.form-row {
+  align-items: center;
+  margin: 0px;
+}
+
+.footer {
+  background-color: #1d2730;
+}
+
+.breakdownimg {
+  width: 45%;
+  height: 45%;
+}
+
+.machinetitlebeforecm {
+  margin-top: 10px;
+}
+
+.machinetitleaftercm {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.selecteddata {
+  margin-top: 20px;
+  color: #3cd2a5;
+  text-align: center;
+  font-size: 14px;
+}
+
+.title {
+  color: white;
+  font-size: 14px;
+  text-align: left;
+}
+
+.viewtitle {
+  color: #ff9f0c;
+  font-size: 16px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  background: transparent;
+  border: 1px solid #ffffff;
+  flex-grow: 0;
+  padding: 0;
+}
+
+.circle span {
+  color: #ffffff;
+  text-align: center;
+  width: 40px;
+  display: inline-block;
+  margin: auto;
+}
+
+select {
+  text-align: center;
+  text-align-last: center;
+  -moz-text-align-last: center;
+}
+
+ion-select.selectdropdown {
+  width: 100%;
+  height: 40px;
+
+  &::part(wrapper) {
+    width: 100%;
+    height: 40px;
+    background: transparent;
+    border: 0.5px solid #ff9f0c;
+    border-radius: 5px;
+    justify-content: center; // centers icon + text together
+    align-items: center;
+    padding: 0 10px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  &::part(placeholder) {
+    color: #ffffff;
+    opacity: 1;
+  }
+
+  &::part(container) {
+    color: #ffffff;
+  }
+
+  // stop the extra green/blue color-swap on focus/valid/invalid
+  --highlight-color-focused: #ff9f0c;
+  --highlight-color-valid: #ff9f0c;
+  --highlight-color-invalid: #ff9f0c;
+  --highlight-height: 0px;
+}
+
+ion-select::part(icon) {
+  display: none !important;
+}
+
+.ionicselect {
+  color: transparent;
+  font-size: 1px;
+  content-visibility: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+.optionbutton {
+  --background: transparent;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  text-transform: initial;
+  margin: 0 !important;
+  border-radius: 5px;
+  border: 0.5px solid #ff9f0c;
+  --background-activated: transparent;
+  --color-activated: #ffffff;
+  --background-focused: transparent;
+  --color-focused: #ffffff;
+  --background-hover: transparent;
+  --color-hover: #ffffff;
+  --color: #ffffff;
+}
+
+.optionactivebutton {
+  --background: #ff9f0c;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  text-transform: initial;
+  border-radius: 50px;
+  margin: 20px 0px 0px 0px;
+  color: #ffffff;
+}
+
+.backbutton {
+  background: #0000005c;
+}
+
+.btn-success {
+  width: 120px;
+}
+
+table {
+  font-size: 12px;
+  line-height: 1.42857143;
+  color: #333;
+  padding: 5px;
+  border-collapse: collapse;
+}
+
+table td,
+table th {
+  padding: 0.3rem !important;
+  border: 1px solid #fff;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.table_head {
+  background-color: #000000;
+  color: #ff9f0c;
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+}
+
+td {
+  color: #ffffff;
+  vertical-align: middle;
+}
+
+.icon {
+  vertical-align: middle;
+  font-size: 15px;
+  color: #ff0000;
+}
+
+.icontext {
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+.btn-previous {
+  width: 120px;
+  height: 40px;
+  border-radius: 50px;
+  background-color: #ff6060;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #ff6060;
+}
+
+.btn-next {
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  border: 1px solid #3cd2a5;
+}
+
+sup {
+  color: red;
+}
+
+hr {
+  height: 1px;
+  border-top: 1px solid #ffffff;
+}
+
+.hl4line {
+  border-top: 1px dashed #ffffff71;
+  height: 0px !important;
+  margin: 20px;
+}
+
+.problem_radio {
+  margin: 20px 0px 10px 20%;
+  text-align: left;
+}
+
+label {
+  margin-left: 15px;
+  font-size: 14px;
+  color: #ffffff;
+  margin-bottom: 0px;
+}
+
+input[type="radio"] {
+  margin-top: -1px;
+  vertical-align: middle;
+}
+
+input[type="radio"]:after {
+  width: 18px;
+  height: 18px;
+  border-radius: 18px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: #d1d3d1;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  border: 1px solid white;
+}
+
+input[type="radio"]:checked:after {
+  width: 18px;
+  height: 18px;
+  border-radius: 18px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: #08ff08;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  border: 1px solid white;
+}

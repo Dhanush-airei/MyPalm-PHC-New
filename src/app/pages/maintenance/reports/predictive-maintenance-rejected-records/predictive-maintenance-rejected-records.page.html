@@ -1,0 +1,115 @@
+<!-- predictive-maintenance-rejected-records.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="home-box">
+    <!-- Month Picker -->
+    <app-month-picker
+      [month]="reportDateDisplay"
+      [externalMonth]="reportDateExternal"
+      (getRecords)="onMonthSelected($event)"
+    ></app-month-picker>
+
+    <hr />
+
+    <!-- Table Data -->
+    @if (notificationListArr.length > 0) {
+    <div class="table-responsive">
+      <table class="table table-bordered w-100">
+        <thead>
+          <tr class="table_head bg-table-black">
+            <th class="p-1 text-orange" scope="col">
+              {{ 'SUPERVISORDASHBOARD.no' | translate }}
+            </th>
+
+            <th class="p-1 text-orange min-w-100" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.generateddate' | translate }}
+            </th>
+
+            <th class="p-1 text-orange min-w-100" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.rejecteddate' | translate }}
+            </th>
+
+            <th class="p-1 text-orange min-w-100" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.station' | translate }}
+            </th>
+
+            <th class="p-1 text-orange min-w-100" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.machine' | translate }}
+            </th>
+
+            <th class="p-1 text-orange min-w-100" scope="col">
+              Part/Consumables
+            </th>
+
+            <th class="p-1 text-orange min-w-100" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.remarks' | translate }} / {{
+              'REPORTCORRECTIVEMAINTENANCE.reason' | translate }}
+            </th>
+
+            <th class="p-1 text-orange min-w-100" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.detail' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (value of notificationListArr; track $index; let i = $index) {
+          <tr class="table-row">
+            <td class="p-1" scope="row">{{ i + 1 }}</td>
+
+            <td class="p-1" scope="row">{{ value.insDate || '-' }}</td>
+
+            <td class="p-1" scope="row">{{ value.rejecteddate || '-' }}</td>
+
+            <td class="p-1" scope="row">{{ value.stationname || '-' }}</td>
+
+            <td class="p-1" scope="row">{{ value.machinename || '-' }}</td>
+
+            <td class="p-1" scope="row">{{ value.partdefect || '-' }}</td>
+
+            <td class="p-1" scope="row">{{ value.rejectedremarks || '-' }}</td>
+
+            <td class="p-1" scope="row">
+              <button
+                type="button"
+                class="btn btn-sm border-blue text-white"
+                (click)="callModalController(value)"
+              >
+                <span class="icontext"
+                  >{{ 'GENERALBUTTON.viewbutton' | translate }}</span
+                >
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+
+    <!-- No Records -->
+    @if (noRecordsFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+
+    <!-- Loading -->
+    @if (pleaseWaitFlag) {
+    <div class="pleasewait">
+      <div style="width: 100%; text-align: center">
+        <img
+          style="width: 80px; height: 80px"
+          src="../../../assets/img/loading.gif"
+        />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>

@@ -1,0 +1,67 @@
+<!-- month-picker.component.html -->
+<!-- ================= MONTH PICKER ================= -->
+
+<ion-row
+  class="align-items-center justify-content-center"
+  style="margin-top: 0px"
+>
+  <!-- Month Label -->
+  <ion-col
+    size="2.0"
+    class="text-white fs-12"
+    style="font-weight: 500; text-align: right"
+  >
+    {{ "OWNERPRODUCTIONSUMMARY.month" | translate }}
+  </ion-col>
+
+  <!-- Month Display -->
+  <ion-col
+    size="4.0"
+    class="text-white text-center fs-12"
+    style="
+      margin-right: 5px;
+      cursor: pointer;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      background: transparent;
+      border: 1px solid #ced4da !important;
+      border-radius: 4px;
+      padding: 0 8px;
+    "
+    (click)="openMonthModal()"
+  >
+    {{ displayMonth || (month ? month : "MM-YYYY") }}
+  </ion-col>
+
+  <!-- Get Button -->
+  <ion-col size="2.8">
+    <button type="button" class="btn btn-general" (click)="onGetRecords()">
+      {{ "GENERALBUTTON.getrecords" | translate }}
+    </button>
+  </ion-col>
+</ion-row>
+
+<!-- ================= MONTH MODAL ================= -->
+
+<ion-modal
+  [isOpen]="isMonthModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onMonthDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempMonth"
+        presentation="month-year"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onMonthChange($event)"
+        [max]="maxDate"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

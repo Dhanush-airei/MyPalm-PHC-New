@@ -1,0 +1,140 @@
+#map {
+  width: 100%;
+  height: 50%;
+}
+
+.form-row {
+  align-items: center;
+}
+
+.categorytxt {
+  font-size: 12px;
+}
+
+.header {
+  background-color: black;
+  height: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff;
+  vertical-align: middle;
+}
+
+.bg-card {
+  --background: none;
+  background-color: #ffffff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 10px 5px 5px 5px;
+
+  ion-col {
+    font-size: 11px;
+  }
+
+  ion-card-header {
+    border-radius: 4px 4px 0px 0px;
+    background-color: #000000;
+    color: #ff9f0c;
+    padding: 5px;
+    text-align: center;
+  }
+
+  ion-card-content {
+    padding: 5px 10px 5px 10px;
+  }
+}
+
+.btn-view {
+  background-color: none;
+  border-color: #ff6060;
+  border: 1px solid #ff6060;
+  border-radius: 4px;
+  padding: 5px 10px;
+  background: transparent;
+}
+
+.icon {
+  vertical-align: middle;
+  font-size: 13px;
+  color: #ff6060;
+}
+
+.row-reverse {
+  flex-direction: row !important;
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 0;
+}
+
+.icontext {
+  vertical-align: middle;
+  font-size: 13px;
+  color: #ff6060;
+  margin-left: 5px;
+}
+
+.norecords {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 70%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.pleasewait {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+.margin-5px {
+  margin: 5px;
+}
+
+.h7 {
+  font-size: 12px;
+}
+
+.btn-sm {
+  font-size: 12px;
+  padding: 4px 8px;
+}
+
+/* Hide Google Maps attribution and close button */
+::ng-deep {
+  .gm-style-cc,
+  .gm-style-ccc,
+  .gm-fullscreen-control {
+    display: none !important;
+  }
+
+  .gm-ui-hover-effect,
+  button[title*="Close"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+  }
+}
+
+.loadmore {
+  color: #ffffff;
+}

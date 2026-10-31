@@ -1,0 +1,317 @@
+<app-page-header
+  [appTitle]="appTitle"
+  [showLogo]="showLogo"
+  [showBackButton]="showBackButton"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Designation 3, 7, 8 content -->
+  @if (designationid == 3 || designationid == 7 || designationid == 8) {
+
+  <!-- Todays Notification Button -->
+  @if (todaysnotificationArr.length > 0) {
+  <ion-buttons class="ion-padding-horizontal ion-padding-top">
+    <button
+      type="submit"
+      class="btn alertcheckcard"
+      (click)="gettodaysnotification()"
+    >
+      {{ 'SEGREGATENOTIFICATION.current' | translate }} - {{ currentdate }} @if
+      (todaysnotificationcount != 0) {
+      <ion-badge class="todaybadge">{{ todaysnotificationcount }}</ion-badge>
+      }
+    </button>
+  </ion-buttons>
+  }
+
+  <!-- Today's Notifications -->
+  @if (todaysnotificationflag) { @for (value of todaysnotificationArr; track
+  value.id) {
+  <ion-card
+    class="alertcard"
+    [style.backgroundColor]="getBackgroundColor(value.type)"
+    [style.borderColor]="getBorderColor(value.type)"
+  >
+    <ion-card-header
+      [style.backgroundColor]="getBorderColor(value.type)"
+      [style.color]="getTextColor(value.type)"
+    >
+      <div class="form-row">
+        <div class="col">
+          <div class="h6" style="float: left">
+            <b>{{ value.title }}</b>
+          </div>
+        </div>
+        <div class="col">
+          <div class="h6" style="float: right">
+            <b>{{ value.notification_date }}</b>
+          </div>
+        </div>
+      </div>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-row class="marigin-10px row-reverse">
+        <ion-col>
+          <div class="h7 text-dark" [innerHTML]="value.notification_text"></div>
+
+          @if (value.rectify_remarks != '') {
+          <div class="h7 text-dark" style="margin-top: 10px">
+            <b>{{ 'CORRECTIVEMAINTENACE.remarks' | translate }} : </b>{{
+            value.rectify_remarks }}
+          </div>
+          }
+
+          <!-- Designation 3 specific buttons -->
+          @if (designationid == 3) {
+          <div style="text-align: right; margin-top: 10px">
+            @if (value.rectify_status != 0) {
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateAlertNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+            } @if (value.rectify_status == 0) {
+            <div>
+              <button
+                type="submit"
+                [disabled]="isDisable"
+                class="btn btn-attendrectify"
+                (click)="btn_rectify(value)"
+              >
+                {{ 'ALERTACKNOWLEDGE.attendandrectify' | translate }}
+              </button>
+              <button
+                type="submit"
+                [disabled]="isDisable"
+                class="btn btn-unabletorectify"
+                (click)="btn_notrectify(value)"
+              >
+                {{ 'ALERTACKNOWLEDGE.unabletorectify' | translate }}
+              </button>
+            </div>
+            }
+          </div>
+          }
+
+          <!-- Designation 7 & 8 specific buttons -->
+          @if (designationid == 7 || designationid == 8) {
+          <div style="text-align: right; margin-top: 10px">
+            @if (value.rectify_status != 0) {
+            <div>
+              <button
+                type="button"
+                class="btn btn-acknowledge float-right"
+                (click)="updateAlertNotification(value)"
+              >
+                {{ 'SEGREGATENOTIFICATION.acknowledge' | translate }}
+              </button>
+              @if (value.images != '') {
+              <button
+                type="button"
+                class="btn btn-imageview float-right"
+                (click)="btn_ViewImages(value.images)"
+              >
+                {{ 'IMAGESLIDER.viewimage' | translate }}
+              </button>
+              }
+            </div>
+            } @if (value.rectify_status == 0) {
+            <div>
+              <button
+                type="submit"
+                [disabled]="isDisable"
+                class="btn btn-attendrectify"
+                (click)="btn_rectify(value)"
+              >
+                {{ 'ALERTACKNOWLEDGE.attendandrectify' | translate }}
+              </button>
+              <button
+                type="submit"
+                [disabled]="isDisable"
+                class="btn btn-unabletorectify"
+                (click)="btn_notrectify(value)"
+              >
+                {{ 'ALERTACKNOWLEDGE.unabletorectify' | translate }}
+              </button>
+            </div>
+            }
+          </div>
+          }
+
+          <!-- Designation 8 specific additional button -->
+          <!-- @if (designationid == 8 && value.type != 6) {
+          <div style="text-align: right; margin-top: 10px">
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateAlertNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+          </div>
+          } -->
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  } }
+
+  <!-- Separator -->
+  @if (todaysnotificationArr.length > 0) {
+  <hr />
+  }
+
+  <!-- Older Notifications Button -->
+  @if (oldernotificationArr.length > 0) {
+  <ion-buttons class="ion-padding-horizontal">
+    <button
+      type="submit"
+      class="btn alertcheckcard"
+      (click)="getoldernotification()"
+    >
+      {{ 'SEGREGATENOTIFICATION.previous' | translate }} @if
+      (oldernotificationcount != 0) {
+      <ion-badge class="olderbadge">{{ oldernotificationcount }}</ion-badge>
+      }
+    </button>
+  </ion-buttons>
+  }
+
+  <!-- Older Notifications -->
+  @if (oldernotificationflag) { @for (value of oldernotificationArr; track
+  value.id) {
+  <ion-card
+    class="alertcard"
+    [style.backgroundColor]="getBackgroundColor(value.type)"
+    [style.borderColor]="getBorderColor(value.type)"
+  >
+    <ion-card-header
+      [style.backgroundColor]="getBorderColor(value.type)"
+      [style.color]="getTextColor(value.type)"
+    >
+      <div class="form-row">
+        <div class="col">
+          <div class="h6" style="float: left">
+            <b>{{ value.title }}</b>
+          </div>
+        </div>
+        <div class="col">
+          <div class="h6" style="float: right">
+            <b>{{ value.notification_date }}</b>
+          </div>
+        </div>
+      </div>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-row class="marigin-10px row-reverse">
+        <ion-col>
+          <div class="h7 text-dark" [innerHTML]="value.notification_text"></div>
+
+          <!-- Designation 3 specific buttons -->
+          @if (designationid == 3) {
+          <div style="text-align: right; margin-top: 10px">
+            @if (value.rectify_status != 0) {
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateAlertNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+            } @if (value.rectify_status == 0) {
+            <div>
+              <button
+                type="submit"
+                [disabled]="isDisable"
+                class="btn btn-attendrectify"
+                (click)="btn_rectify(value)"
+              >
+                {{ 'ALERTACKNOWLEDGE.attendandrectify' | translate }}
+              </button>
+              <button
+                type="submit"
+                [disabled]="isDisable"
+                class="btn btn-unabletorectify"
+                (click)="btn_notrectify(value)"
+              >
+                {{ 'ALERTACKNOWLEDGE.unabletorectify' | translate }}
+              </button>
+            </div>
+            }
+          </div>
+          }
+
+          <!-- Designation 7 & 8 specific buttons -->
+          @if (designationid == 7 || designationid == 8) {
+          <div style="text-align: right; margin-top: 10px">
+            @if (value.rectify_status != 0) {
+            <div>
+              <button
+                type="button"
+                class="btn btn-acknowledge float-right"
+                (click)="updateAlertNotification(value)"
+              >
+                {{ 'SEGREGATENOTIFICATION.acknowledge' | translate }}
+              </button>
+              @if (value.images != '') {
+              <button
+                type="button"
+                class="btn btn-imageview float-right"
+                (click)="btn_ViewImages(value.images)"
+              >
+                {{ 'IMAGESLIDER.viewimage' | translate }}
+              </button>
+              }
+            </div>
+            } @if (value.rectify_status == 0) {
+            <div>
+              <button
+                type="submit"
+                [disabled]="isDisable"
+                class="btn btn-attendrectify"
+                (click)="btn_rectify(value)"
+              >
+                {{ 'ALERTACKNOWLEDGE.attendandrectify' | translate }}
+              </button>
+              <button
+                type="submit"
+                [disabled]="isDisable"
+                class="btn btn-unabletorectify"
+                (click)="btn_notrectify(value)"
+              >
+                {{ 'ALERTACKNOWLEDGE.unabletorectify' | translate }}
+              </button>
+            </div>
+            }
+          </div>
+          }
+
+          <!-- Designation 8 specific additional button - FIXED -->
+          @if (designationid == 8 && value.type != 6) {
+          <div style="text-align: right; margin-top: 10px">
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateAlertNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+          </div>
+          }
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  } }
+
+  <!-- No Records -->
+  @if (enableflag) {
+  <div class="norecords">{{ 'NORECORDSFOUND.norecordsfound' | translate }}</div>
+  } }
+</ion-content>

@@ -1,0 +1,42 @@
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.pleasewait {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+}
+
+/* Hide Google Maps attribution and close button */
+::ng-deep {
+  .gm-style-cc,
+  .gm-style-ccc,
+  .gm-fullscreen-control {
+    display: none !important;
+  }
+
+  .gm-ui-hover-effect,
+  button[title*="Close"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+  }
+}

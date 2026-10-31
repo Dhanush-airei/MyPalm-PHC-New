@@ -1,0 +1,254 @@
+<ion-content>
+  <div class="summarytitleheader summarytitle">{{ title }}</div>
+
+  <div
+    [ngClass]="{
+      'home':
+        getplatform === 'android' &&
+        getlanguage !== 'Portuguese',
+
+      'ioshome':
+        getplatform === 'ios' &&
+        getlanguage !== 'Portuguese',
+
+      'portuguesehome':
+        getplatform === 'android' &&
+        (
+          getlanguage === 'Portuguese' ||
+          getlanguage === 'French'
+        ),
+
+      'portugueseioshome':
+        getplatform === 'ios' &&
+        (
+          getlanguage === 'Portuguese' ||
+          getlanguage === 'French'
+        )
+    }"
+  >
+    @if (summaryArr.length > 0) { @for (general of summaryArr; track $index) {
+
+    <!-- MILL START / STOP -->
+
+    <table class="summary-table">
+      @if (general.millstartdatetime !== '') {
+      <tr>
+        <th>
+          <span class="mdfont">
+            {{ 'SUMMARYPOPUP.millstartdatetime' | translate }}
+          </span>
+        </th>
+
+        <td class="mill-start-time">{{ general.millstartdatetime }}</td>
+      </tr>
+      } @if (general.millstopdatetime !== '') {
+      <tr>
+        <th>
+          <span class="mdfont">
+            {{ 'SUMMARYPOPUP.millstopdatetime' | translate }}
+          </span>
+        </th>
+
+        <td class="mill-stop-time">{{ general.millstopdatetime }}</td>
+      </tr>
+      }
+    </table>
+
+    <!-- GRADING -->
+
+    @if (general.grading?.length > 0) {
+
+    <div class="titleheader subtitle">
+      {{ 'SUMMARYPOPUP.gradingdata' | translate }}
+    </div>
+
+    @for (loaddata of general.grading; track $index) {
+
+    <table class="summary-table">
+      <tr>
+        <td class="center-cell">{{ loaddata.loadreceivedtitle }}</td>
+
+        <td class="center-cell">{{ loaddata.loadreceiveddata }}</td>
+      </tr>
+
+      <tr>
+        <td class="center-cell">{{ loaddata.ffbreceivedtitle }}</td>
+
+        <td class="center-cell">{{ loaddata.ffbreceiveddata }}</td>
+      </tr>
+    </table>
+
+    <!-- PARAMETERS -->
+
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th style="font-weight: bold !important">
+            {{ 'SUMMARYPOPUP.data' | translate }}
+          </th>
+
+          <th style="font-weight: bold !important">
+            {{ 'SUMMARYPOPUP.sum' | translate }} / {{ 'SUMMARYPOPUP.average' |
+            translate }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for ( value of loaddata.parameters; track $index ) {
+        <tr>
+          <td class="center-cell">{{ value.title }}</td>
+
+          <td class="center-cell">{{ value.average }}</td>
+        </tr>
+        } @if (!loaddata.parameters?.length) {
+        <tr>
+          <td class="center-cell" colspan="2">
+            {{ 'SUMMARYPOPUP.nodatafound' | translate }}
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    } }
+
+    <!-- PRODUCTION -->
+
+    @if (general.production?.length > 0) {
+
+    <div class="titleheader subtitle">
+      {{ 'SUMMARYPOPUP.sterilizerdata' | translate }}
+    </div>
+
+    @for ( loaddata of general.production; track $index ) {
+
+    <table class="summary-table">
+      @for ( value of loaddata.sterilizerdata; track $index ) {
+      <tr>
+        <td class="center-cell">{{ value.title }}</td>
+
+        <td class="center-cell">{{ value.data }}</td>
+      </tr>
+      } @if (!loaddata.sterilizerdata?.length) {
+      <tr>
+        <td class="center-cell" colspan="2">
+          {{ 'SUMMARYPOPUP.nodatafound' | translate }}
+        </td>
+      </tr>
+      }
+    </table>
+
+    }
+
+    <!-- LATEST FFA QUALITY -->
+
+    <div class="titleheader subtitle">
+      {{ 'SUMMARYPOPUP.latestffaqualitydata' | translate }}
+    </div>
+
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th style="font-weight: bold !important">
+            {{ 'SUMMARYPOPUP.time' | translate }}
+          </th>
+
+          <th style="font-weight: bold !important">
+            {{ 'SUMMARYPOPUP.cpoffa' | translate }}
+          </th>
+
+          <th style="font-weight: bold !important">
+            {{ 'SUMMARYPOPUP.pkoffa' | translate }}
+            <!-- <br />
+            {{ 'SUMMARYPOPUP.clarifier' | translate }} -->
+          </th>
+
+          <!-- <th style="font-weight: bold !important">
+            {{ 'SUMMARYPOPUP.pure' | translate }}
+            <br />
+            {{ 'SUMMARYPOPUP.oiltank' | translate }}
+          </th> -->
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (value of general.lab; track $index) {
+        <tr>
+          <td class="center-cell">{{ value.time }}</td>
+
+          <td class="center-cell">{{ value.gutter_ffa }}</td>
+
+          <td class="center-cell">{{ value.vertical_clarifier_ffa }}</td>
+
+          <!-- <td class="center-cell">{{ value.pure_oil_tank_ffa }}</td> -->
+        </tr>
+        } @if (!general.lab?.length) {
+        <tr>
+          <td class="center-cell" colspan="4">
+            {{ 'SUMMARYPOPUP.nodatafound' | translate }}
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    }
+
+    <!-- MAINTENANCE -->
+
+    @if (general.maintenance?.length > 0) {
+
+    <div class="titleheader subtitle">
+      {{ 'SUMMARYPOPUP.maintenancedata' | translate }}
+    </div>
+
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th style="font-weight: bold !important">
+            {{ 'SUMMARYPOPUP.data' | translate }}
+          </th>
+
+          <th style="font-weight: bold !important">
+            {{ 'SUMMARYPOPUP.created' | translate }}
+          </th>
+
+          <th style="font-weight: bold !important">
+            {{ 'SUMMARYPOPUP.inprogress' | translate }}
+          </th>
+
+          <th style="font-weight: bold !important">
+            {{ 'SUMMARYPOPUP.completed' | translate }}
+          </th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for ( item of general.maintenance; track $index ) {
+        <tr>
+          <td class="maintenance-title">{{ item.title }}</td>
+
+          <td class="status-created">{{ item.created }}</td>
+
+          <td class="status-inprogress">{{ item.inprogress }}</td>
+
+          <td class="status-completed">{{ item.completed }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+
+    } } }
+
+    <!-- ACKNOWLEDGE -->
+
+    <ion-row class="form-row">
+      <ion-col class="acknowledge-col">
+        <button type="button" class="acknowledge-button" (click)="btn_close()">
+          {{ buttonname }}
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

@@ -1,0 +1,221 @@
+.modal-toolbar {
+  --background: #1d2730;
+  --color: #ffffff;
+}
+
+.modal-toolbar ion-title {
+  color: #ffffff;
+}
+
+.modal-toolbar ion-button {
+  --color: #ffffff;
+}
+
+.home {
+  padding: 0px 5px 0px 5px;
+}
+
+.form-row {
+  align-items: center;
+  margin-top: 20px;
+}
+
+.button-row {
+  margin-top: 20px;
+}
+
+.label-text {
+  font-size: 12px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.text-light {
+  color: #000000;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+/* Table Styles */
+.table {
+  font-size: 11px;
+  line-height: 1.42857143;
+  padding: 5px;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered td,
+.table-bordered th {
+  border: 1px solid #dee2e6;
+}
+
+.table td,
+.table th {
+  color: #ffffff;
+  padding: 0.3rem !important;
+  border: 1px solid #dee2e6;
+}
+
+.table th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+td {
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
+}
+
+th {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.label-bold {
+  width: 50%;
+  font-weight: bold;
+  text-align: left;
+}
+
+.header-orange {
+  padding: 5px 0px 5px 0px !important;
+  background-color: #ff9f0c;
+  color: #000000;
+  font-size: 12px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.header-orange td,
+.header-orange th {
+  border: 1px solid #dee2e6;
+}
+
+/* Hide the ion-datetime-button visually. It still exists in the DOM
+   so we can delegate clicks to it and so Ionic's internal picker
+   machinery still works. */
+.hidden-datetime-button {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Date Picker Field (custom) */
+.date-picker-wrapper {
+  background: #f7f7f7;
+  border-radius: 5px;
+  padding: 8px 10px;
+  cursor: pointer;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #dee2e6;
+}
+
+.date-display {
+  font-size: 12px;
+  color: #000000;
+}
+
+/* Modal Styles */
+::ng-deep ion-modal.date-modal {
+  --background: transparent;
+  --box-shadow: none;
+  --width: auto;
+  --height: auto;
+  --border-radius: 24px;
+  --transition: none !important;
+}
+
+::ng-deep ion-modal.date-modal::part(content) {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  width: fit-content;
+  height: fit-content;
+}
+
+::ng-deep ion-modal.date-modal::part(backdrop) {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ion-datetime inside the modal */
+ion-modal.date-modal ion-datetime {
+  --background: #fff;
+  background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  margin: 10px;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+ion-modal.date-modal ion-datetime::part(calendar-day) {
+  margin: 5px;
+  padding: 15px;
+}
+
+ion-modal.date-modal ion-datetime::part(calendar-day-active) {
+  border-radius: 50%;
+}
+
+/* Save Button */
+.btn-save {
+  width: 150px;
+  font-size: 14px;
+  background-color: transparent;
+  border: 2px solid #3cd2a5;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-save:hover {
+  background-color: #3cd2a5;
+  color: #ffffff;
+}
+
+.btn-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Utility Classes */
+.icon {
+  vertical-align: middle;
+}
+
+ion-icon {
+  color: white;
+}

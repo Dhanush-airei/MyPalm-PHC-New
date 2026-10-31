@@ -1,0 +1,62 @@
+<!-- ================= DATE AND GET BUTTON ================= -->
+
+<ion-row
+  class="align-items-center justify-content-center"
+  style="margin-top: 5px"
+>
+  <!-- Date -->
+  <ion-col size="1.4" class="text-white fs-12">
+    {{ "REPORTSTERILIZATION.date" | translate }}
+  </ion-col>
+
+  <ion-col
+    size="3"
+    class="text-white text-center fs-12 border rounded"
+    style="
+      margin-right: 5px;
+      cursor: pointer;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    "
+    (click)="openDateModal()"
+  >
+    {{ displayDate || (date ? (date | date: "dd-MM-yyyy") : "DD-MM-YYYY") }}
+  </ion-col>
+
+  <!-- Get Button -->
+  <ion-col size="1.6">
+    <button
+      type="button"
+      class="btn text-white border-orange fs-12"
+      style="padding: 4px 8px"
+      (click)="onGetRecords()"
+    >
+      {{ "GENERALBUTTON.getrecords" | translate }}
+    </button>
+  </ion-col>
+</ion-row>
+
+<!-- ================= DATE MODAL ================= -->
+
+<ion-modal
+  [isOpen]="isDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onDateChange($event)"
+        [max]="maxDate"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

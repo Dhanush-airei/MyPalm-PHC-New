@@ -1,0 +1,236 @@
+<!-- management-maintenance.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="home-box">
+    <!-- Month Picker -->
+    <form [formGroup]="maintenanceForm">
+      <ion-row class="form-row">
+        <ion-col size="12">
+          <app-month-picker
+            [month]="reportDateDisplay"
+            [externalMonth]="reportDateExternal"
+            (getRecords)="onMonthSelected($event)"
+          ></app-month-picker>
+        </ion-col>
+      </ion-row>
+    </form>
+
+    <!-- Corrective Maintenance -->
+    <ion-row>
+      <ion-col>
+        <div class="titleheader">
+          <div class="col">
+            <div class="portraittitle text-uppercase">
+              {{ 'OWNERMAINTENANCE.corrective' | translate }} {{
+              'OWNERMAINTENANCE.cmaintenance' | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="stationcard"
+          style="padding-left: 20px; padding-right: 20px"
+        >
+          @for (item of correctivemaintenanceArr; track $index) {
+          <ion-col no-padding>
+            <ion-card class="portraitcard">
+              <ion-row style="width: 100%; height: 100%; flex-flow: nowrap">
+                <ion-col
+                  size="7.5"
+                  style="align-self: center; text-align: center; padding: 0px"
+                >
+                  <div class="h7">{{ item.title }}</div>
+                </ion-col>
+
+                <ion-col size="0.2" style="align-self: center; padding: 0px">
+                  <div class="portraitvl4line"></div>
+                </ion-col>
+
+                <ion-col
+                  size="4"
+                  style="align-self: center; text-align: center; padding: 0px"
+                >
+                  <div
+                    class="value-text"
+                    [style.color]="getTextColor(item.position)"
+                  >
+                    {{ item.value }}
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </ion-col>
+          }
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- Routine Preventive Maintenance -->
+    <ion-row>
+      <ion-col>
+        <div class="titleheader">
+          <div class="col">
+            <div class="portraittitle text-uppercase">
+              {{ 'OWNERMAINTENANCE.routinepreventivemaintenance' | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="stationcard"
+          style="padding-left: 20px; padding-right: 20px"
+        >
+          @for (item of routinepreventivemaintenanceArr; track $index) {
+          <ion-col no-padding>
+            <ion-card class="portraitcard">
+              <ion-row style="width: 100%; height: 100%; flex-flow: nowrap">
+                <ion-col
+                  size="7.5"
+                  style="align-self: center; text-align: center; padding: 0px"
+                >
+                  <div class="h7">{{ item.title }}</div>
+                </ion-col>
+
+                <ion-col size="0.2" style="align-self: center; padding: 0px">
+                  <div class="portraitvl4line"></div>
+                </ion-col>
+
+                <ion-col
+                  size="4"
+                  style="align-self: center; text-align: center; padding: 0px"
+                >
+                  <div
+                    class="value-text"
+                    [style.color]="getTextColor(item.position)"
+                  >
+                    {{ item.value }}
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </ion-col>
+          }
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- Replacement Preventive Maintenance -->
+    <ion-row>
+      <ion-col>
+        <div class="titleheader">
+          <div class="col">
+            <div class="portraittitle text-uppercase">
+              {{ 'OWNERMAINTENANCE.replacementpreventivemaintenance' | translate
+              }}
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="stationcard"
+          style="padding-left: 20px; padding-right: 20px"
+        >
+          @for (item of replacementpreventivemaintenanceArr; track $index) {
+          <ion-col no-padding>
+            <ion-card class="portraitcard">
+              <ion-row style="width: 100%; height: 100%; flex-flow: nowrap">
+                <ion-col
+                  size="7.5"
+                  style="align-self: center; text-align: center; padding: 0px"
+                >
+                  <div class="h7">{{ item.title }}</div>
+                </ion-col>
+
+                <ion-col size="0.2" style="align-self: center; padding: 0px">
+                  <div class="portraitvl4line"></div>
+                </ion-col>
+
+                <ion-col
+                  size="4"
+                  style="align-self: center; text-align: center; padding: 0px"
+                >
+                  <div
+                    class="value-text"
+                    [style.color]="getTextColor(item.position)"
+                  >
+                    {{ item.value }}
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </ion-col>
+          }
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- Predictive Maintenance -->
+    <ion-row>
+      <ion-col>
+        <div class="titleheader">
+          <div class="col">
+            <div class="portraittitle text-uppercase">
+              Predictive Maintenance
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="stationcard"
+          style="padding-left: 20px; padding-right: 20px"
+        >
+          @for (item of predictivemaintenanceArr; track $index) {
+          <ion-col no-padding>
+            <ion-card class="portraitcard">
+              <ion-row style="width: 100%; height: 100%; flex-flow: nowrap">
+                <ion-col
+                  size="7.5"
+                  style="align-self: center; text-align: center; padding: 0px"
+                >
+                  <div class="h7">{{ item.title }}</div>
+                </ion-col>
+
+                <ion-col size="0.2" style="align-self: center; padding: 0px">
+                  <div class="portraitvl4line"></div>
+                </ion-col>
+
+                <ion-col
+                  size="4"
+                  style="align-self: center; text-align: center; padding: 0px"
+                >
+                  <div
+                    class="value-text"
+                    [style.color]="getTextColor(item.position)"
+                  >
+                    {{ item.value }}
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </ion-col>
+          }
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- Loading -->
+    @if (pleaseWaitFlag) {
+    <div class="pleasewait">
+      <div style="width: 100%; text-align: center">
+        <img
+          style="width: 80px; height: 80px"
+          src="../../../assets/img/loading.gif"
+        />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>

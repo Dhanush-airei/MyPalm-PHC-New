@@ -1,0 +1,389 @@
+<!-- cpo-pk-stock.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Segment Tabs -->
+  <ion-toolbar>
+    <div class="firstsegment">
+      <ion-segment
+        (ionChange)="segmentChanged($event)"
+        [(ngModel)]="tabsSegment"
+      >
+        <ion-segment-button value="cpostock">
+          <ion-label text-wrap class="h7">CPO Stock</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="pkostock">
+          <ion-label text-wrap class="h7">PKO Stock</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="pkstock">
+          <ion-label text-wrap class="h7">PK Stock</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-toolbar>
+
+  <div class="home-box">
+    <!-- CPO Stock -->
+    @if (tabsSegment == 'cpostock') {
+    <!-- Month Picker -->
+    <app-month-picker
+      [month]="cpoReportDateDisplay"
+      [externalMonth]="cpoReportDateExternal"
+      (getRecords)="onCpoMonthSelected($event)"
+    ></app-month-picker>
+
+    <hr />
+
+    <!-- Table Data -->
+    @if (!cpoNoRecordsFlag) {
+    <div class="table-responsive">
+      <table class="table table-bordered w-100">
+        <thead>
+          <tr class="table_head bg-table-black">
+            <th
+              rowspan="2"
+              class="p-1 text-orange column-width"
+              scope="colgroup"
+            >
+              {{ 'CPOORSTOCKSCREEN.logdate' | translate }}
+            </th>
+
+            <th rowspan="2" class="p-1 text-orange" scope="colgroup">
+              @if (language != 'French') {
+              <span
+                >{{ 'CPOORSTOCKSCREEN.brought' | translate }}<br />{{
+                'CPOORSTOCKSCREEN.forward' | translate }} (B/F)<br />(MT)</span
+              >
+              } @else {
+              <span
+                >{{ 'CPOORSTOCKSCREEN.broughtforward' | translate }} (B/F)<br />(MT)</span
+              >
+              }
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.storage' | translate }}<br />{{
+              'CPOORSTOCKSCREEN.tank' | translate }} 1
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.storage' | translate }}<br />{{
+              'CPOORSTOCKSCREEN.tank' | translate }} 2
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.storage' | translate }}<br />{{
+              'CPOORSTOCKSCREEN.tank' | translate }} 3
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.storage' | translate }}<br />{{
+              'CPOORSTOCKSCREEN.tank' | translate }} 5
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.storage' | translate }}<br />{{
+              'CPOORSTOCKSCREEN.tank' | translate }} 6
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.storage' | translate }}<br />{{
+              'CPOORSTOCKSCREEN.tank' | translate }} 7
+            </th>
+
+            <th rowspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.totalcpostock' | translate }}
+            </th>
+          </tr>
+
+          <tr class="table_head bg-table-black">
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">FFA</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">FFA</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">FFA</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">FFA</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">FFA</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">FFA</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (value of cpoStockListArr; track $index) {
+          <tr class="table-row">
+            <td class="p-1" scope="row">{{ value.logdate }}</td>
+            <td class="p-1" scope="row">{{ value.broughtforward }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank1mt }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank1ffa }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank2mt }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank2ffa }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank3mt }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank3ffa }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank5mt }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank5ffa }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank6mt }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank6ffa }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank7mt }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank7ffa }}</td>
+            <td class="p-1" scope="row">{{ value.totalcpostock }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+
+    <!-- No Records -->
+    @if (cpoNoRecordsFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    } }
+
+    <!-- PKO Stock -->
+    @if (tabsSegment == 'pkostock') {
+    <!-- Month Picker -->
+    <app-month-picker
+      [month]="pkoReportDateDisplay"
+      [externalMonth]="pkoReportDateExternal"
+      (getRecords)="onPkoMonthSelected($event)"
+    ></app-month-picker>
+
+    <hr />
+
+    <!-- Table Data -->
+    @if (!pkoNoRecordsFlag) {
+    <div class="table-responsive">
+      <table class="table table-bordered w-100">
+        <thead>
+          <tr class="table_head bg-table-black">
+            <th
+              rowspan="2"
+              class="p-1 text-orange column-width"
+              scope="colgroup"
+            >
+              {{ 'CPOORSTOCKSCREEN.logdate' | translate }}
+            </th>
+
+            <th rowspan="2" class="p-1 text-orange" scope="colgroup">
+              @if (language != 'French') {
+              <span
+                >{{ 'CPOORSTOCKSCREEN.brought' | translate }}<br />{{
+                'CPOORSTOCKSCREEN.forward' | translate }} (B/F)<br />(MT)</span
+              >
+              } @else {
+              <span
+                >{{ 'CPOORSTOCKSCREEN.broughtforward' | translate }} (B/F)<br />(MT)</span
+              >
+              }
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.storage' | translate }}<br />{{
+              'CPOORSTOCKSCREEN.tank' | translate }} 1
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.storage' | translate }}<br />{{
+              'CPOORSTOCKSCREEN.tank' | translate }} 2
+            </th>
+
+            <th rowspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.totalpkostock' | translate }}
+            </th>
+          </tr>
+
+          <tr class="table_head bg-table-black">
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">FFA</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">FFA</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (value of pkoStockListArr; track $index) {
+          <tr class="table-row">
+            <td class="p-1" scope="row">{{ value.logdate }}</td>
+            <td class="p-1" scope="row">{{ value.broughtforward }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank1mt }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank1ffa }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank2mt }}</td>
+            <td class="p-1" scope="row">{{ value.storagetank2ffa }}</td>
+            <td class="p-1" scope="row">{{ value.totalpkostock }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+
+    <!-- No Records -->
+    @if (pkoNoRecordsFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    } }
+
+    <!-- PK Stock -->
+    @if (tabsSegment == 'pkstock') {
+    <!-- Month Picker -->
+    <app-month-picker
+      [month]="pkReportDateDisplay"
+      [externalMonth]="pkReportDateExternal"
+      (getRecords)="onPkMonthSelected($event)"
+    ></app-month-picker>
+
+    <hr />
+
+    <!-- Table Data -->
+    @if (!pkNoRecordsFlag) {
+    <div class="table-responsive">
+      <table class="table table-bordered w-100">
+        <thead>
+          <tr class="table_head bg-table-black">
+            <th
+              rowspan="2"
+              class="p-1 text-orange column-width"
+              scope="colgroup"
+            >
+              {{ 'CPOORSTOCKSCREEN.logdate' | translate }}
+            </th>
+
+            <th rowspan="2" class="p-1 text-orange" scope="colgroup">
+              @if (language == 'English') {
+              <span>Brought<br />Forward (B/F)<br />(MT)</span>
+              } @else {
+              <span
+                >{{ 'CPOORSTOCKSCREEN.broughtforward' | translate }} (B/F)<br />(MT)</span
+              >
+              }
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              @if (language == 'English') {
+              <span>Kernel<br />Silo 1</span>
+              } @else {
+              <span
+                >{{ 'CPOORSTOCKSCREEN.silo' | translate }}<br />{{
+                'CPOORSTOCKSCREEN.kernel' | translate }} 1</span
+              >
+              }
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              @if (language == 'English') {
+              <span>Kernel<br />Silo 2</span>
+              } @else {
+              <span
+                >{{ 'CPOORSTOCKSCREEN.silo' | translate }}<br />{{
+                'CPOORSTOCKSCREEN.kernel' | translate }} 2</span
+              >
+              }
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              @if (language == 'English') {
+              <span>Kernel<br />Silo 3</span>
+              } @else {
+              <span
+                >{{ 'CPOORSTOCKSCREEN.silo' | translate }}<br />{{
+                'CPOORSTOCKSCREEN.kernel' | translate }} 3</span
+              >
+              }
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              @if (language == 'English') {
+              <span>Kernel<br />Bunker</span>
+              } @else {
+              <span
+                >{{ 'CPOORSTOCKSCREEN.bunker' | translate }}<br />{{
+                'CPOORSTOCKSCREEN.kernel' | translate }}</span
+              >
+              }
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.floor' | translate }}
+            </th>
+
+            <th colspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.others' | translate }}
+            </th>
+
+            <th rowspan="2" class="p-1 text-orange" scope="colgroup">
+              {{ 'CPOORSTOCKSCREEN.totalpkstock' | translate }}
+            </th>
+          </tr>
+
+          <tr class="table_head bg-table-black">
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">Ullage</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">Ullage</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">Ullage</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">Ullage</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">Ullage</th>
+            <th class="p-1 text-orange">MT</th>
+            <th class="p-1 text-orange">Ullage</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (value of pkStockListArr; track $index) {
+          <tr class="table-row">
+            <td class="p-1" scope="row">{{ value.logdate }}</td>
+            <td class="p-1" scope="row">{{ value.broughtforward }}</td>
+            <td class="p-1" scope="row">{{ value.kernelsilo1mt }}</td>
+            <td class="p-1" scope="row">{{ value.kernelsilo1ullage }}</td>
+            <td class="p-1" scope="row">{{ value.kernelsilo2mt }}</td>
+            <td class="p-1" scope="row">{{ value.kernelsilo2ullage }}</td>
+            <td class="p-1" scope="row">{{ value.kernelsilo3mt }}</td>
+            <td class="p-1" scope="row">{{ value.kernelsilo3ullage }}</td>
+            <td class="p-1" scope="row">{{ value.kernelbunkermt }}</td>
+            <td class="p-1" scope="row">{{ value.kernelbunkerullage }}</td>
+            <td class="p-1" scope="row">{{ value.floormt }}</td>
+            <td class="p-1" scope="row">{{ value.floorullage }}</td>
+            <td class="p-1" scope="row">{{ value.othersmt }}</td>
+            <td class="p-1" scope="row">{{ value.othersullage }}</td>
+            <td class="p-1" scope="row">{{ value.totalpkstock }}</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+
+    <!-- No Records -->
+    @if (pkNoRecordsFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    } }
+
+    <!-- Loading -->
+    @if (pleaseWaitFlag) {
+    <div class="pleasewait">
+      <div style="width: 100%; text-align: center">
+        <img
+          style="width: 80px; height: 80px"
+          src="../../../assets/img/loading.gif"
+        />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>

@@ -1,0 +1,280 @@
+.home {
+  margin: 55px 10px 10px 10px;
+}
+
+.ioshome {
+  margin: 55px 10px 10px 10px;
+}
+
+.portuguesehome {
+  margin: 70px 10px 10px 10px;
+}
+
+.portugueseioshome {
+  margin: 70px 10px 10px 10px;
+}
+
+/* =========================
+   SUMMARY HEADER
+========================= */
+
+.summarytitleheader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+
+  text-align: center;
+  background-color: #ff9f0c;
+
+  padding: 10px 0;
+}
+
+.summarytitle {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffffff;
+}
+
+/* =========================
+   SECTION HEADER
+========================= */
+
+.title {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.titleheader {
+  border-radius: 5px 5px 0 0;
+  border: 1px solid #ffffff;
+
+  text-align: center;
+  background-color: #000000;
+
+  padding: 5px 0;
+}
+
+.subtitle {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  color: #ff9f0c;
+}
+
+/* =========================
+   CUSTOM TABLE
+========================= */
+
+.summary-table {
+  width: 100%;
+
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  border: 1px solid #ffffff71;
+
+  background: transparent;
+
+  font-size: 11px;
+  line-height: 1.42857143;
+
+  margin: 0 0 10px 0;
+}
+
+/* TABLE HEADER */
+
+.summary-table th {
+  padding: 7px 8px;
+
+  border: 1px solid #ffffff71;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+
+  white-space: nowrap;
+}
+
+/* TABLE DATA */
+
+.summary-table td {
+  padding: 7px 8px;
+
+  border: 1px solid #ffffff71;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* =========================
+   NORMAL CENTER CELL
+========================= */
+
+.center-cell {
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/* =========================
+   MILL START
+========================= */
+
+.mill-start-time {
+  width: 50%;
+
+  background-color: green !important;
+
+  color: #ffffff !important;
+
+  font-weight: bold;
+
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/* =========================
+   MILL STOP
+========================= */
+
+.mill-stop-time {
+  width: 50%;
+
+  background-color: red !important;
+
+  color: #ffffff !important;
+
+  font-weight: bold;
+
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/* =========================
+   MAINTENANCE
+========================= */
+
+.maintenance-title {
+  width: 75%;
+
+  text-align: left !important;
+
+  color: #ffffff;
+}
+
+/* CREATED */
+
+.status-created {
+  width: 25%;
+
+  background-color: red !important;
+
+  color: #ffffff !important;
+
+  font-weight: bold;
+
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/* IN PROGRESS */
+
+.status-inprogress {
+  width: 25%;
+
+  background-color: yellow !important;
+
+  color: #000000 !important;
+
+  font-weight: bold;
+
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/* COMPLETED */
+
+.status-completed {
+  width: 25%;
+
+  background-color: green !important;
+
+  color: #ffffff !important;
+
+  font-weight: bold;
+
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+/* =========================
+   COMMON
+========================= */
+
+.mdfont {
+  font-size: 11px;
+}
+
+.legend {
+  border: 1px solid #dee2e6;
+}
+
+.icon {
+  vertical-align: middle;
+}
+
+.icontext {
+  vertical-align: middle;
+  font-size: 12px;
+}
+
+/* =========================
+   ACKNOWLEDGE BUTTON
+========================= */
+
+.form-row {
+  margin-top: 10px;
+}
+
+.acknowledge-col {
+  text-align: center !important;
+}
+
+.acknowledge-button {
+  padding: 7px 18px;
+
+  font-size: 12px;
+
+  background-color: transparent;
+
+  border: 1px solid #3cd2a5;
+  border-radius: 4px;
+
+  color: #ffffff;
+
+  cursor: pointer;
+}
+
+/* =========================
+   HR
+========================= */
+
+hr {
+  display: block;
+
+  height: 1px;
+
+  border: 0;
+  border-top: 1px dashed #ffffff71;
+}

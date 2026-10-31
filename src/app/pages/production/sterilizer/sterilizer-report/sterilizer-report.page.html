@@ -1,0 +1,162 @@
+<app-page-header
+  [appTitle]="appTitle"
+  [showLogo]="showLogo"
+  [showBackButton]="showBackButton"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="home-box">
+    <div id="chartContainer8">
+      <!-- Date Picker Component -->
+      <app-date-picker
+        [date]="reportDate"
+        [externalDate]="externalDate"
+        (getRecords)="onDateRangeGet($event)"
+      ></app-date-picker>
+
+      <hr />
+
+      <!-- Loading State -->
+      @if (pleasewaitflag) {
+      <div class="pleasewait">
+        <div style="width: 100%; text-align: center">
+          <img
+            style="width: 80px; height: 80px"
+            src="../../../assets/img/loading.gif"
+            alt="Loading"
+          />
+        </div>
+        {{ 'NORECORDSFOUND.loading' | translate }}
+      </div>
+      }
+
+      <!-- Table Data -->
+      @if (!pleasewaitflag) { @if (sterilizerhourlyperformanceArr.length > 0) {
+      @for (general of sterilizerhourlyperformanceArr; track $index) {
+      <div style="overflow-x: auto; margin-top: 20px">
+        @for (sterilizername of general.data; track
+        sterilizername.sterilizername) {
+        <table class="table table-bordered custom-table">
+          <!-- Table Header -->
+          <thead>
+            <tr class="table_head">
+              <th rowspan="2" scope="colgroup" class="header-cell">
+                <span class="mdfont">{{ sterilizername.sterilizername }}</span>
+              </th>
+              <th rowspan="2" scope="colgroup" class="header-cell">
+                <span class="mdfont"
+                  >{{ 'REPORTSTERILIZATION.cycle' | translate }}</span
+                >
+              </th>
+              <th colspan="2" scope="colgroup" class="header-cell">
+                <span class="mdfont"
+                  >{{ 'REPORTSTERILIZATION.door' | translate }}</span
+                >
+              </th>
+              <th rowspan="2" scope="colgroup" class="header-cell">
+                <span class="mdfont"
+                  >{{ 'REPORTSTERILIZATION.bpv' | translate }}<br />(PSI)</span
+                >
+              </th>
+              <th rowspan="2" scope="colgroup" class="header-cell">
+                <span class="mdfont"
+                  >{{ 'REPORTSTERILIZATION.p1peak' | translate }}<br />(PSI)</span
+                >
+              </th>
+              <th rowspan="2" scope="colgroup" class="header-cell">
+                <span class="mdfont"
+                  >{{ 'REPORTSTERILIZATION.p2peak' | translate }}<br />(PSI)</span
+                >
+              </th>
+              <th rowspan="2" scope="colgroup" class="header-cell">
+                <span class="mdfont"
+                  >{{ 'REPORTSTERILIZATION.p3peak' | translate }}<br />(PSI)</span
+                >
+              </th>
+              @if (general.image == 1) {
+              <th rowspan="2" scope="colgroup" class="header-cell">
+                <span class="mdfont"
+                  >{{ 'REPORTSTERILIZATION.image' | translate }}</span
+                >
+              </th>
+              }
+              <th rowspan="2" scope="colgroup" class="header-cell">
+                <span class="mdfont"
+                  >{{ 'REPORTSTERILIZATION.doneby' | translate }}</span
+                >
+              </th>
+            </tr>
+            <tr class="table_head">
+              <th class="header-cell">
+                {{ 'REPORTSTERILIZATION.shuttime' | translate }}
+              </th>
+              <th class="header-cell">
+                {{ 'REPORTSTERILIZATION.opentime' | translate }}
+              </th>
+            </tr>
+          </thead>
+
+          <!-- Table Body -->
+          <tbody>
+            @for (value of sterilizername.sterilizerdata; track $index) {
+            <tr>
+              <td class="data-cell">
+                {{ value.date }}<br />{{ value.sterilizer_time }}
+              </td>
+              <td class="data-cell">{{ value.cycleno }}</td>
+              <td class="data-cell">
+                {{ value.date_door_shut }}<br />{{ value.time_door_shut }}
+              </td>
+              <td class="data-cell">
+                {{ value.date_door_open }}<br />{{ value.time_door_open }}
+              </td>
+              <td class="data-cell">{{ value.backpressurereceiver }}</td>
+              <td class="data-cell">{{ value.p1 }}</td>
+              <td class="data-cell">{{ value.p2 }}</td>
+              <td class="data-cell">{{ value.p3 }}</td>
+              @if (general.image == 1) {
+              <td class="data-cell">
+                @if (value.bpvimages != '' || value.p1images != '' ||
+                value.p3images != '') {
+                <button
+                  type="button"
+                  class="h7 btn btn-imageview btn-sm"
+                  (click)="btn_ViewImages(value.bpvimages, value.p1images, value.p3images)"
+                >
+                  <span class="icontext"
+                    >{{ 'REPORTSTERILIZATION.view' | translate }}</span
+                  >
+                </button>
+                } @else {
+                <span>-</span>
+                }
+              </td>
+              }
+              <td class="data-cell">{{ value.rasiedby }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        }
+      </div>
+
+      <!-- No Records for this sterilizer -->
+      @if (general.data.length == 0) {
+      <div class="nosterilizerrecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      } }
+      <hr />
+      }
+
+      <!-- No Records -->
+      @if (norecordsflag) {
+      <div class="norecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      } }
+    </div>
+  </div>
+</ion-content>

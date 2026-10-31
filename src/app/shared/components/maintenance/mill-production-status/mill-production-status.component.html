@@ -1,0 +1,446 @@
+<!-- ============================================================ -->
+<!-- NORMAL DASHBOARD VIEW (HTTP 200) -->
+<!-- ============================================================ -->
+
+@if (pleasewaitflag) {
+  <div class="please-wait">
+    <img
+      class="please-wait__image"
+      src="../../../../../assets/img/loading.gif"
+      alt="Loading"
+    />
+    <span class="please-wait__text">
+      {{ "NORECORDSFOUND.loading" | translate }}
+    </span>
+  </div>
+}
+
+@if (!pleasewaitflag) {
+  @if (productionflag != "") {
+    <div class="border rounded m-2">
+      <div
+        class="text-orange text-uppercase bg-black fw-bold text-center fs-14 py-1 rounded-top"
+      >
+        {{ "MAINTENANCEDASHBOARD.millproductionstatus" | translate }}
+      </div>
+      <div class="palm-bg p-2 rounded-bottom">
+        <div
+          class="w-75 mx-auto text-center text-white fs-14 fw-bold py-1 px-4 text-uppercase rounded-pill"
+          [style.backgroundColor]="getMillBackGroundColor(productionflag)"
+        >
+          {{ txt_millproductionstatus }}
+        </div>
+        <p class="mt-2 mb-1 fs-12 text-center">{{ txt_millstartstop }}</p>
+        @if (productionflag == "1") {
+          <p class="fs-12 text-center mb-1" style="color: #008000">
+            {{ millstartdatetime != "" ? millstartdatetime : "-" }}
+          </p>
+        } @else {
+          <p class="fs-12 text-center mb-1" style="color: #cb4335">
+            {{ millstopdatetime != "" ? millstopdatetime : "-" }}
+          </p>
+          @if (breakdownreason != "") {
+            <p class="fs-12 text-center mb-1">
+              {{ "MAINTENANCEDASHBOARD.breakdownreason" | translate }}
+            </p>
+
+            <p class="fs-12 text-center mb-1" style="color: #cb4335">
+              {{ breakdownreason }}
+            </p>
+          }
+        }
+
+        <!-- Refresh -->
+        <ion-row>
+          <ion-col size="4"> </ion-col>
+          <ion-col size="4" style="text-align: center !important">
+            <button
+              type="submit"
+              class="btn btn-sm border-orange fs-12"
+              (click)="refreshRecords()"
+            >
+              <span class="icontext" style="color: #000000">
+                {{ "GENERALBUTTON.refresh" | translate }}
+              </span>
+            </button>
+          </ion-col>
+
+          <ion-col size="4"> </ion-col>
+        </ion-row>
+
+        <!-- Sterilizator and press sensor flags -->
+        <ion-row>
+          <ion-col size="6" class="d-flex justify-content-start">
+            @if (sterilizerSensorFlag == 1) {
+              <button type="button" class="btn btn-sm border-blue fs-12">
+                {{ "SUPERVISORDASHBOARD.strellizerperfomance" | translate }}
+              </button>
+            }
+          </ion-col>
+          <ion-col size="6" class="d-flex justify-content-end">
+            @if (presssensorFlag == 1) {
+              <button type="button" class="btn btn-sm border-blue fs-12">
+                {{ "SUPERVISORDASHBOARD.pressperfomance" | translate }}
+              </button>
+            }
+          </ion-col>
+        </ion-row>
+      </div>
+    </div>
+
+    @if (millStartAndStop == 1) {
+      <div class="border rounded m-2">
+        <div
+          class="text-orange text-uppercase bg-black fw-bold text-center fs-14 py-1 rounded-top"
+        >
+          {{ "GENERALBUTTON.actions" | translate }}
+        </div>
+        <div
+          class="palm-bg rounded-bottom p-2 d-flex justify-content-center gap-10"
+        >
+          @if (productionflag == "0" || productionflag == "") {
+            <button
+              type="button"
+              class="btn btn-sm mill-start-bg fs-14 w-75 rounded-pill py-1"
+              (click)="confirmProduction(productionflag)"
+            >
+              {{ "SUPERVISORDASHBOARD.startproduction" | translate }}
+            </button>
+          }
+
+          @if (productionflag == "1") {
+            <button
+              type="button"
+              class="btn btn-sm mill-stop-bg fs-14 w-100 rounded-pill py-1"
+              (click)="confirmProduction(productionflag)"
+            >
+              {{ "SUPERVISORDASHBOARD.stopproduction" | translate }}
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm text-black mill-abnormal-bg fs-14 w-100 rounded-pill py-1"
+              (click)="breakdownalert()"
+            >
+              {{ "SUPERVISORDASHBOARD.breakdown" | translate }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+
+    <form [formGroup]="dashboardForm">
+      <div class="m-2">
+        <div class="search-select">
+          <ion-icon name="search-outline" class="search-icon"></ion-icon>
+
+          <select
+            class="form-select fs-14 text-center"
+            formControlName="select_station"
+            (change)="onChangeStation()"
+          >
+            <option value="" selected>
+              {{ "SUPERVISORDASHBOARD.searchbystation" | translate }}
+            </option>
+            @if (stationlistArr.length > 0) {
+              @for (item of stationlistArr; track item.station_id) {
+                <option [value]="item.station_id">
+                  {{ item.station_name }}
+                </option>
+              }
+            }
+          </select>
+        </div>
+      </div>
+    </form>
+
+    <div class="m-2">
+      <div class="legend bg-white w-100 p-2 rounded">
+        <!-- Breakdown -->
+        <div class="legend-item pb-2">
+          <img
+            src="assets/img/breakdown.png"
+            alt="Breakdown"
+            class="legend-icon"
+          />
+
+          <span class="icontext"> Breakdown </span>
+        </div>
+
+        <!-- Normal / Running -->
+        <div class="legend-item pb-2">
+          <img src="assets/img/running.png" alt="Running" class="legend-icon" />
+
+          <span class="icontext">
+            Normal /
+            {{ "MAINTENANCEDASHBOARD.running" | translate }}
+          </span>
+        </div>
+
+        <!-- Abnormal -->
+        <div class="legend-item">
+          <img
+            src="assets/img/abnormal.png"
+            alt="Abnormal"
+            class="legend-icon"
+          />
+
+          <span class="icontext"> Abnormal </span>
+        </div>
+
+        <!-- Turned Off / Not In Use -->
+        <div class="legend-item">
+          <img
+            src="assets/img/notinuse.png"
+            alt="Not in use"
+            class="legend-icon"
+          />
+
+          <span class="icontext">
+            {{ "MAINTENANCEDASHBOARD.turnedoff" | translate }}
+            /
+            {{ "MAINTENANCEDASHBOARD.notinuse" | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    @if (!productioninprogressflag) {
+      @for (station of stationsArr; track station.stationid) {
+        <!-- Station Header -->
+        <div class="border rounded m-2">
+          <div class="machine-bg rounded">
+            <div
+              class="text-orange text-uppercase bg-black fw-bold text-center fs-14 py-1 rounded-top"
+            >
+              {{ station.stationname }}
+            </div>
+
+            <!-- Station Card -->
+            <div class="stationcard">
+              <!-- Machinery start/ stop -->
+              @if (UserContext.designId == 3) {
+                <div class="d-flex align-items-center justify-content-end pe-1">
+                  <div class="fs-12 text-dark text-end">
+                    <b>
+                      @if (station.stationstatus == 0) {
+                        {{ "SUPERVISORDASHBOARD.startmachine" | translate }}
+                      } @else {
+                        {{ "SUPERVISORDASHBOARD.stopmachine" | translate }}
+                      }
+                    </b>
+                  </div>
+
+                  <div class="ms-2">
+                    @if (station.stationstatus == 0) {
+                      <img
+                        class="machineimg"
+                        src="assets/img/on-button.png"
+                        alt="Start Machine"
+                        (click)="
+                          confirmStation(
+                            station.stationid,
+                            station.stationname,
+                            station.stationstatus
+                          )
+                        "
+                      />
+                    } @else {
+                      <img
+                        class="machineimg"
+                        src="assets/img/off-button.png"
+                        alt="Stop Machine"
+                        (click)="
+                          confirmStation(
+                            station.stationid,
+                            station.stationname,
+                            station.stationstatus
+                          )
+                        "
+                      />
+                    }
+                  </div>
+                </div>
+              }
+
+              <!-- ===================================== -->
+              <!-- MACHINES -->
+              <!-- ===================================== -->
+
+              @for (machines of station.machines; track $index) {
+                <div class="row pt-2 px-2">
+                  @for (
+                    eachitem of machines;
+                    track eachitem.machineid ?? $index
+                  ) {
+                    <div class="col-6 mb-2">
+                      <div
+                        class="card machine-card h-100"
+                        (click)="
+                          btn_Action(
+                            station.stationid,
+                            station.stationname,
+                            eachitem
+                          )
+                        "
+                      >
+                        <div class="row g-0 h-100">
+                          <!-- Machine Image -->
+                          <div
+                            class="col-3 d-flex align-items-center justify-content-center py-2"
+                            style="
+                              background-color: #d9d9d9;
+                              border-top-left-radius: 5px;
+                              border-bottom-left-radius: 5px;
+                            "
+                          >
+                            <img
+                              src="assets/img/productiondashboard.png"
+                              alt="Machine"
+                              class="img-fluid px-1"
+                            />
+                          </div>
+
+                          <!-- Machine Status -->
+                          <div
+                            class="col-9 d-flex align-items-center rounded-right"
+                            [style.background-color]="
+                              getBackGroundColor(
+                                eachitem.machinestatus,
+                                eachitem.breakdownstatus
+                              )
+                            "
+                            [style.color]="
+                              getStatusTextColor(eachitem.machinestatus)
+                            "
+                          >
+                            <div class="fs-12 p-1">
+                              {{ eachitem.machinename }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                </div>
+              }
+
+              <!-- ===================================== -->
+              <!-- FFB CAGES -->
+              <!-- ===================================== -->
+
+              @if (ffbcageenableflag == 1) {
+                @for (machines of station.machines; track $index) {
+                  @for (
+                    eachitem of machines;
+                    track eachitem.machineid ?? $index
+                  ) {
+                    @if (eachitem.ffbcageflag == 1) {
+                      <div class="mx-1">
+                        <!-- FFB Cage Header -->
+                        <div class="ffbcageheader">
+                          <div class="d-flex align-items-center">
+                            @if (UserContext.designId == 3) {
+                              <div class="w-75">
+                                <div class="ffbcagetitle text-uppercase">
+                                  {{ eachitem.machinename }}
+                                </div>
+                              </div>
+
+                              <div class="w-25 text-end">
+                                <button
+                                  type="button"
+                                  class="btn btn-update btn-sm"
+                                  (click)="ffbcageModalController()"
+                                >
+                                  {{ "GENERALBUTTON.updatebutton" | translate }}
+                                </button>
+                              </div>
+                            } @else {
+                              <div
+                                class="w-100 text-center ffbcagetitle text-uppercase"
+                              >
+                                {{ eachitem.machinename }}
+                              </div>
+                            }
+                          </div>
+                        </div>
+
+                        <!-- FFB Cage Table -->
+                        <div class="table-responsive">
+                          <table class="table table-bordered text-center mb-0">
+                            <thead>
+                              <tr>
+                                <th class="table_head p-1">
+                                  <span class="tablefont">
+                                    {{ "FFBCAGES.total" | translate }}
+                                  </span>
+                                </th>
+
+                                <th class="table_head p-1">
+                                  <span class="tablefont">
+                                    {{ "FFBCAGES.inuse" | translate }}
+                                  </span>
+                                </th>
+
+                                <th class="table_head p-1">
+                                  <span class="tablefont">
+                                    {{ "FFBCAGES.notinuse" | translate }}
+                                  </span>
+                                </th>
+
+                                <th class="table_head p-1">
+                                  <span class="tablefont">
+                                    {{ "FFBCAGES.underrepair" | translate }}
+                                  </span>
+                                </th>
+                              </tr>
+                            </thead>
+
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <b>{{ ffbtotal }}</b>
+                                </td>
+
+                                <td>
+                                  <b>{{ ffbinuse }}</b>
+                                </td>
+
+                                <td>
+                                  <b>{{ ffbnotinuse }}</b>
+                                </td>
+
+                                <td>
+                                  <b>{{ ffbunderrepair }}</b>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    }
+                  }
+                }
+              }
+            </div>
+          </div>
+        </div>
+      }
+    }
+    <!-- ============================================================ -->
+    <!-- PRODUCTION IN PROGRESS VIEW (HTTP 201) -->
+    <!-- Shows ONLY the centered message -->
+    <!-- ============================================================ -->
+    @if (productioninprogressflag) {
+      <p class="text-white text-center fs-12">
+        {{ productioninprogressmessage }}
+      </p>
+    }
+  }
+
+  @if (productionflag == "") {
+    <div class="norecords">
+      {{ "NORECORDSFOUND.norecordsfound" | translate }}
+    </div>
+  }
+}

@@ -1,0 +1,142 @@
+<ion-header class="custom-header">
+  <ion-toolbar>
+    <div class="header-container">
+      <!-- Left section -->
+      <div class="left-section">
+        <!-- Back button -->
+        @if (showBackButton == 1) {
+          <button
+            type="button"
+            class="btn btn-default bg-transparent text-white lh-1 fs-20 border-0"
+            (click)="goBack()"
+          >
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </button>
+        }
+
+        <!-- Notification Back button -->
+        @if (notificationBackButton == 1) {
+          <button
+            type="button"
+            class="btn btn-default bg-transparent text-white lh-1 fs-20 border-0"
+            (click)="goBackNotification()"
+          >
+            <ion-icon name="arrow-back-outline"></ion-icon>
+          </button>
+        }
+
+        <!-- Left Logo -->
+        @if (showLogo == 1) {
+          <div class="px-2">
+            <img src="assets/img/logo.png" alt="Logo" />
+          </div>
+        }
+      </div>
+
+      <!-- Center Title -->
+      <div class="title-section" [innerHTML]="appTitle"></div>
+
+      <!-- Right Actions -->
+      <div class="right-section d-flex align-items-center justify-content-end">
+        <!-- QR -->
+        @if (hasAction(HeaderAction.QR_CODE)) {
+          <button
+            type="button"
+            class="btn btn-link text-white p-0 mx-1 position-relative"
+            (click)="btnQrCodeScanView()"
+          >
+            <ion-icon name="qr-code-outline" class="fs-4"></ion-icon>
+          </button>
+        }
+
+        <!-- Notification -->
+        @if (hasAction(HeaderAction.NOTIFICATION)) {
+          <button
+            type="button"
+            class="btn btn-link text-white p-0 mx-1 position-relative"
+            (click)="btnNotificationView()"
+          >
+            <ion-icon name="notifications-outline" class="fs-4"></ion-icon>
+            @if (notificationCount > 0) {
+              <span
+                class="badge badge-danger rounded-pill position-absolute notification-badge"
+              >
+                {{ getNotificationCount() }}
+              </span>
+            }
+          </button>
+        }
+
+        <!-- Production -->
+        @if (hasAction(HeaderAction.PRODUCTION)) {
+          <button
+            type="button"
+            class="btn btn-link text-white p-0 mx-1 position-relative"
+            (click)="btnProductionView()"
+          >
+            <ion-icon name="settings-outline" class="fs-4"></ion-icon>
+            @if (productionCount > 0) {
+              <span
+                class="badge badge-danger rounded-pill position-absolute notification-badge"
+              >
+                {{ getProductionCount() }}
+              </span>
+            }
+          </button>
+        }
+
+        <!-- Maintenance -->
+        @if (hasAction(HeaderAction.MAINTENANCE)) {
+          <button
+            type="button"
+            class="btn btn-link text-white p-0 mx-1 position-relative"
+            (click)="btnMaintenanceView()"
+          >
+            <ion-icon name="construct-outline" class="fs-4"></ion-icon>
+            @if (maintenanceCount > 0) {
+              <span
+                class="badge badge-danger rounded-pill position-absolute notification-badge"
+              >
+                {{ getMaintenanceCount() }}
+              </span>
+            }
+          </button>
+        }
+
+        <!-- User Manual -->
+        @if (hasAction(HeaderAction.USER_MANUAL) && infopage != "") {
+          <button type="button" class="btn btn-link text-white p-0 mx-1">
+            <a href="{{ infopage }}" target="_blank">
+              <ion-icon
+                name="information-circle-outline"
+                class="fs-4"
+              ></ion-icon
+            ></a>
+          </button>
+        }
+
+        <!-- Language -->
+        @if (hasAction(HeaderAction.LANGUAGE_CHANGE)) {
+          <button
+            type="button"
+            class="btn btn-link text-white p-0 mx-1"
+            (click)="openLanguagePopover($event)"
+          >
+            <ion-icon name="ellipsis-vertical" class="fs-4"></ion-icon>
+          </button>
+        }
+
+        <!-- Close Modal -->
+        @if (hasAction(HeaderAction.CLOSE)) {
+          <button
+            type="button"
+            class="btn btn-link text-white p-0 mx-1"
+            (click)="goBack()"
+          >
+            <ion-icon name="close-outline" class="fs-4"> </ion-icon>
+          </button>
+        }
+      </div>
+    </div>
+  </ion-toolbar>
+</ion-header>

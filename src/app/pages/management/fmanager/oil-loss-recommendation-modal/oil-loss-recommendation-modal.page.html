@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar
+    class="modaltoolbar"
+    [class.reason-toolbar]="reasonflag"
+    [class.action-toolbar]="!reasonflag"
+  >
+    <ion-title class="modal-title"
+      >{{ reasonflag ? ('OILLOSSESNEW.reasonforoilloss' | translate) :
+      ('OILLOSSESNEW.recommendations' | translate) }}</ion-title
+    >
+    <ion-buttons slot="end">
+      <ion-button (click)="btn_close()">
+        <ion-icon name="close-outline" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (reasonflag) {
+  <!-- Reason Content -->
+  <div class="checkcard reason-card">
+    <div class="content-list">
+      @for (actions of reasonArr; track actions; let i = $index) {
+      <div class="item-row">
+        <span class="item-number">{{ i + 1 }})</span>
+        <span class="item-text">{{ actions.values }}</span>
+      </div>
+      } @if (reasonArr.length === 0) {
+      <div class="no-items">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      }
+    </div>
+  </div>
+  } @else {
+  <!-- Recommendation Content -->
+  <div class="checkcard recommendation-card">
+    <div class="content-list">
+      @for (actions of recommendationArr; track actions; let i = $index) {
+      <div class="item-row">
+        <span class="item-number">{{ i + 1 }})</span>
+        <span class="item-text">{{ actions.values }}</span>
+      </div>
+      } @if (recommendationArr.length === 0) {
+      <div class="no-items">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      }
+    </div>
+  </div>
+  }
+</ion-content>
+
+<ion-footer>
+  <ion-row class="footerbutton">
+    <ion-col class="footer-col">
+      <button
+        type="button"
+        class="h6 btn btn-success"
+        [class.reason-btn]="reasonflag"
+        [class.action-btn]="!reasonflag"
+        (click)="btn_close()"
+      >
+        {{ 'GENERALBUTTON.closebutton' | translate }}
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

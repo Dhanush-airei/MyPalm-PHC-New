@@ -1,0 +1,7 @@
+{
+  "name": "MyPalm PHC",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,30 @@
+<ion-content class="ion-padding">
+  <div class="text-center">
+    <ion-icon
+      name="log-out-outline"
+      class="theme-color fs-45"
+      style="font-size: 60px"
+    >
+    </ion-icon>
+
+    <h4 class="fw-bold mt-3">{{ 'MORE.logout' | translate }}</h4>
+
+    <p class="text-secondary">{{ 'MORE.logout_confirmation' | translate }}</p>
+
+    <div class="d-flex gap-2 mt-4">
+      <button class="btn btn-outline-secondary w-50 h42px" (click)="cancel()">
+        {{ 'GENERALBUTTON.cancelbutton' | translate }}
+      </button>
+
+      <button
+        class="btn theme-bg-color text-white w-50 h42px"
+        [disabled]="isLoading"
+        (click)="confirmLogout()"
+      >
+        @if (!isLoading) { {{ 'MORE.logout' | translate }} } @else {
+        <ion-spinner color="light"></ion-spinner>
+        }
+      </button>
+    </div>
+  </div>
+</ion-content>

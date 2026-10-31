@@ -1,0 +1,974 @@
+<!-- production-hourly-sterilizer-station.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Input Data to get from user -->
+  @if (!viewFlag) {
+  <form [formGroup]="sterilizerStationForm">
+    <!-- Flow Flag = 0 -->
+    @if (flowFlag == 0) { @if (uiEnableFlag) {
+    <div class="form-container">
+      <!-- Cycle No -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.cycleno' | translate }}
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="txt_cyclenumber"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.cycleno' | translate }}"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Sterilizer No -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.sterilizerno' | translate }}
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <select
+            formControlName="select_sterilizer"
+            class="form-control text-dark"
+            (change)="onConditionSterilizer()"
+          >
+            <option value="" selected disabled hidden>
+              {{ 'HOURLYSTERILIZATIONSTATIONSAVE.select' | translate }}
+            </option>
+            @for (value of sterilizerArr; track $index) {
+            <option value="{{ value.machine_id + '~' + value.machine_name }}">
+              {{ value.machine_name }}
+            </option>
+            }
+          </select>
+        </ion-col>
+      </ion-row>
+
+      <!-- Door Shut Time - Text input with modal picker -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.doorshuttime' | translate }}
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="form-control datetime-input-field"
+            formControlName="txt_doorshuttime"
+            placeholder="DD-MM-YYYY HH:mm"
+            readonly
+            (click)="openDateTimePicker('door_shut')"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Door Open Time - Text input with modal picker -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.dooropentime' | translate }}
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="form-control datetime-input-field"
+            formControlName="txt_dooropentime"
+            placeholder="DD-MM-YYYY HH:mm"
+            readonly
+            (click)="openDateTimePicker('door_open')"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Door Open Later -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.dooropenlater' | translate }}
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <ion-row class="dooropenlaterradiobutton">
+            <ion-col style="text-align: left; padding-left: 0px">
+              <div>
+                <input
+                  type="radio"
+                  id="radio_dooropenlater"
+                  name="radio_dooropenlater"
+                  value="Yes"
+                  (change)="onConditionDoorOpenChange('Yes')"
+                  [checked]="doorOpenLaterFlag"
+                />
+                <label for="radio_dooropenlater" style="padding-right: 10px">
+                  {{ 'HOURLYSTERILIZATIONSTATIONSAVE.dooropenlateroption' |
+                  translate }}
+                </label>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+
+      <!-- Back Pressure Receiver -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.backpressure' | translate }}<br />
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.receiver' | translate }} [PSI]
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="form-control"
+            id="backpressurereceiver"
+            name="backpressurereceiver"
+            formControlName="txt_backpressurereceiver"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.backpressureterm' | translate }}"
+            (keypress)="decimalFilter($event)"
+            (input)="onChangeBackPressureReceiver()"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- BPV Images -->
+      @if (bpvImageUiFlag) {
+      <ion-row class="form-row">
+        <ion-col style="text-align: right !important">
+          <button
+            type="button"
+            class="btn btn-imageupload"
+            (click)="imageUpload('BPV')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.uploadbutton' | translate }}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-imageview"
+            (click)="btnView('BPV')"
+          >
+            <span class="icontext">
+              @if (bpvImagesArr.length == 0) { {{ 'GENERALBUTTON.viewbutton' |
+              translate }} } @else { {{ 'GENERALBUTTON.viewbutton' | translate
+              }} ({{ bpvImagesArr.length }}) }
+            </span>
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+
+      <!-- P1 Peak -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p1peak' | translate }} [PSI]
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="txt_p1"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p1peak' | translate }}"
+            (keypress)="decimalFilter($event)"
+            (input)="onChangeP1()"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- P2 Peak -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p2peak' | translate }} [PSI]
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="txt_p2"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p2peak' | translate }}"
+            (keypress)="decimalFilter($event)"
+            (input)="onChangeP2()"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- P3 Peak -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p3peak' | translate }} [PSI]
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="txt_p3"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p3peak' | translate }}"
+            (keypress)="decimalFilter($event)"
+            (input)="onChangeP3()"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Peak Images -->
+      @if (peakImageUiFlag) {
+      <ion-row class="form-row">
+        <ion-col style="text-align: right !important">
+          <button
+            type="button"
+            class="btn btn-imageupload"
+            (click)="imageUpload('Peak')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.uploadbutton' | translate }}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-imageview"
+            (click)="btnView('Peak')"
+          >
+            <span class="icontext">
+              @if (peakImagesArr.length == 0) { {{ 'GENERALBUTTON.viewbutton' |
+              translate }} } @else { {{ 'GENERALBUTTON.viewbutton' | translate
+              }} ({{ peakImagesArr.length }}) }
+            </span>
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+
+      <hr />
+
+      <!-- Save & Cancel Buttons -->
+      <ion-row>
+        <ion-col size="6" style="text-align: right !important">
+          <button type="button" class="btn btn-save" (click)="saveAlert()">
+            {{ 'GENERALBUTTON.savebutton' | translate }}
+          </button>
+        </ion-col>
+        <ion-col size="6" style="text-align: left !important">
+          <button type="button" class="btn btn-cancel" (click)="cancel()">
+            {{ 'GENERALBUTTON.cancelbutton' | translate }}
+          </button>
+        </ion-col>
+      </ion-row>
+    </div>
+    }
+
+    <!-- No Records Found - Same as older version -->
+    @if (noRecordsFlag) {
+    <div class="norecords">
+      {{ 'HOURLYSTERILIZATIONSTATIONSAVE.nosertilizationstationinonline' |
+      translate }}
+    </div>
+    } }
+
+    <!-- Flow Flag = 1 -->
+    @if (flowFlag == 1) { @if (uiEnableFlag) {
+    <div class="form-container">
+      <!-- Sterilizer No -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.sterilizerno' | translate }}
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          @if (notificationSensorId <= 0) {
+          <select
+            formControlName="select_sterilizer"
+            class="form-control text-dark"
+            (change)="onConditionSterilizer()"
+            [(ngModel)]="selectedSterilizer"
+          >
+            <option value="" selected disabled hidden>
+              {{ 'HOURLYSTERILIZATIONSTATIONSAVE.select' | translate }}
+            </option>
+            @for (value of sterilizerArr; track $index) {
+            <option value="{{ value.machine_id + '~' + value.machine_name }}">
+              {{ value.machine_name }}
+            </option>
+            }
+          </select>
+          } @else {
+          <input
+            type="text"
+            class="form-control"
+            placeholder="{{ sterilizerName }}"
+            readonly
+          />
+          }
+        </ion-col>
+      </ion-row>
+
+      <!-- Sensor Cycle No -->
+      @if (sensorList.length >= 1) {
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">Sensor Cycle No</div>
+        </ion-col>
+        <ion-col size="6">
+          @if (sensorList.length == 1) {
+          <input
+            type="number"
+            class="form-control"
+            formControlName="txt_sensorcyclenumber"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.cycleno' | translate }}"
+            readonly
+          />
+          } @else {
+          <select
+            formControlName="select_sensorcyclenumber"
+            class="form-control text-dark"
+            (change)="onConditionCycleChange()"
+            [(ngModel)]="defaultSensorId"
+          >
+            <option value="" selected disabled hidden>
+              {{ 'HOURLYSTERILIZATIONSTATIONSAVE.select' | translate }}
+            </option>
+            @for (value of sensorList; track $index) {
+            <option value="{{ parseString(value) }}">
+              {{ value.cycle_no }}
+            </option>
+            }
+          </select>
+          }
+        </ion-col>
+      </ion-row>
+      }
+
+      <!-- Cycle No -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.cycleno' | translate }}
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="txt_cyclenumber"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.cycleno' | translate }}"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Door Shut Time - Text input with modal picker -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.doorshuttime' | translate }}
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="form-control datetime-input-field"
+            formControlName="txt_doorshuttime"
+            placeholder="DD-MM-YYYY HH:mm"
+            readonly
+            (click)="openDateTimePicker('door_shut')"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Door Open Time - Text input with modal picker -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.dooropentime' | translate }}
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="text"
+            class="form-control datetime-input-field"
+            formControlName="txt_dooropentime"
+            placeholder="DD-MM-YYYY HH:mm"
+            readonly
+            (click)="openDateTimePicker('door_open')"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Back Pressure Receiver -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.backpressure' | translate }}<br />
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.receiver' | translate }} [PSI]
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="form-control"
+            id="backpressurereceiver"
+            name="backpressurereceiver"
+            formControlName="txt_backpressurereceiver"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.backpressureterm' | translate }}"
+            (keypress)="decimalFilter($event)"
+            (input)="onChangeBackPressureReceiver()"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- BPV Images -->
+      @if (bpvImageUiFlag) {
+      <ion-row class="form-row">
+        <ion-col style="text-align: right !important">
+          <button
+            type="button"
+            class="btn btn-imageupload"
+            (click)="imageUpload('BPV')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.uploadbutton' | translate }}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-imageview"
+            (click)="btnView('BPV')"
+          >
+            <span class="icontext">
+              @if (bpvImagesArr.length == 0) { {{ 'GENERALBUTTON.viewbutton' |
+              translate }} } @else { {{ 'GENERALBUTTON.viewbutton' | translate
+              }} ({{ bpvImagesArr.length }}) }
+            </span>
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+
+      <!-- P1 Peak -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p1peak' | translate }} [PSI]
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="txt_p1"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p1peak' | translate }}"
+            (keypress)="decimalFilter($event)"
+            (input)="onChangeP1()"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- P2 Peak -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p2peak' | translate }} [PSI]
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="txt_p2"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p2peak' | translate }}"
+            (keypress)="decimalFilter($event)"
+            (input)="onChangeP2()"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- P3 Peak -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="label-text">
+            {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p3peak' | translate }} [PSI]
+            <sup>*</sup>
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="form-control"
+            formControlName="txt_p3"
+            placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p3peak' | translate }}"
+            (keypress)="decimalFilter($event)"
+            (input)="onChangeP3()"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Peak Images -->
+      @if (peakImageUiFlag) {
+      <ion-row class="form-row">
+        <ion-col style="text-align: right !important">
+          <button
+            type="button"
+            class="btn btn-imageupload"
+            (click)="imageUpload('Peak')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.uploadbutton' | translate }}
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-imageview"
+            (click)="btnView('Peak')"
+          >
+            <span class="icontext">
+              @if (peakImagesArr.length == 0) { {{ 'GENERALBUTTON.viewbutton' |
+              translate }} } @else { {{ 'GENERALBUTTON.viewbutton' | translate
+              }} ({{ peakImagesArr.length }}) }
+            </span>
+          </button>
+        </ion-col>
+      </ion-row>
+      }
+
+      <hr />
+
+      <!-- Save & Cancel Buttons -->
+      <ion-row>
+        <ion-col size="6" style="text-align: right !important">
+          <button type="button" class="btn btn-save" (click)="saveAlert()">
+            {{ 'GENERALBUTTON.savebutton' | translate }}
+          </button>
+        </ion-col>
+        <ion-col size="6" style="text-align: left !important">
+          <button type="button" class="btn btn-cancel" (click)="cancel()">
+            {{ 'GENERALBUTTON.cancelbutton' | translate }}
+          </button>
+        </ion-col>
+      </ion-row>
+    </div>
+    }
+
+    <!-- No Records Found - Same as older version -->
+    @if (noRecordsFlag) {
+    <div class="norecords">
+      {{ 'HOURLYSTERILIZATIONSTATIONSAVE.nosertilizationstationinonline' |
+      translate }}
+    </div>
+    } }
+  </form>
+  }
+
+  <!-- View Data before Save - Flow Flag = 0 -->
+  @if (viewFlag && flowFlag == 0) {
+  <div class="home-box">
+    <div class="alert-header">
+      <b>{{ 'HOURLYSTERILIZATIONSTATIONSAVE.alert' | translate }}</b>
+    </div>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.cycleno' | translate }}
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.cycleno' | translate }}"
+          value="{{ viewCycleno }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.sterilizerno' | translate }}
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.sterilizerno' | translate }}"
+          value="{{ viewSterilizerName }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.doorshuttime' | translate }}
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.doorshuttime' | translate }}"
+          value="{{ viewDoorShutTime }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.dooropentime' | translate }}
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.dooropentime' | translate }}"
+          value="{{ viewDoorOpenTime }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.backpressurereceiver' | translate
+          }} [PSI]
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.backpressureterm' | translate }}"
+          value="{{ viewBackPressureReceiver }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p1peak' | translate }} [PSI]
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p1peak' | translate }}"
+          value="{{ viewP1Peak }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p2peak' | translate }} [PSI]
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p2peak' | translate }}"
+          value="{{ viewP2Peak }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p3peak' | translate }} [PSI]
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p3peak' | translate }}"
+          value="{{ viewP3Peak }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <hr />
+
+    <ion-row>
+      <ion-col size="6" style="text-align: right !important">
+        <button
+          type="button"
+          [disabled]="isDisabled"
+          class="btn btn-confirm"
+          (click)="confirmAlert()"
+        >
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.confirmbutton' | translate }}
+        </button>
+      </ion-col>
+      <ion-col size="6" style="text-align: left !important">
+        <button type="button" class="btn btn-cancel" (click)="cancelConfirm()">
+          {{ 'GENERALBUTTON.cancelbutton' | translate }}
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  }
+
+  <!-- View Data before Save - Flow Flag = 1 -->
+  @if (viewFlag && flowFlag == 1) {
+  <div class="home-box">
+    <div class="alert-header">
+      <b>{{ 'HOURLYSTERILIZATIONSTATIONSAVE.alert' | translate }}</b>
+    </div>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.sterilizerno' | translate }}
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.sterilizerno' | translate }}"
+          value="{{ viewSterilizerName }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    @if (sensorList.length >= 1) {
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">Sensor Cycle No</div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.cycleno' | translate }}"
+          value="{{ viewSensorCycleno }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+    }
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.cycleno' | translate }}
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.cycleno' | translate }}"
+          value="{{ viewCycleno }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.doorshuttime' | translate }}
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.doorshuttime' | translate }}"
+          value="{{ viewDoorShutTime }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.dooropentime' | translate }}
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.dooropentime' | translate }}"
+          value="{{ viewDoorOpenTime }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.backpressurereceiver' | translate
+          }} [PSI]
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.backpressureterm' | translate }}"
+          value="{{ viewBackPressureReceiver }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p1peak' | translate }} [PSI]
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p1peak' | translate }}"
+          value="{{ viewP1Peak }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p2peak' | translate }} [PSI]
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p2peak' | translate }}"
+          value="{{ viewP2Peak }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="form-row">
+      <ion-col size="6">
+        <div class="label-text">
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.p3peak' | translate }} [PSI]
+        </div>
+      </ion-col>
+      <ion-col size="6">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="{{ 'HOURLYSTERILIZATIONSTATIONSAVE.p3peak' | translate }}"
+          value="{{ viewP3Peak }}"
+          readonly
+        />
+      </ion-col>
+    </ion-row>
+
+    <hr />
+
+    <ion-row>
+      <ion-col size="6" style="text-align: right !important">
+        <button
+          type="button"
+          [disabled]="isDisabled"
+          class="btn btn-confirm"
+          (click)="confirmAlert()"
+        >
+          {{ 'HOURLYSTERILIZATIONSTATIONSAVE.confirmbutton' | translate }}
+        </button>
+      </ion-col>
+      <ion-col size="6" style="text-align: left !important">
+        <button type="button" class="btn btn-cancel" (click)="cancelConfirm()">
+          {{ 'GENERALBUTTON.cancelbutton' | translate }}
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+  }
+</ion-content>
+
+<!-- DateTime Picker Modal -->
+<ion-modal
+  [isOpen]="isDateTimePickerOpen"
+  cssClass="date-modal"
+  (didDismiss)="onDateTimeDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempDateTime"
+        presentation="date-time"
+        [preferWheel]="true"
+        [showDefaultButtons]="true"
+        doneText="{{ 'GENERALBUTTON.okay' | translate }}"
+        cancelText="{{ 'GENERALBUTTON.cancelbutton' | translate }}"
+        [min]="minDateTime"
+        (ionChange)="onDateTimeChange($event)"
+        hourCycle="h23"
+        locale="en-GB"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

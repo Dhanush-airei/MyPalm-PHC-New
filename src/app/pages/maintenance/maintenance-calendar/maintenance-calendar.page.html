@@ -1,0 +1,19 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content>
+  <!-- <iframe src="http://103.27.72.29/mms.airei.com.my1/index.php/Reports/MMS_logsheet_mobile"  style="width:100%;height:100%" scrolling="yes" ></iframe> -->
+  <iframe
+    [src]="safeWebUrl"
+    width="100%"
+    height="100%"
+    frameborder="0"
+    allowfullscreen
+    scrolling="yes"
+  ></iframe>
+</ion-content>

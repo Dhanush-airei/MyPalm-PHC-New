@@ -1,0 +1,878 @@
+<app-page-header
+  [notificationBackButton]="notificationBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- ========================================================= -->
+  <!-- In-page Tab Segment (only for segmented designations)     -->
+  <!-- ========================================================= -->
+  @if ( designationid != 1 && designationid != 3 && designationid != 4 &&
+  designationid != 5 && designationid != 6 && designationid != 9 &&
+  designationid != 11 && designationid != 15 ) {
+  <div class="tab-segment-wrapper">
+    <ion-segment
+      class="tab-segment"
+      [value]="selectedTab"
+      (ionChange)="onTabChange($event)"
+    >
+      @if (designationid == 2 || designationid == 7 || designationid == 8) {
+      <ion-segment-button value="alerts">
+        <ion-icon name="notifications-outline"></ion-icon>
+        <ion-label>{{ 'NOTIFICATION.alerts' | translate }}</ion-label>
+      </ion-segment-button>
+      } @if (designationid == 7 || designationid == 8) {
+      <ion-segment-button value="remainder">
+        <ion-icon name="calendar-outline"></ion-icon>
+        <ion-label>{{ 'NOTIFICATION.remainder' | translate }}</ion-label>
+      </ion-segment-button>
+      } @if (designationid != 7 && designationid != 8) {
+      <ion-segment-button value="maintenance">
+        <ion-icon name="build-outline"></ion-icon>
+        <ion-label>{{ 'NOTIFICATION.maintenance' | translate }}</ion-label>
+      </ion-segment-button>
+      }
+    </ion-segment>
+  </div>
+  }
+
+  <!-- ========================================================= -->
+  <!-- DESIGNATION 3 — Alert block only                           -->
+  <!-- ========================================================= -->
+  @if (designationid == 3) {
+  <div class="home-box">
+    @if (alertTodaysArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal ion-padding-top">
+      <button
+        type="submit"
+        class="btn alertcheckcard"
+        (click)="getAlertTodays()"
+      >
+        {{ 'SEGREGATENOTIFICATION.current' | translate }} - {{ currentdate }}
+        @if (alertTodaysCount != 0) {
+        <ion-badge class="todaybadge">{{ alertTodaysCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (alertTodaysFlag) { @for (value of alertTodaysArr; track value.id) {
+    <ion-card
+      class="alertcard"
+      [style.backgroundColor]="getBackgroundColor(value.type)"
+      [style.borderColor]="getBorderColor(value.type)"
+    >
+      <ion-card-header
+        [style.backgroundColor]="getBorderColor(value.type)"
+        [style.color]="getTextColor(value.type)"
+      >
+        <div class="form-row">
+          <div class="col">
+            <div class="h6" style="float: left"><b>{{ value.title }}</b></div>
+          </div>
+          <div class="col">
+            <div class="h6" style="float: right">
+              <b>{{ value.notification_date }}</b>
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-row class="marigin-10px row-reverse">
+          <ion-col>
+            <div
+              class="h7 text-dark"
+              [innerHTML]="value.notification_text"
+            ></div>
+
+            <div style="text-align: right; margin-top: 10px">
+              @if (value.rectify_status != 0) {
+              <button
+                type="button"
+                class="h7 btn btn-read btn-sm float-right"
+                (click)="updateNotification(value)"
+              >
+                {{ 'SEGREGATENOTIFICATION.read' | translate }}
+              </button>
+              } @if (value.rectify_status == 0) {
+              <div>
+                <button
+                  type="submit"
+                  [disabled]="isDisable"
+                  class="btn btn-attendrectify"
+                  (click)="btn_rectify(value)"
+                >
+                  {{ 'ALERTACKNOWLEDGE.attendandrectify' | translate }}
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="isDisable"
+                  class="btn btn-unabletorectify"
+                  (click)="btn_notrectify(value)"
+                >
+                  {{ 'ALERTACKNOWLEDGE.unabletorectify' | translate }}
+                </button>
+              </div>
+              }
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    } } @if (alertTodaysArr.length > 0) {
+    <hr />
+    } @if (alertOlderArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal">
+      <button
+        type="submit"
+        class="btn alertcheckcard"
+        (click)="getAlertOlder()"
+      >
+        {{ 'SEGREGATENOTIFICATION.previous' | translate }} @if (alertOlderCount
+        != 0) {
+        <ion-badge class="olderbadge">{{ alertOlderCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (alertOlderFlag) { @for (value of alertOlderArr; track value.id) {
+    <ion-card
+      class="alertcard"
+      [style.backgroundColor]="getBackgroundColor(value.type)"
+      [style.borderColor]="getBorderColor(value.type)"
+    >
+      <ion-card-header
+        [style.backgroundColor]="getBorderColor(value.type)"
+        [style.color]="getTextColor(value.type)"
+      >
+        <div class="form-row">
+          <div class="col">
+            <div class="h6" style="float: left"><b>{{ value.title }}</b></div>
+          </div>
+          <div class="col">
+            <div class="h6" style="float: right">
+              <b>{{ value.notification_date }}</b>
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-row class="marigin-10px row-reverse">
+          <ion-col>
+            <div
+              class="h7 text-dark"
+              [innerHTML]="value.notification_text"
+            ></div>
+
+            <div style="text-align: right; margin-top: 10px">
+              @if (value.rectify_status != 0) {
+              <button
+                type="button"
+                class="h7 btn btn-read btn-sm float-right"
+                (click)="updateNotification(value)"
+              >
+                {{ 'SEGREGATENOTIFICATION.read' | translate }}
+              </button>
+              } @if (value.rectify_status == 0) {
+              <div>
+                <button
+                  type="submit"
+                  [disabled]="isDisable"
+                  class="btn btn-attendrectify"
+                  (click)="btn_rectify(value)"
+                >
+                  {{ 'ALERTACKNOWLEDGE.attendandrectify' | translate }}
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="isDisable"
+                  class="btn btn-unabletorectify"
+                  (click)="btn_notrectify(value)"
+                >
+                  {{ 'ALERTACKNOWLEDGE.unabletorectify' | translate }}
+                </button>
+              </div>
+              }
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    } } @if (alertEnableFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+  </div>
+  }
+
+  <!-- ========================================================= -->
+  <!-- DESIGNATION 2 (Manager) — Segmented: Alerts | Maintenance  -->
+  <!-- ========================================================= -->
+  @if (designationid == 2) {
+  <!-- ========== ALERT TAB ========== -->
+  @if (selectedTab === 'alerts') {
+  <div class="home-box">
+    @if (alertTodaysArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal ion-padding-top">
+      <button
+        type="submit"
+        class="btn alertcheckcard"
+        (click)="getAlertTodays()"
+      >
+        {{ 'SEGREGATENOTIFICATION.current' | translate }} - {{ currentdate }}
+        @if (alertTodaysCount != 0) {
+        <ion-badge class="todaybadge">{{ alertTodaysCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (alertTodaysFlag) { @for (value of alertTodaysArr; track value.id) {
+    <ion-card
+      class="alertcard"
+      [style.backgroundColor]="getBackgroundColor(value.type)"
+      [style.borderColor]="getBorderColor(value.type)"
+    >
+      <ion-card-header
+        [style.backgroundColor]="getBorderColor(value.type)"
+        [style.color]="getTextColor(value.type)"
+      >
+        <div class="form-row">
+          <div class="col">
+            <div class="h6" style="float: left"><b>{{ value.title }}</b></div>
+          </div>
+          <div class="col">
+            <div class="h6" style="float: right">
+              <b>{{ value.notification_date }}</b>
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-row class="marigin-10px row-reverse">
+          <ion-col>
+            <div
+              class="h7 text-dark"
+              [innerHTML]="value.notification_text"
+            ></div>
+
+            <div style="text-align: right; margin-top: 10px">
+              @if (value.rectify_status != 0) {
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-acknowledge float-right"
+                  (click)="updateNotification(value)"
+                >
+                  {{ 'SEGREGATENOTIFICATION.acknowledge' | translate }}
+                </button>
+                @if (value.images != '') {
+                <button
+                  type="button"
+                  class="btn btn-imageview float-right"
+                  (click)="btn_ViewImages(value.images)"
+                >
+                  {{ 'IMAGESLIDER.viewimage' | translate }}
+                </button>
+                }
+              </div>
+              } @if (value.rectify_status == 0 && value.type != 6) {
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-acknowledge float-right"
+                  (click)="updateNotification(value)"
+                >
+                  {{ 'SEGREGATENOTIFICATION.acknowledge' | translate }}
+                </button>
+              </div>
+              }
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    } } @if (alertTodaysArr.length > 0) {
+    <hr />
+    } @if (alertOlderArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal">
+      <button
+        type="submit"
+        class="btn alertcheckcard"
+        (click)="getAlertOlder()"
+      >
+        {{ 'SEGREGATENOTIFICATION.previous' | translate }} @if (alertOlderCount
+        != 0) {
+        <ion-badge class="olderbadge">{{ alertOlderCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (alertOlderFlag) { @for (value of alertOlderArr; track value.id) {
+    <ion-card
+      class="alertcard"
+      [style.backgroundColor]="getBackgroundColor(value.type)"
+      [style.borderColor]="getBorderColor(value.type)"
+    >
+      <ion-card-header
+        [style.backgroundColor]="getBorderColor(value.type)"
+        [style.color]="getTextColor(value.type)"
+      >
+        <div class="form-row">
+          <div class="col">
+            <div class="h6" style="float: left"><b>{{ value.title }}</b></div>
+          </div>
+          <div class="col">
+            <div class="h6" style="float: right">
+              <b>{{ value.notification_date }}</b>
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-row class="marigin-10px row-reverse">
+          <ion-col>
+            <div
+              class="h7 text-dark"
+              [innerHTML]="value.notification_text"
+            ></div>
+
+            <div style="text-align: right; margin-top: 10px">
+              @if (value.rectify_status != 0) {
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-acknowledge float-right"
+                  (click)="updateNotification(value)"
+                >
+                  {{ 'SEGREGATENOTIFICATION.acknowledge' | translate }}
+                </button>
+                @if (value.images != '') {
+                <button
+                  type="button"
+                  class="btn btn-imageview float-right"
+                  (click)="btn_ViewImages(value.images)"
+                >
+                  {{ 'IMAGESLIDER.viewimage' | translate }}
+                </button>
+                }
+              </div>
+              } @if (value.rectify_status == 0 && value.type != 6) {
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-acknowledge float-right"
+                  (click)="updateNotification(value)"
+                >
+                  {{ 'SEGREGATENOTIFICATION.acknowledge' | translate }}
+                </button>
+              </div>
+              }
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    } } @if (alertEnableFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+  </div>
+  }
+
+  <!-- ========== MAINTENANCE TAB ========== -->
+  @if (selectedTab === 'maintenance') {
+  <div class="home-box">
+    @if (maintTodaysArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal ion-padding-top">
+      <button type="submit" class="btn checkcard" (click)="getMaintTodays()">
+        {{ 'SEGREGATENOTIFICATION.current' | translate }} - {{ currentdate }}
+        @if (maintTodaysCount != 0) {
+        <ion-badge class="todaybadge">{{ maintTodaysCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (maintTodaysFlag) { @for (value of maintTodaysArr; track value.id) {
+    <div class="card marigin-10px">
+      <ion-row class="row-reverse">
+        <ion-col>
+          <div class="h7" style="float: right; color: #ff9f0c">
+            <b>{{ value.notification_date }}</b>
+          </div>
+          <div class="h6 text-dark"><b>{{ value.title }}</b></div>
+          <div class="h7 text-dark" [innerHTML]="value.notification_text"></div>
+
+          @if (value.redirect == 'CPO PRODUCTION') {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.view' | translate }}
+            </button>
+          </div>
+          } @else {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+          </div>
+          }
+        </ion-col>
+      </ion-row>
+    </div>
+    } } @if (maintTodaysArr.length > 0) {
+    <hr />
+    } @if (maintOlderArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal">
+      <button type="submit" class="btn checkcard" (click)="getMaintOlder()">
+        {{ 'SEGREGATENOTIFICATION.previous' | translate }} @if (maintOlderCount
+        != 0) {
+        <ion-badge class="olderbadge">{{ maintOlderCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (maintOlderFlag) { @for (value of maintOlderArr; track value.id) {
+    <div class="card marigin-10px">
+      <ion-row class="row-reverse">
+        <ion-col>
+          <div class="h7" style="float: right; color: #ff9f0c">
+            <b>{{ value.notification_date }}</b>
+          </div>
+          <div class="h6 text-dark"><b>{{ value.title }}</b></div>
+          <div class="h7 text-dark" [innerHTML]="value.notification_text"></div>
+
+          @if (value.redirect == 'CPO PRODUCTION') {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.view' | translate }}
+            </button>
+          </div>
+          } @else {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+          </div>
+          }
+        </ion-col>
+      </ion-row>
+    </div>
+    } } @if (maintEnableFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+  </div>
+  } }
+
+  <!-- ========================================================= -->
+  <!-- DESIGNATIONS 7, 8 — Segmented: Alerts | Remainder | Maintenance -->
+  <!-- ========================================================= -->
+  @if (designationid == 7 || designationid == 8) {
+  <!-- ========== ALERT TAB ========== -->
+  @if (selectedTab === 'alerts') {
+  <div class="home-box">
+    @if (alertTodaysArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal ion-padding-top">
+      <button
+        type="submit"
+        class="btn alertcheckcard"
+        (click)="getAlertTodays()"
+      >
+        {{ 'SEGREGATENOTIFICATION.current' | translate }} - {{ currentdate }}
+        @if (alertTodaysCount != 0) {
+        <ion-badge class="todaybadge">{{ alertTodaysCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (alertTodaysFlag) { @for (value of alertTodaysArr; track value.id) {
+    <ion-card
+      class="alertcard"
+      [style.backgroundColor]="getBackgroundColor(value.type)"
+      [style.borderColor]="getBorderColor(value.type)"
+    >
+      <ion-card-header
+        [style.backgroundColor]="getBorderColor(value.type)"
+        [style.color]="getTextColor(value.type)"
+      >
+        <div class="form-row">
+          <div class="col">
+            <div class="h6" style="float: left"><b>{{ value.title }}</b></div>
+          </div>
+          <div class="col">
+            <div class="h6" style="float: right">
+              <b>{{ value.notification_date }}</b>
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-row class="marigin-10px row-reverse">
+          <ion-col>
+            <div
+              class="h7 text-dark"
+              [innerHTML]="value.notification_text"
+            ></div>
+
+            <div style="text-align: right; margin-top: 10px">
+              @if (value.rectify_status != 0) {
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-acknowledge float-right"
+                  (click)="updateNotification(value)"
+                >
+                  {{ 'SEGREGATENOTIFICATION.acknowledge' | translate }}
+                </button>
+                @if (value.images != '') {
+                <button
+                  type="button"
+                  class="btn btn-imageview float-right"
+                  (click)="btn_ViewImages(value.images)"
+                >
+                  {{ 'IMAGESLIDER.viewimage' | translate }}
+                </button>
+                }
+              </div>
+              } @if (value.rectify_status == 0) {
+              <div>
+                <button
+                  type="submit"
+                  [disabled]="isDisable"
+                  class="btn btn-attendrectify"
+                  (click)="btn_rectify(value)"
+                >
+                  {{ 'ALERTACKNOWLEDGE.attendandrectify' | translate }}
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="isDisable"
+                  class="btn btn-unabletorectify"
+                  (click)="btn_notrectify(value)"
+                >
+                  {{ 'ALERTACKNOWLEDGE.unabletorectify' | translate }}
+                </button>
+              </div>
+              }
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    } } @if (alertTodaysArr.length > 0) {
+    <hr />
+    } @if (alertOlderArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal">
+      <button
+        type="submit"
+        class="btn alertcheckcard"
+        (click)="getAlertOlder()"
+      >
+        {{ 'SEGREGATENOTIFICATION.previous' | translate }} @if (alertOlderCount
+        != 0) {
+        <ion-badge class="olderbadge">{{ alertOlderCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (alertOlderFlag) { @for (value of alertOlderArr; track value.id) {
+    <ion-card
+      class="alertcard"
+      [style.backgroundColor]="getBackgroundColor(value.type)"
+      [style.borderColor]="getBorderColor(value.type)"
+    >
+      <ion-card-header
+        [style.backgroundColor]="getBorderColor(value.type)"
+        [style.color]="getTextColor(value.type)"
+      >
+        <div class="form-row">
+          <div class="col">
+            <div class="h6" style="float: left"><b>{{ value.title }}</b></div>
+          </div>
+          <div class="col">
+            <div class="h6" style="float: right">
+              <b>{{ value.notification_date }}</b>
+            </div>
+          </div>
+        </div>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-row class="marigin-10px row-reverse">
+          <ion-col>
+            <div
+              class="h7 text-dark"
+              [innerHTML]="value.notification_text"
+            ></div>
+
+            <div style="text-align: right; margin-top: 10px">
+              @if (value.rectify_status != 0) {
+              <div>
+                <button
+                  type="button"
+                  class="btn btn-acknowledge float-right"
+                  (click)="updateNotification(value)"
+                >
+                  {{ 'SEGREGATENOTIFICATION.acknowledge' | translate }}
+                </button>
+                @if (value.images != '') {
+                <button
+                  type="button"
+                  class="btn btn-imageview float-right"
+                  (click)="btn_ViewImages(value.images)"
+                >
+                  {{ 'IMAGESLIDER.viewimage' | translate }}
+                </button>
+                }
+              </div>
+              } @if (value.rectify_status == 0) {
+              <div>
+                <button
+                  type="submit"
+                  [disabled]="isDisable"
+                  class="btn btn-attendrectify"
+                  (click)="btn_rectify(value)"
+                >
+                  {{ 'ALERTACKNOWLEDGE.attendandrectify' | translate }}
+                </button>
+                <button
+                  type="submit"
+                  [disabled]="isDisable"
+                  class="btn btn-unabletorectify"
+                  (click)="btn_notrectify(value)"
+                >
+                  {{ 'ALERTACKNOWLEDGE.unabletorectify' | translate }}
+                </button>
+              </div>
+              }
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-card-content>
+    </ion-card>
+    } } @if (alertEnableFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+  </div>
+  }
+
+  <!-- ========== REMAINDER TAB (same data shape as maintenance) ========== -->
+  @if (selectedTab === 'remainder') {
+  <div class="home-box">
+    @if (maintTodaysArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal ion-padding-top">
+      <button type="submit" class="btn checkcard" (click)="getMaintTodays()">
+        {{ 'SEGREGATENOTIFICATION.current' | translate }} - {{ currentdate }}
+        @if (maintTodaysCount != 0) {
+        <ion-badge class="todaybadge">{{ maintTodaysCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (maintTodaysFlag) { @for (value of maintTodaysArr; track value.id) {
+    <div class="card marigin-10px">
+      <ion-row class="row-reverse">
+        <ion-col>
+          <div class="h7" style="float: right; color: #ff9f0c">
+            <b>{{ value.notification_date }}</b>
+          </div>
+          <div class="h6 text-dark"><b>{{ value.title }}</b></div>
+          <div class="h7 text-dark" [innerHTML]="value.notification_text"></div>
+
+          @if (value.redirect == 'CPO PRODUCTION') {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.view' | translate }}
+            </button>
+          </div>
+          } @else {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+          </div>
+          }
+        </ion-col>
+      </ion-row>
+    </div>
+    } } @if (maintTodaysArr.length > 0) {
+    <hr />
+    } @if (maintOlderArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal">
+      <button type="submit" class="btn checkcard" (click)="getMaintOlder()">
+        {{ 'SEGREGATENOTIFICATION.previous' | translate }} @if (maintOlderCount
+        != 0) {
+        <ion-badge class="olderbadge">{{ maintOlderCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (maintOlderFlag) { @for (value of maintOlderArr; track value.id) {
+    <div class="card marigin-10px">
+      <ion-row class="row-reverse">
+        <ion-col>
+          <div class="h7" style="float: right; color: #ff9f0c">
+            <b>{{ value.notification_date }}</b>
+          </div>
+          <div class="h6 text-dark"><b>{{ value.title }}</b></div>
+          <div class="h7 text-dark" [innerHTML]="value.notification_text"></div>
+
+          @if (value.redirect == 'CPO PRODUCTION') {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.view' | translate }}
+            </button>
+          </div>
+          } @else {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+          </div>
+          }
+        </ion-col>
+      </ion-row>
+    </div>
+    } } @if (maintEnableFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+  </div>
+  } }
+
+  <!-- ========================================================= -->
+  <!-- Other designations — 1, 4, 5, 6, 9, 11, 15                 -->
+  <!-- ========================================================= -->
+  @if ( designationid == 1 || designationid == 4 || designationid == 5 ||
+  designationid == 6 || designationid == 9 || designationid == 11 ||
+  designationid == 15 ) {
+  <div class="home-box">
+    @if (maintTodaysArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal ion-padding-top">
+      <button type="submit" class="btn checkcard" (click)="getMaintTodays()">
+        {{ 'SEGREGATENOTIFICATION.current' | translate }} - {{ currentdate }}
+        @if (maintTodaysCount != 0) {
+        <ion-badge class="todaybadge">{{ maintTodaysCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (maintTodaysFlag) { @for (value of maintTodaysArr; track value.id) {
+    <div class="card marigin-10px">
+      <ion-row class="row-reverse">
+        <ion-col>
+          <div class="h7" style="float: right; color: #ff9f0c">
+            <b>{{ value.notification_date }}</b>
+          </div>
+          <div class="h6 text-dark"><b>{{ value.title }}</b></div>
+          <div class="h7 text-dark" [innerHTML]="value.notification_text"></div>
+
+          @if (value.redirect == 'CPO PRODUCTION') {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.view' | translate }}
+            </button>
+          </div>
+          } @else {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+          </div>
+          }
+        </ion-col>
+      </ion-row>
+    </div>
+    } } @if (maintTodaysArr.length > 0) {
+    <hr />
+    } @if (maintOlderArr.length > 0) {
+    <ion-buttons class="ion-padding-horizontal">
+      <button type="submit" class="btn checkcard" (click)="getMaintOlder()">
+        {{ 'SEGREGATENOTIFICATION.previous' | translate }} @if (maintOlderCount
+        != 0) {
+        <ion-badge class="olderbadge">{{ maintOlderCount }}</ion-badge>
+        }
+      </button>
+    </ion-buttons>
+    } @if (maintOlderFlag) { @for (value of maintOlderArr; track value.id) {
+    <div class="card marigin-10px">
+      <ion-row class="row-reverse">
+        <ion-col>
+          <div class="h7" style="float: right; color: #ff9f0c">
+            <b>{{ value.notification_date }}</b>
+          </div>
+          <div class="h6 text-dark"><b>{{ value.title }}</b></div>
+          <div class="h7 text-dark" [innerHTML]="value.notification_text"></div>
+
+          @if (value.redirect == 'CPO PRODUCTION') {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.view' | translate }}
+            </button>
+          </div>
+          } @else {
+          <div>
+            <button
+              type="button"
+              class="h7 btn btn-read btn-sm float-right"
+              (click)="updateNotification(value)"
+            >
+              {{ 'SEGREGATENOTIFICATION.read' | translate }}
+            </button>
+          </div>
+          }
+        </ion-col>
+      </ion-row>
+    </div>
+    } } @if (maintEnableFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+  </div>
+  }
+</ion-content>

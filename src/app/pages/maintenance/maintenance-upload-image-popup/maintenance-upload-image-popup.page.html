@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color modaltoolbar">
+    <ion-title mode="ios" color="light" class="fs-12">{{title}}</ion-title>
+
+    <ion-buttons slot="primary">
+      <ion-button class="bg-light-color" (click)="btn_close()">
+        <ion-icon color="light" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="content">
+    <form [formGroup]="alertattendForm">
+      <div class="text-orange text-center fs-12 fw-bold">
+        {{ 'GENERALBUTTON.uploadimages' | translate}}
+      </div>
+
+      <ion-row style="margin-top: 10px">
+        <ion-col style="text-align: center !important">
+          <button
+            type="submit"
+            class="btn border-orange text-white fs-12 d-inline-flex align-items-center justify-content-center gap-1 w-50 py-2"
+            (click)="imageUpload('PendingNotificationImage')"
+          >
+            <ion-icon class="icon" name="camera-outline"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.uploadbutton' | translate}}
+            </span>
+          </button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row style="margin-top: 10px">
+        <ion-col style="text-align: center !important">
+          <button
+            type="submit"
+            class="btn border-blue text-white fs-12 d-inline-flex align-items-center justify-content-center gap-1 w-50 py-2"
+            (click)="btn_view()"
+          >
+            <ion-icon class="icon" name="eye-outline"></ion-icon>
+
+            @if (attendimagesArr.length == 0) {
+            <span class="icontext">
+              {{ 'GENERALBUTTON.viewbutton' | translate}}
+            </span>
+            } @if (attendimagesArr.length > 0) {
+            <span class="icontext">
+              {{ 'GENERALBUTTON.viewbutton' | translate}}
+              ({{attendimagesArr.length}})
+            </span>
+            }
+          </button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-row class="footerbutton">
+    <ion-col style="text-align: center !important">
+      <button
+        type="submit"
+        [disabled]="isDisable"
+        class="btn border-green text-white fs-12 px-4"
+        (click)="btn_save()"
+      >
+        {{ 'GENERALBUTTON.savebutton' | translate}}
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

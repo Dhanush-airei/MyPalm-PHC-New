@@ -1,0 +1,172 @@
+<!-- part-running-hours.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <form [formGroup]="runningHoursForm">
+    <!-- Station Selection -->
+    <div>
+      <ion-row class="form-row">
+        <ion-col size="3">
+          <div class="title">
+            {{ 'MACHINERUNNINGHOURS.station' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: center">
+          <div class="title">
+            <b>:</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="8.5">
+          <ion-select
+            mode="md"
+            [interfaceOptions]="stationOptions"
+            formControlName="select_station"
+            [okText]="'GENERALBUTTON.okay' | translate"
+            [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+            class="selectdropdown"
+            placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }}"
+            (ionChange)="onStationChange($event)"
+            [value]="defaultStation"
+          >
+            @for (value of stationArr; track value.station_id) {
+            <ion-select-option
+              [value]="value.station_id + '~' + value.station_name"
+            >
+              {{ value.station_name }}
+            </ion-select-option>
+            }
+          </ion-select>
+        </ion-col>
+      </ion-row>
+
+      <div class="hl4line"></div>
+    </div>
+
+    <!-- Machine Selection -->
+    @if (enableMachineFlag) {
+    <div>
+      <ion-row class="form-row">
+        <ion-col size="3">
+          <div class="title">
+            {{ 'MACHINERUNNINGHOURS.machine' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: center">
+          <div class="title">
+            <b>:</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="8.5">
+          <ion-select
+            mode="md"
+            [interfaceOptions]="machineOptions"
+            formControlName="select_machine"
+            [okText]="'GENERALBUTTON.okay' | translate"
+            [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+            class="selectdropdown"
+            placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }}"
+            (ionChange)="onMachineChange($event)"
+            [value]="defaultMachine"
+          >
+            @for (value of machineArr; track value.location_id) {
+            <ion-select-option
+              [value]="value.location_id + '~' + value.location_name"
+            >
+              {{ value.location_name }}
+            </ion-select-option>
+            }
+          </ion-select>
+        </ion-col>
+      </ion-row>
+
+      <div class="hl4line"></div>
+
+      <!-- Machine Running Hours -->
+      @if (machineRunningHoursArr.length > 0) { @for (data of
+      machineRunningHoursArr; track $index) {
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="title">
+            {{ 'MACHINERUNNINGHOURS.machinerunninghours' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: center">
+          <div class="title">:</div>
+        </ion-col>
+
+        <ion-col size="5.5">
+          <div class="machinerunninghoursviewtitle">
+            {{ data.runninghours }}
+          </div>
+        </ion-col>
+      </ion-row>
+      } }
+
+      <!-- Parts Running Hours Table -->
+      @if (runningHoursArr.length > 0) {
+      <div class="table-responsive">
+        <table class="table table-bordered w-100">
+          <thead>
+            <tr class="table_head bg-table-black">
+              <th class="p-1 text-orange" scope="col">S.No</th>
+
+              <th class="p-1 text-orange" scope="col">
+                {{ 'MACHINERUNNINGHOURS.parts' | translate }}
+              </th>
+
+              <th class="p-1 text-orange" scope="col">
+                <span>
+                  {{ 'MACHINERUNNINGHOURS.current' | translate }}<br />
+                  {{ 'MACHINERUNNINGHOURS.runninghours' | translate }}
+                </span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (data of runningHoursArr; track $index; let i = $index) {
+            <tr class="table-row">
+              <td class="p-1" scope="row">[{{ i + 1 }}]</td>
+              <td class="p-1" scope="row" style="text-align: left">
+                {{ data.partname }}
+              </td>
+              <td class="p-1" scope="row">{{ data.runninghours }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+
+      <!-- No Records -->
+      @if (noRecordsFlag) {
+      <div class="norecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      }
+
+      <!-- Loading -->
+      @if (pleaseWaitFlag) {
+      <div class="pleasewait">
+        <div style="width: 100%; text-align: center">
+          <img
+            style="width: 80px; height: 80px"
+            src="../../../assets/img/loading.gif"
+          />
+        </div>
+        {{ 'NORECORDSFOUND.loading' | translate }}
+      </div>
+      }
+    </div>
+    }
+  </form>
+</ion-content>

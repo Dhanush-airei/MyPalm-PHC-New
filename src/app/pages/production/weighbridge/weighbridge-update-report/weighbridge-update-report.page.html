@@ -1,0 +1,127 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color">
+    <ion-title mode="md" color="light">
+      <div class="ion-text-wrap">
+        {{ 'GRADINGHOME.updatenetweight' | translate }}
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #pageBottom>
+  <div class="content">
+    <form class="home-box" [formGroup]="weighbridgeForm">
+      <!-- Hard Bunches -->
+      @if (hardbunches) {
+      <ion-row>
+        <ion-col size="7" class="label-col">
+          {{ 'GRADINGHOME.hardbunches' | translate }} (Unit)
+        </ion-col>
+        <ion-col size="5" class="value-col">
+          <span class="colon">: </span>
+          <span class="data">{{ hardbunches }}</span>
+        </ion-col>
+      </ion-row>
+      }
+
+      <!-- Under Ripe Bunches -->
+      @if (underripebunches) {
+      <ion-row>
+        <ion-col size="7" class="label-col">
+          {{ 'GRADINGHOME.underripebunches' | translate }} (%)
+        </ion-col>
+        <ion-col size="5" class="value-col">
+          <span class="colon">: </span>
+          <span class="data">{{ underripebunches }}</span>
+        </ion-col>
+      </ion-row>
+      }
+
+      <!-- Ripeness -->
+      @if (ripenesspercent) {
+      <ion-row>
+        <ion-col size="7" class="label-col">
+          {{ 'GRADINGHOME.ripeness' | translate }} (%)
+        </ion-col>
+        <ion-col size="5" class="value-col">
+          <span class="colon">: </span>
+          <span class="data">{{ ripenesspercent }}</span>
+        </ion-col>
+      </ion-row>
+      }
+
+      <!-- Overdue -->
+      @if (overduepercent) {
+      <ion-row>
+        <ion-col size="7" class="label-col">
+          {{ 'GRADINGHOME.overdue' | translate }} (%)
+        </ion-col>
+        <ion-col size="5" class="value-col">
+          <span class="colon">: </span>
+          <span class="data">{{ overduepercent }}</span>
+        </ion-col>
+      </ion-row>
+      }
+
+      <!-- Loose Fruits -->
+      @if (loosefruits) {
+      <ion-row>
+        <ion-col size="7" class="label-col">
+          {{ 'GRADINGHOME.loosefruits' | translate }} (%)
+        </ion-col>
+        <ion-col size="5" class="value-col">
+          <span class="colon">: </span>
+          <span class="data">{{ loosefruits }}</span>
+        </ion-col>
+      </ion-row>
+      }
+
+      <!-- Net Weight Input -->
+      <ion-row>
+        <ion-col size="7" class="label-col">
+          {{ 'GRADINGHOME.netweight' | translate }} (MT)
+        </ion-col>
+        <ion-col size="5" class="value-col">
+          <input
+            #txtNetweight
+            type="number"
+            class="h7 form-control"
+            formControlName="txt_netweight"
+            placeholder="{{ 'GENERALBUTTON.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            (focus)="scrollBottom()"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Buttons -->
+      <ion-row style="margin-top: 20px">
+        <ion-col
+          style="
+            align-self: center;
+            text-align: center;
+            padding: 0px;
+            margin: 0px;
+          "
+        >
+          <button class="cancelbutton" (click)="cancel()"></button>
+        </ion-col>
+
+        <ion-col
+          style="
+            align-self: center;
+            text-align: center;
+            padding: 0px;
+            margin: 0px;
+          "
+        >
+          <button class="okaybutton" (click)="save()" [disabled]="isLoading">
+            @if (isLoading) {
+            <span class="spinner"></span>
+            }
+          </button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+</ion-content>

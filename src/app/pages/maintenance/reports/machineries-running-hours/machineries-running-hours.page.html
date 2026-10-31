@@ -1,0 +1,161 @@
+<!-- machineries-running-hours.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="home-box">
+    @if (!pleaseWaitFlag) {
+    <!-- Date Picker -->
+    <app-date-picker
+      [date]="reportDateDisplay"
+      [externalDate]="reportDateExternal"
+      (getRecords)="onDateSelected($event)"
+    ></app-date-picker>
+
+    <hr />
+
+    <!-- Station Filter Dropdown -->
+    @if (machineriesListArr.length > 0) {
+    <div style="padding: 0px; margin: 0px 0px 10px 0px">
+      <select class="selectdropdown" (change)="onStationChange($event)">
+        <option value="" selected>Filter by station</option>
+        @for (item of stationListArr; track item.station_id) {
+        <option [value]="item.station_id">{{ item.station_name }}</option>
+        }
+      </select>
+    </div>
+    }
+
+    <!-- Mill Details Table -->
+    @if (millDetailsArr.length > 0) {
+    <table style="width: 100%; height: 100%" class="table table-bordered">
+      @for (general of millDetailsArr; track $index; let i = $index) {
+      <tr>
+        <th
+          colspan="1"
+          width="50%"
+          scope="colgroup"
+          style="padding: 8px 0px 8px 0px !important; background-color: #1d2730"
+        >
+          <span class="titletext"
+            >{{ 'PRODUCTIONABNORMALREPORT.startdatetime' | translate }}</span
+          >
+        </th>
+
+        @if (general.start_date != '') {
+        <td>{{ general.start_date }} {{ general.start_time }}</td>
+        } @else {
+        <td>-</td>
+        }
+      </tr>
+
+      <tr>
+        <th
+          colspan="1"
+          width="50%"
+          scope="colgroup"
+          style="padding: 8px 0px 8px 0px !important; background-color: #1d2730"
+        >
+          <span class="titletext"
+            >{{ 'PRODUCTIONABNORMALREPORT.stopdatetime' | translate }}</span
+          >
+        </th>
+
+        @if (general.stop_date != '') {
+        <td>{{ general.stop_date }} {{ general.stop_time }}</td>
+        } @else {
+        <td>-</td>
+        }
+      </tr>
+      }
+    </table>
+    }
+
+    <!-- Machineries List -->
+    @if (machineriesListArr.length > 0) {
+    <div class="table-responsive">
+      @for (station of machineriesListArr; track $index) {
+      <div class="table-wrapper">
+        <table class="table table-bordered">
+          <thead>
+            <tr class="table_head bg-table-black">
+              <th colspan="4" scope="colgroup" style="padding: 4px !important">
+                <span class="text-orange">{{ station.stationname }}</span>
+              </th>
+            </tr>
+
+            <tr class="table_head bg-table-black">
+              <th class="p-1 text-orange" scope="col">
+                {{ 'MACHINERUNNINGHOURS.machine' | translate }}
+              </th>
+
+              <th class="p-1 text-orange" scope="col">
+                {{ 'MACHINERUNNINGHOURS.current' | translate }}<br />
+                {{ 'MACHINERUNNINGHOURS.runninghours' | translate }}
+              </th>
+
+              <th class="p-1 text-orange" scope="col">
+                {{ 'MACHINERUNNINGHOURS.total' | translate }}<br />
+                {{ 'MACHINERUNNINGHOURS.runninghours' | translate }}
+              </th>
+
+              <th class="p-1 text-orange" scope="col">
+                {{ 'MACHINERUNNINGHOURS.status' | translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (data of station.machines; track $index) {
+            <tr class="table-row">
+              <td class="p-1" scope="row" style="text-align: left">
+                {{ data.machinename }}
+              </td>
+              <td class="p-1" scope="row">{{ data.runninghours || '-' }}</td>
+              <td class="p-1" scope="row">
+                {{ data.todaterunninghours || '-' }}
+              </td>
+              <td class="p-1 status-cell" scope="row">
+                <span
+                  style="font-size: 12px"
+                  [style.color]="getStatusTextColor(data.statusid)"
+                >
+                  <b>{{ data.statusname }}</b>
+                </span>
+                @if (data.remarks != '') {
+                <p style="font-size: 12px"><br />Remarks: {{ data.remarks }}</p>
+                }
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </div>
+    }
+
+    <!-- No Records -->
+    @if (noRecordsFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    } }
+
+    <!-- Loading -->
+    @if (pleaseWaitFlag) {
+    <div class="pleasewait">
+      <div style="width: 100%; text-align: center">
+        <img
+          style="width: 80px; height: 80px"
+          src="../../../../../assets/img/loading.gif"
+        />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>

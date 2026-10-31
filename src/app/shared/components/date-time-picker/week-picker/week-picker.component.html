@@ -1,0 +1,67 @@
+<!-- week-picker.component.html -->
+<!-- ================= WEEK DATE PICKER ================= -->
+
+<ion-row
+  class="align-items-center justify-content-center"
+  style="margin-top: 0px"
+>
+  <!-- Week Label -->
+  <ion-col
+    size="1.8"
+    class="text-dark fs-12"
+    style="font-weight: 500; text-align: right"
+  >
+    {{ "OWNERPRODUCTIONSUMMARY.week" | translate }}
+  </ion-col>
+
+  <!-- Date Display -->
+  <ion-col
+    size="4.5"
+    class="text-dark text-center fs-12"
+    style="
+      margin-right: 5px;
+      cursor: pointer;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid #ced4da !important;
+      border-radius: 4px;
+      padding: 0 8px;
+    "
+    (click)="openDateModal()"
+  >
+    {{ displayDate || (date ? date : "DD-MM-YYYY") }}
+  </ion-col>
+
+  <!-- Get Button -->
+  <ion-col size="2.5">
+    <button type="button" class="btn btn-general" (click)="onGetRecords()">
+      {{ "GENERALBUTTON.getrecords" | translate }}
+    </button>
+  </ion-col>
+</ion-row>
+
+<!-- ================= DATE MODAL ================= -->
+
+<ion-modal
+  [isOpen]="isDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onDateChange($event)"
+        [max]="maxDate"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

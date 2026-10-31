@@ -1,0 +1,554 @@
+.firstsegment {
+  width: 100%;
+
+  ion-segment-button {
+    min-height: 45px;
+    height: 45px;
+
+    --indicator-box-shadow: none;
+    border-radius: 5px !important;
+    --background: linear-gradient(315deg, #d9d9d9 0%, #e9e9e9 74%);
+    --color: #000000;
+    --background-checked: linear-gradient(180deg, #1d2730 0%, #1d2730 74%);
+    --color-checked: white;
+    --indicator-color: transparent !important;
+    --border-color: none;
+  }
+}
+
+.secondsegment {
+  width: 100%;
+
+  --background: transparent !important;
+  --indicator-box-shadow: none !important;
+
+  ion-segment-button {
+    min-height: 45px !important;
+    height: 45px !important;
+    position: relative;
+
+    --color: #ffffff !important;
+    --color-checked: #ff9f0c !important;
+    --background: transparent !important;
+    --background-checked: transparent !important;
+    --background-hover: rgba(255, 159, 12, 0.1) !important;
+    --background-hover-checked: rgba(255, 159, 12, 0.2) !important;
+
+    border-radius: 0px !important;
+    --border-radius: 0px !important;
+
+    --indicator-color: transparent !important;
+    --indicator-box-shadow: none !important;
+    --indicator-height: 0px !important;
+    --indicator-transition: none !important;
+
+    font-weight: bold !important;
+    font-size: 16px !important;
+
+    --padding-top: 0px !important;
+    --padding-bottom: 0px !important;
+    --padding-start: 0px !important;
+    --padding-end: 0px !important;
+
+    border: none !important;
+    box-shadow: none !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    &::after {
+      display: none !important;
+    }
+
+    &::before {
+      display: none !important;
+    }
+
+    &.segment-button-checked {
+      border-bottom: 3px solid #ff9f0c !important;
+
+      .segment-label-wrapper {
+        color: #ff9f0c !important;
+      }
+    }
+
+    &:not(.segment-button-checked) {
+      border-bottom: 3px solid transparent !important;
+
+      .segment-label-wrapper {
+        color: #ffffff !important;
+      }
+    }
+
+    &:hover {
+      opacity: 0.8 !important;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #ff9f0c !important;
+      outline-offset: 2px !important;
+    }
+
+    // Wrapper for label and badge
+    .segment-label-wrapper {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 8px !important;
+      width: 100% !important;
+      height: 100% !important;
+      padding: 0 4px !important;
+    }
+
+    ion-label {
+      font-weight: bold !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      white-space: nowrap !important;
+      flex-shrink: 0 !important;
+    }
+
+    ion-icon {
+      font-size: 24px !important;
+      margin: 0 !important;
+    }
+
+    // Badge styling - positioned inline with label
+    .badgecount {
+      background-color: #ff0000 !important;
+      color: white !important;
+      font-weight: bold !important;
+      min-width: 24px !important;
+      height: 24px !important;
+      border-radius: 50% !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 11px !important;
+      padding: 0 6px !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+      margin: 0 !important;
+      flex-shrink: 0 !important;
+      line-height: 1 !important;
+    }
+
+    .badgeblink {
+      animation: blink 1s infinite;
+    }
+  }
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Search bar container - ensures it's above cards */
+.search-container {
+  margin: 8px 0;
+  padding: 0 16px;
+  width: 100%;
+}
+
+.custom-searchbar {
+  --background: #ffffff;
+  --border-radius: 8px;
+  --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --placeholder-color: #999;
+  --color: #000;
+  --icon-color: #666;
+  width: 100%;
+}
+
+/* Cards container - column layout */
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 16px 16px;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Card styling - Routine */
+.ropmcard {
+  width: 100%;
+  margin: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Card styling - Replacement */
+.repmcard {
+  width: 100%;
+  margin: 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+ion-card-header {
+  padding: 12px 16px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: #008000;
+  color: #ffffff;
+
+  .h6 {
+    margin: 0;
+    font-size: 14px;
+    color: #ffffff;
+  }
+}
+
+ion-card-content {
+  padding: 12px 16px;
+
+  ion-row {
+    margin: 4px 0;
+    font-size: 13px;
+
+    ion-col:first-child {
+      font-weight: 500;
+      color: #666;
+    }
+
+    ion-col:last-child {
+      font-weight: 400;
+      color: #333;
+    }
+  }
+}
+
+.data {
+  margin: 0;
+  word-break: break-word;
+}
+
+.statusdata {
+  margin: 0;
+  font-weight: bold !important;
+}
+
+.row-reverse {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #eee;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* ============================================================ */
+/* BUTTON STYLING - Fixed height, auto width based on content */
+/* ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  height: 36px;
+  width: auto;
+  padding: 0 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  box-sizing: border-box;
+
+  .icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icontext {
+    display: inline-flex;
+    align-items: center;
+    font-size: 12px;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* Specific button types */
+.btn-view {
+  background-color: transparent;
+  border-color: #ff9f0c;
+  color: #000000;
+
+  &:hover:not(:disabled) {
+    background-color: #fff5e6;
+  }
+}
+
+.btn-assign {
+  background-color: transparent;
+  border-color: #cb4335;
+  color: #000000;
+
+  &:hover:not(:disabled) {
+    background-color: #fde8e5;
+  }
+}
+
+.btn-accept {
+  background-color: transparent;
+  border-color: #3cd2a5;
+  color: #000000;
+
+  &:hover:not(:disabled) {
+    background-color: #e8f5e9;
+  }
+}
+
+.btn-close-action {
+  background-color: transparent;
+  border-color: #ff6060;
+  color: #000000;
+
+  &:hover:not(:disabled) {
+    background-color: #fde8e5;
+  }
+
+  &::before,
+  &::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  ion-icon {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px !important;
+    color: inherit !important;
+    pointer-events: none;
+  }
+}
+
+.btn-acknowledge {
+  background-color: transparent;
+  border-color: #3cd2a5;
+  color: #000000;
+
+  &:hover:not(:disabled) {
+    background-color: #e8f5e9;
+  }
+}
+
+.btn-upload {
+  background-color: transparent;
+  border-color: #3cd2a5;
+  color: #000000;
+
+  &:hover:not(:disabled) {
+    background-color: #e8f5e9;
+  }
+}
+
+/* ============================================================ */
+/* CLOSE BUTTON as ion-button - MATCHING OTHER BUTTONS */
+/* ============================================================ */
+.btn-close-btn {
+  /* Reset Ionic button variables */
+  --background: transparent !important;
+  --background-hover: #fde8e5 !important;
+  --background-activated: #fde8e5 !important;
+  --background-focused: #fde8e5 !important;
+  --color: #000000 !important;
+  --color-hover: #000000 !important;
+  --color-activated: #000000 !important;
+  --color-focused: #000000 !important;
+  --border-color: #ff6060 !important;
+  --border-style: solid !important;
+  --border-width: 1px !important;
+  --border-radius: 4px !important;
+  --box-shadow: none !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+  --padding-start: 8px !important;
+  --padding-end: 12px !important;
+  --ripple-color: transparent !important;
+
+  /* Size and layout */
+  height: 36px !important;
+  min-height: 36px !important;
+  max-height: 36px !important;
+  width: auto !important;
+  margin: 5px !important;
+
+  /* Text styling */
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  font-family: inherit !important;
+
+  /* Ensure border shows properly */
+  border: 1px solid #ff6060 !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+
+  /* Remove any default Ionic button shadows or outlines */
+  outline: none !important;
+  box-shadow: none !important;
+
+  /* Icon styling - make sure it's black */
+  ion-icon {
+    color: #000000 !important;
+    font-size: 16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Text styling - black color */
+  .icontext {
+    color: #000000 !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    margin-left: 4px !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  /* Hover state */
+  &:hover {
+    --background: #fde8e5 !important;
+    background: #fde8e5 !important;
+    border-color: #ff6060 !important;
+
+    ion-icon,
+    .icontext {
+      color: #000000 !important;
+    }
+  }
+
+  /* Focus state - remove default outline */
+  &:focus,
+  &:focus-visible {
+    outline: none !important;
+    border-color: #ff6060 !important;
+  }
+
+  /* Active state */
+  &:active {
+    --background: #fde8e5 !important;
+    background: #fde8e5 !important;
+    border-color: #ff6060 !important;
+  }
+
+  /* Ionic 8 specific: style the native button inside */
+  &::part(native) {
+    background: transparent !important;
+    border: 1px solid #ff6060 !important;
+    border-radius: 4px !important;
+    padding: 0 12px !important;
+    color: #000000 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    max-height: 36px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  &:hover::part(native) {
+    background: #fde8e5 !important;
+    color: #000000 !important;
+  }
+
+  &:focus::part(native),
+  &:focus-visible::part(native) {
+    outline: none !important;
+  }
+}
+
+/* Ensure all icons inside .btn buttons are properly sized */
+.btn ion-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 16px !important;
+  height: 16px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  font-size: 16px !important;
+  color: inherit !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+.margin-5px {
+  margin: 5px !important;
+}
+
+.no-records {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+  font-size: 14px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.please-wait {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+
+  &__image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 8px;
+  }
+
+  &__text {
+    display: block;
+  }
+}
+
+.loadmore {
+  color: #ffffff;
+}

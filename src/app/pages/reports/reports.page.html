@@ -1,0 +1,45 @@
+<!-- reports.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  @if(reportArr.length === 0){
+  <div class="norecords">{{ 'NORECORDSFOUND.norecordsfound' | translate}}</div>
+  }
+  <!-- Reports Section -->
+  @for (reportGroup of reportArr; track reportGroup.report_name) {
+  <div class="report-section">
+    @if (reportGroup.report_name != '') {
+    <!-- Section Header -->
+    <div class="section-header mx-2">{{ reportGroup.report_name }}</div>
+    }
+    <!-- Reports Flex Container -->
+    <div class="reports-flex-container px-2">
+      @for (report of reportGroup.reportArr; track report.title) {
+      <div class="report-card-wrapper">
+        <!-- Card -->
+        <div class="report-card">
+          <!-- Card Image Section -->
+          <div class="card-image-wrapper">
+            <img [src]="report.img" [alt]="report.title" class="card-image" />
+          </div>
+
+          <!-- Card Info Section -->
+          <div class="card-info">
+            <h3 class="card-title">{{ report.title }}</h3>
+            <p class="card-subtitle" [innerHTML]="report.subtitle"></p>
+          </div>
+
+          <!-- Card Overlay for Click Effect -->
+          <div class="card-overlay" (click)="navigateToReport(report)"></div>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  }
+</ion-content>

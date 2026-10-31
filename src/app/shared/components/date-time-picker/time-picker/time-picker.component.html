@@ -1,0 +1,35 @@
+<!-- Time Display -->
+<ion-row class="align-items-center justify-content-between">
+  <ion-col size="1.9" class="text-white fs-12">
+    {{ "OILLOSSESSREPORT.time" | translate }}
+  </ion-col>
+
+  <ion-col
+    size="3"
+    class="text-white text-center fs-12 border rounded"
+    (click)="openTimeModal()"
+  >
+    {{ selectedTime || "HH:mm" }}
+  </ion-col>
+</ion-row>
+
+<!-- Time Modal -->
+<ion-modal
+  [isOpen]="isTimeModalOpen"
+  cssClass="time-modal"
+  (didDismiss)="onTimeDismiss()"
+>
+  <ng-template>
+    <div class="time-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempTime"
+        presentation="time"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onTimeChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

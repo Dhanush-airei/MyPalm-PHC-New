@@ -1,0 +1,235 @@
+<app-page-header
+  [appTitle]="appTitle"
+  [showLogo]="showLogo"
+  [showBackButton]="showBackButton"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <app-date-ranger-picker
+    [fromDate]="fromDate"
+    [toDate]="toDate"
+    (getReport)="onDateRangeGet($event)"
+  ></app-date-ranger-picker>
+
+  <hr class="bg-white" />
+
+  @if (pleasewaitflag) {
+  <div class="please-wait">
+    <img
+      class="please-wait__image"
+      src="../../../../../assets/img/loading.gif"
+      alt="Loading"
+    />
+
+    <span class="please-wait__text">
+      {{ "NORECORDSFOUND.loading" | translate }}
+    </span>
+  </div>
+  }
+
+  <!-- Table data -->
+  @if (!pleasewaitflag) {
+
+  <!-- Grading list -->
+  @if(gradinglistArr.length > 0){
+  <div class="table-responsive mx-1">
+    <table class="table table-bordered w-100">
+      <!-- ================= HEADER ================= -->
+
+      <thead>
+        <tr class="table_head bg-table-black">
+          <th class="p-1 text-orange" scope="col">
+            {{ 'GRADINGREPORT.sno' | translate }}
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.datetime' | translate }}
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.suppliername' | translate }}
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.vehiclenumber' | translate }}
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.hardbunches' | translate }}
+            <br />
+            (%)
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.underripe' | translate }}
+            <br />
+            (%)
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.ripeness' | translate }}
+            <br />
+            (%)
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.overdue' | translate }}
+            <br />
+            (%)
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.loosefruits' | translate }}
+            <br />
+            (%)
+          </th>
+
+          @if (netweightflag == '1') {
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.netweight' | translate }}
+            <br />
+            (MT)
+          </th>
+
+          }
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.image' | translate }}
+          </th>
+
+          <th class="p-1 text-orange min-w-100" scope="col">
+            {{ 'GRADINGREPORT.doneby' | translate }}
+          </th>
+        </tr>
+      </thead>
+
+      <!-- ================= DATA ================= -->
+
+      <tbody>
+        @for (value of gradinglistArr; track $index; let i = $index) {
+
+        <tr class="table_head1">
+          <!-- S.No -->
+          <td scope="row">{{ i + 1 }}</td>
+
+          <!-- Date Time -->
+          <td scope="row">{{ value.insdt }}</td>
+
+          <!-- Supplier -->
+          <td scope="row">{{ value.supplier_name }}</td>
+
+          <!-- Vehicle -->
+          <td scope="row">{{ value.vehicle_no }}</td>
+
+          <!-- Hard Bunch -->
+          <td scope="row">{{ value.hard_bunch_percent }}</td>
+
+          <!-- Under Ripe -->
+          <td scope="row">{{ value.under_ripe_bunch_percent }}</td>
+
+          <!-- Ripeness -->
+          <td scope="row">{{ value.ripeness_percent }}</td>
+
+          <!-- Overdue -->
+          <td scope="row">{{ value.overdue_percent }}</td>
+
+          <!-- Loose Fruits -->
+          <td scope="row">{{ value.loose_fruit_percent }}</td>
+
+          <!-- Net Weight -->
+
+          @if (netweightflag == '1') {
+
+          <td scope="row">{{ value.net_weight }}</td>
+
+          }
+
+          <!-- Image -->
+
+          <td scope="row">
+            @if (value.hard_bunches_image) {
+
+            <button
+              type="button"
+              class="btn btn-sm border-blue text-white"
+              (click)="viewImages(value.hard_bunches_image)"
+            >
+              <span class="icontext">
+                {{ 'GENERALBUTTON.viewbutton' | translate }}
+              </span>
+            </button>
+
+            } @else {
+
+            <span>-</span>
+
+            }
+          </td>
+
+          <!-- Done By -->
+
+          <td scope="row">
+            @if (value.insby) { {{ value.insby }} } @else {
+
+            <span>-</span>
+
+            }
+          </td>
+        </tr>
+
+        }
+
+        <!-- ================= TOTAL / AVERAGE ================= -->
+
+        @for (value of totalArr; track $index) {
+
+        <tr class="table_head1 bg-table-black">
+          <td scope="row" colspan="4" class="text-red fw-bold">
+            {{ 'GRADINGREPORT.sumoraverage' | translate }}
+          </td>
+
+          <td scope="row" class="text-red fw-bold">
+            {{ value.hard_bunch_percent }}
+          </td>
+
+          <td scope="row" class="text-red fw-bold">
+            {{ value.under_ripe_bunch_percent }}
+          </td>
+
+          <td scope="row" class="text-red fw-bold">
+            {{ value.ripeness_percent }}
+          </td>
+
+          <td scope="row" class="text-red fw-bold">
+            {{ value.overdue_percent }}
+          </td>
+
+          <td scope="row" class="text-red fw-bold">
+            {{ value.loose_fruit_percent }}
+          </td>
+
+          @if (netweightflag == '1') {
+
+          <td scope="row" class="text-red fw-bold">{{ value.net_weight }}</td>
+
+          }
+
+          <td
+            scope="row"
+            class="text-red fw-bold"
+            [attr.colspan]="netweightflag == '1' ? 3 : 2"
+          ></td>
+        </tr>
+
+        }
+      </tbody>
+    </table>
+  </div>
+  }
+  <!-- no records found -->
+  @if(gradinglistArr.length === 0){
+  <div class="norecords">{{ 'NORECORDSFOUND.norecordsfound' | translate}}</div>
+  } }
+</ion-content>

@@ -1,0 +1,188 @@
+/* oil-losses-summary.page.scss */
+
+.form-row {
+  margin: 5px 0px 5px 0px;
+  align-items: center;
+}
+
+.form-control {
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.bg-oermtd {
+  background-color: #000;
+  color: #ff9f0c;
+  padding: 5px;
+  text-align: center;
+  border-radius: 5px;
+  font-size: 14px;
+  border: 1px solid #ffffff;
+  margin-top: 10px;
+}
+
+.btn-general {
+  background-color: none;
+  border-color: #ff9f0c;
+  color: #ffffff;
+}
+
+.btn-back {
+  background-color: none;
+  border-color: none;
+  color: #ffffff;
+}
+
+.norecords {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.pleasewait {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border-top: 1px solid #c2c2c2;
+}
+
+.bg-card {
+  --background: #ffffff;
+  border: 1px solid #000;
+  margin: 10px 0px 0px 0px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bg-card ion-col {
+  font-size: 12px;
+}
+
+.bg-card ion-card-header {
+  background-color: #000;
+  color: #ff9f0c;
+  padding: 5px;
+}
+
+table {
+  font-size: 11px;
+  line-height: 1;
+  color: #333;
+  padding: 5px;
+  border-collapse: collapse;
+  border: 1px solid #dee2e6;
+  margin: 10px 0px 0px 0px;
+  width: 100%;
+}
+
+.table td,
+.table th {
+  padding: 0.3rem !important;
+}
+
+b {
+  font-size: 13px;
+}
+
+td {
+  text-align: center;
+  vertical-align: middle;
+  color: #000;
+}
+
+th {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 11px;
+}
+
+.table_head {
+  background-color: #1d2730;
+  color: #ff9f0c !important;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table_head2 {
+  background-color: #1d2730;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10;
+  vertical-align: middle;
+}
+
+.table_head2 td {
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.float-button-two {
+  color: #ff9f0c;
+  text-align: right;
+  font-size: 20px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+/* ======================
+   Oil Loss Report Modal
+   ====================== */
+
+::ng-deep ion-modal.oillossreport-modal {
+  --width: 90% !important;
+  --height: 55% !important;
+  --border-radius: 10px !important;
+  --backdrop-opacity: 0.8;
+  --background: #ffffff;
+  backdrop-filter: blur(1px);
+}
+
+::ng-deep ion-modal.oillossreport-modal::part(content) {
+  border: 2px solid #ff9f0c;
+  border-radius: 10px !important;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+::ng-deep ion-modal.oillossreport-modal::part(backdrop) {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+::ng-deep ion-modal.oillossreport-modal ion-content {
+  --background: none;
+  background-color: #ffffff;
+  background-image: url(../../../../../assets/img/palmbg.png);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+::ng-deep ion-modal.oillossreport-modal ion-toolbar {
+  --background: #1d2730;
+  --color: #ffffff;
+}
+
+::ng-deep ion-modal.oillossreport-modal ion-title {
+  --color: #ffffff;
+}

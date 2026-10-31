@@ -1,0 +1,56 @@
+.profile-image-container {
+  width: 120px;
+  height: 120px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 50%;
+  overflow: hidden;
+
+  /* Glassmorphism */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  box-shadow:
+    0 8px 32px rgba(31, 38, 135, 0.25),
+    inset 0 0 8px rgba(255, 255, 255, 0.15);
+
+  transition: all 0.3s ease;
+}
+
+.profile-image-container:hover {
+  transform: scale(1.05);
+
+  box-shadow:
+    0 12px 40px rgba(31, 38, 135, 0.35),
+    inset 0 0 12px rgba(255, 255, 255, 0.2);
+}
+
+.profile-image {
+  width: 118px;
+  height: 118px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.txt-designation {
+  color: #ffffffb8 !important;
+}
+.fs-45 {
+  font-size: 45px;
+}
+.confirmation-modal {
+  --width: 90%;
+  --max-width: 400px;
+  --height: auto;
+  --border-radius: 16px;
+}
+
+.confirmation-modal::part(content) {
+  border-radius: 16px;
+  overflow: hidden;
+}

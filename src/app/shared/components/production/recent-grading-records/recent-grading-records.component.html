@@ -1,0 +1,100 @@
+<div class="bg-dark text-orange text-center fs-14 fw-bold p-2 mx-1">
+  {{ "GRADINGHOME.lastfiverecords" | translate }}
+</div>
+@if (pleasewaitflag) {
+  <div class="please-wait">
+    <img
+      class="please-wait__image"
+      src="../../../../../assets/img/loading.gif"
+      alt="Loading"
+    />
+
+    <span class="please-wait__text">
+      {{ "NORECORDSFOUND.loading" | translate }}
+    </span>
+  </div>
+}
+
+@if (!pleasewaitflag) {
+  @for (value of gradinglistArr; track value.id ?? $index) {
+    <ion-card class="bg-card">
+      <ion-card-content>
+        @if (value.supplier_name) {
+          <ion-row>
+            <ion-col size="12" class="fw-bold fs-15 text-black">
+              {{ value.supplier_name }}
+            </ion-col>
+          </ion-row>
+        }
+
+        @if (value.vehicle_no || value.insdt) {
+          <ion-row>
+            <ion-col size="12" class="fw-bold fs-15 text-black">
+              <span class="me-5">{{ value.vehicle_no }}</span>
+              <span>{{ value.insdt }}</span>
+            </ion-col>
+          </ion-row>
+        }
+        @if (value.hard_bunch_percent) {
+          <ion-row>
+            <ion-col size="7">
+              {{ "GRADINGHOME.hardbunches" | translate }} (%)
+            </ion-col>
+
+            <ion-col size="5">
+              <p class="data">: {{ value.hard_bunch_percent }}</p>
+            </ion-col>
+          </ion-row>
+        }
+
+        @if (value.under_ripe_bunch_percent) {
+          <ion-row>
+            <ion-col size="7">
+              {{ "GRADINGHOME.underripebunches" | translate }} (%)
+            </ion-col>
+
+            <ion-col size="5">
+              <p class="data">: {{ value.under_ripe_bunch_percent }}</p>
+            </ion-col>
+          </ion-row>
+        }
+
+        @if (value.ripeness_percent) {
+          <ion-row>
+            <ion-col size="7">
+              {{ "GRADINGHOME.ripeness" | translate }} (%)
+            </ion-col>
+
+            <ion-col size="5">
+              <p class="data">: {{ value.ripeness_percent }}</p>
+            </ion-col>
+          </ion-row>
+        }
+
+        @if (value.overdue_percent) {
+          <ion-row>
+            <ion-col size="7">
+              {{ "GRADINGHOME.overdue" | translate }} (%)
+            </ion-col>
+
+            <ion-col size="5">
+              <p class="data">: {{ value.overdue_percent }}</p>
+            </ion-col>
+          </ion-row>
+        }
+
+        @if (value.loose_fruit_percent) {
+          <ion-row>
+            <ion-col size="7">
+              {{ "GRADINGHOME.loosefruits" | translate }} (%)
+            </ion-col>
+
+            <ion-col size="5">
+              <p class="data">: {{ value.loose_fruit_percent }}</p>
+            </ion-col>
+          </ion-row>
+        }
+      </ion-card-content>
+    </ion-card>
+  }
+}

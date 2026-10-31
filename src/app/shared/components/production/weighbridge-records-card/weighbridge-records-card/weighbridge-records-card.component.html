@@ -1,0 +1,179 @@
+<!-- Main wrapper with animation -->
+<div #myElementRef class="weighbridge-records-container">
+  <div class="search-section">
+    <div class="search-bar-wrapper">
+      <div class="custom-search-container">
+        <!-- Search Icon - Always on left -->
+        <ion-icon name="search-outline" class="search-icon-left"></ion-icon>
+
+        <!-- Input Field -->
+        <input
+          type="text"
+          class="search-input"
+          [placeholder]="'CORRECTIVEMAINTENACE.searchrecords' | translate"
+          [(ngModel)]="filterTerm"
+          (ngModelChange)="onSearchChange($event)"
+          (focus)="onSearchFocus()"
+          (blur)="onSearchBlur()"
+          #searchInput
+        />
+
+        <!-- Clear Button - Shows only when typing -->
+        @if (filterTerm && filterTerm.length > 0) {
+          <ion-icon
+            name="close-outline"
+            class="clear-icon"
+            (click)="clearSearch()"
+          ></ion-icon>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (pleasewaitflag) {
+    <div class="please-wait">
+      <img
+        class="please-wait__image"
+        src="../../../../../assets/img/loading.gif"
+        alt="Loading"
+      />
+      <span class="please-wait__text">
+        {{ "NORECORDSFOUND.loading" | translate }}
+      </span>
+    </div>
+  }
+
+  <!-- Cards -->
+  @if (!pleasewaitflag) {
+    @if (filteredWeighbridgeArr.length > 0) {
+      <div class="cards-container">
+        @for (value of filteredWeighbridgeArr; track $index; let i = $index) {
+          <ion-card class="bg-card">
+            <ion-card-content>
+              <!-- Supplier Name -->
+              @if (value.supplier_name) {
+                <ion-row>
+                  <ion-col size="12" class="fw-bold fs-15 text-black">
+                    {{ value.supplier_name }}
+                  </ion-col>
+                </ion-row>
+              }
+
+              <!-- Vehicle Number & Date -->
+              @if (value.vehicle_no || value.insdt) {
+                <ion-row>
+                  <ion-col size="12" class="fw-bold fs-15 text-black">
+                    <span class="me-5">{{ value.vehicle_no || "" }}</span>
+                    <span>{{ value.insdt || "" }}</span>
+                  </ion-col>
+                </ion-row>
+              }
+
+              <!-- Hard Bunches -->
+              @if (value.hard_bunch_percent) {
+                <ion-row>
+                  <ion-col size="7">
+                    {{ "GRADINGHOME.hardbunches" | translate }} (Unit)
+                  </ion-col>
+                  <ion-col size="5">
+                    <p class="data">: {{ value.hard_bunch_percent }}</p>
+                  </ion-col>
+                </ion-row>
+              }
+
+              <!-- Under Ripe Bunches -->
+              @if (value.under_ripe_bunch_percent) {
+                <ion-row>
+                  <ion-col size="7">
+                    {{ "GRADINGHOME.underripebunches" | translate }} (%)
+                  </ion-col>
+                  <ion-col size="5">
+                    <p class="data">: {{ value.under_ripe_bunch_percent }}</p>
+                  </ion-col>
+                </ion-row>
+              }
+
+              <!-- Ripeness -->
+              @if (value.ripeness_percent) {
+                <ion-row>
+                  <ion-col size="7">
+                    {{ "GRADINGHOME.ripeness" | translate }} (%)
+                  </ion-col>
+                  <ion-col size="5">
+                    <p class="data">: {{ value.ripeness_percent }}</p>
+                  </ion-col>
+                </ion-row>
+              }
+
+              <!-- Overdue -->
+              @if (value.overdue_percent) {
+                <ion-row>
+                  <ion-col size="7">
+                    {{ "GRADINGHOME.overdue" | translate }} (%)
+                  </ion-col>
+                  <ion-col size="5">
+                    <p class="data">: {{ value.overdue_percent }}</p>
+                  </ion-col>
+                </ion-row>
+              }
+
+              <!-- Loose Fruits -->
+              @if (value.loose_fruit_percent) {
+                <ion-row>
+                  <ion-col size="7">
+                    {{ "GRADINGHOME.loosefruits" | translate }} (%)
+                  </ion-col>
+                  <ion-col size="5">
+                    <p class="data">: {{ value.loose_fruit_percent }}</p>
+                  </ion-col>
+                </ion-row>
+              }
+
+              <!-- Net Weight with Update Button -->
+              <ion-row>
+                <ion-col size="7">
+                  {{ "GRADINGHOME.netweight" | translate }} (MT)
+                </ion-col>
+                <ion-col size="5">
+                  <p class="data">
+                    :
+                    <button
+                      type="button"
+                      class="h7 btn btn-update btn-sm"
+                      (click)="btn_update(value)"
+                    >
+                      <span>{{
+                        "GENERALBUTTON.updatebutton" | translate
+                      }}</span>
+                    </button>
+                  </p>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+        }
+
+        <!-- Infinite Scroll -->
+        @if (filteredWeighbridgeArr.length > 0) {
+          <ion-infinite-scroll
+            threshold="100px"
+            (ionInfinite)="newpagination($event)"
+          >
+            <ion-infinite-scroll-content
+              class="loadmore"
+              loadingSpinner="bubbles"
+              [loadingText]="'NORECORDSFOUND.loadingmoredata' | translate"
+            >
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        }
+      </div>
+    }
+    @if (filteredWeighbridgeArr.length === 0 && !pleasewaitflag) {
+      <div class="norecords">
+        {{ "NORECORDSFOUND.norecordsfound" | translate }}
+      </div>
+    }
+  }
+</div>

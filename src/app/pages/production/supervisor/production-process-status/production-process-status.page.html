@@ -1,0 +1,210 @@
+<app-page-header
+  [appTitle]="appTitle"
+  [showLogo]="showLogo"
+  [showBackButton]="showBackButton"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="form-container">
+    <form [formGroup]="statusForm">
+      <!-- Filter Row -->
+      <ion-row class="form-row">
+        <ion-col [size]="getlanguage === 'English' ? 0.85 : 1.5"></ion-col>
+
+        <ion-col [size]="getlanguage === 'English' ? 2 : 1.5">
+          <div class="h7 text-white text-right">
+            <b>{{ 'REPORTOILLOSSES.month' | translate }}</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="3">
+          <!-- Display field: shows MM-YYYY -->
+          <button
+            type="button"
+            class="month-display-field"
+            (click)="openMonthPicker()"
+          >
+            {{ monthDisplayValue || 'MM-YYYY' }}
+          </button>
+
+          <!-- Month Picker Modal — matches reference component pattern -->
+          <ion-modal
+            [isOpen]="isMonthPickerOpen"
+            cssClass="date-modal"
+            (didDismiss)="onMonthDismiss()"
+          >
+            <ng-template>
+              <div class="calendar-wrapper">
+                <ion-datetime
+                  [value]="tempMonth"
+                  presentation="month-year"
+                  [showDefaultButtons]="true"
+                  doneText="{{ 'GENERALBUTTON.okay' | translate }}"
+                  cancelText="{{ 'GENERALBUTTON.cancelbutton' | translate }}"
+                  [max]="maxDate"
+                  (ionChange)="onMonthChange($event)"
+                >
+                </ion-datetime>
+              </div>
+            </ng-template>
+          </ion-modal>
+        </ion-col>
+
+        <ion-col [size]="getlanguage === 'English' ? 2 : 2.5">
+          <button
+            type="button"
+            class="h7 btn btn-general float-left"
+            (click)="getreport()"
+          >
+            {{ 'GENERALBUTTON.getrecords' | translate }}
+          </button>
+        </ion-col>
+
+        <ion-col
+          [size]="getlanguage === 'English' ? 3.5 : 5"
+          [style.text-align]="getlanguage === 'French' ? 'center' : 'left'"
+        >
+          <button
+            type="button"
+            class="h7 btn btn-adddata"
+            (click)="btn_Data('')"
+          >
+            {{ 'GENERALBUTTON.adddata' | translate }}
+          </button>
+        </ion-col>
+
+        <ion-col [size]="getlanguage === 'English' ? 0.65 : 0"></ion-col>
+      </ion-row>
+
+      <hr class="bg-white" />
+
+      <!-- Loading State -->
+      @if (pleasewaitflag) {
+      <div class="please-wait">
+        <img
+          class="please-wait__image"
+          src="../../../../../assets/img/loading.gif"
+          alt="Loading"
+        />
+        <span class="please-wait__text">
+          {{ 'NORECORDSFOUND.loading' | translate }}
+        </span>
+      </div>
+      }
+
+      <!-- Table data -->
+      @if (!pleasewaitflag) {
+
+      <!-- Data list -->
+      @if (statusArr.length > 0) {
+      <div class="table-responsive mx-1">
+        <table class="table table-bordered w-100">
+          <thead>
+            <tr class="table_head bg-table-black">
+              <th class="p-1 text-orange min-w-100" scope="col">
+                {{ 'STATUSREPORT.date' | translate }}
+              </th>
+
+              <th class="p-1 text-orange min-w-100" scope="col">
+                {{ 'STATUSREPORT.ffbprocessed' | translate }}<br />(MT)
+              </th>
+
+              <th class="p-1 text-orange min-w-100" scope="col">
+                {{ 'STATUSREPORT.ffbbalance' | translate }}<br />(MT)
+              </th>
+
+              <th class="p-1 text-orange min-w-100" scope="col">
+                {{ 'STATUSREPORT.averagecageweight' | translate }}<br />(MT)
+              </th>
+
+              <th class="p-1 text-orange min-w-100" scope="col">
+                {{ 'STATUSREPORT.dobiprocess' | translate }}<br />(%)
+              </th>
+
+              <th class="p-1 text-orange min-w-100" scope="col">
+                {{ 'STATUSREPORT.dobitank' | translate }}<br />(%)
+              </th>
+
+              <th class="p-1 text-orange min-w-100" scope="col">
+                {{ 'STATUSREPORT.oer' | translate }}<br />(%)
+              </th>
+
+              <th class="p-1 text-orange min-w-100" scope="col">
+                {{ 'STATUSREPORT.mtdoer' | translate }}<br />(%)
+              </th>
+
+              <th class="p-1 text-orange min-w-100" scope="col">
+                {{ 'GENERALBUTTON.action' | translate }}
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (value of statusArr; track $index) {
+            <tr class="table_head1">
+              <td scope="row" class="td_date">
+                {{ value.ffb_processed_date_str }}
+              </td>
+              <td scope="row">{{ value.ffb_processed }}</td>
+              <td scope="row">{{ value.ffb_balance }}</td>
+              <td scope="row">{{ value.avg_cage_weight }}</td>
+              <td scope="row">{{ value.dobi_process }}</td>
+              <td scope="row">{{ value.dobi_tank }}</td>
+              <td scope="row">{{ value.oer }}</td>
+              <td scope="row">{{ value.mtdoer }}</td>
+              <td scope="row">
+                <button
+                  type="button"
+                  class="btn btn-sm border-red text-white"
+                  (click)="btn_Data(value)"
+                >
+                  <span class="icontext text-white">
+                    {{ 'SUPERVISORDASHBOARD.edit' | translate }}
+                  </span>
+                </button>
+              </td>
+            </tr>
+            }
+
+            <!-- ================= TOTAL / AVERAGE ================= -->
+            @for (value of totalArr; track $index) {
+            <tr class="table_head1 bg-table-black">
+              <td scope="row" class="text-red fw-bold">
+                {{ 'GENERALBUTTON.sumaverage' | translate }}
+              </td>
+              <td scope="row" class="text-red fw-bold">
+                {{ value.ffb_processed }}
+              </td>
+              <td scope="row" class="text-red fw-bold">
+                {{ value.ffb_balance }}
+              </td>
+              <td scope="row" class="text-red fw-bold">
+                {{ value.avg_cage_weight }}
+              </td>
+              <td scope="row" class="text-red fw-bold">
+                {{ value.dobi_process }}
+              </td>
+              <td scope="row" class="text-red fw-bold">
+                {{ value.dobi_tank }}
+              </td>
+              <td scope="row" class="text-red fw-bold">{{ value.oer }}</td>
+              <td scope="row" class="text-red fw-bold">{{ value.mtdoer }}</td>
+              <td scope="row"></td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+
+      <!-- no records found -->
+      @if (statusArr.length === 0) {
+      <div class="norecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      } }
+    </form>
+  </div>
+</ion-content>

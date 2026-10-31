@@ -1,0 +1,95 @@
+<!-- performance-analysis.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div id="chartContainer8" style="margin: 10px 5px 10px 5px">
+    <!-- Title -->
+    <div class="titletxt text-uppercase">
+      <b>{{ 'REPORTOILLOSSES.subtitle' | translate }}</b>
+    </div>
+
+    <!-- Month Picker Section -->
+    <div>
+      <app-month-picker
+        [month]="reportDateDisplay"
+        [externalMonth]="reportDateExternal"
+        (getRecords)="onMonthSelected($event)"
+      ></app-month-picker>
+    </div>
+
+    <!-- Chart 1 -->
+    <div class="prediction-box">
+      <apx-chart
+        [series]="chart1Options.series"
+        [chart]="chart1Options.chart"
+        [yaxis]="chart1Options.yaxis"
+        [xaxis]="chart1Options.xaxis"
+        [stroke]="chart1Options.stroke"
+        [plotOptions]="chart1Options.plotOptions"
+        [dataLabels]="chart1Options.dataLabels"
+        [legend]="chart1Options.legend"
+        [tooltip]="chart1Options.tooltip"
+        [fill]="chart1Options.fill"
+      ></apx-chart>
+    </div>
+
+    <hr />
+
+    <!-- Title 2 -->
+    <div class="titletxt text-uppercase">
+      <b>{{ 'REPORTOILLOSSES.subtitle1' | translate }}</b>
+    </div>
+
+    <!-- Year Picker Section -->
+    <div>
+      <app-year-picker
+        [year]="yearReportDisplay"
+        [externalYear]="yearReportExternal"
+        (getRecords)="onYearSelected($event)"
+      ></app-year-picker>
+    </div>
+
+    <!-- Chart 2 -->
+    <div class="prediction-box">
+      <apx-chart
+        [series]="chart2Options.series"
+        [chart]="chart2Options.chart"
+        [yaxis]="chart2Options.yaxis"
+        [xaxis]="chart2Options.xaxis"
+        [stroke]="chart2Options.stroke"
+        [plotOptions]="chart2Options.plotOptions"
+        [dataLabels]="chart2Options.dataLabels"
+        [legend]="chart2Options.legend"
+        [tooltip]="chart2Options.tooltip"
+        [fill]="chart2Options.fill"
+      ></apx-chart>
+    </div>
+
+    <hr />
+
+    <!-- Loading -->
+    @if (pleaseWaitFlag) {
+    <div class="pleasewait">
+      <div style="width: 100%; text-align: center">
+        <img
+          style="width: 80px; height: 80px"
+          src="../../../assets/img/loading.gif"
+        />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    }
+
+    <!-- No Records -->
+    @if (noRecordsFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>

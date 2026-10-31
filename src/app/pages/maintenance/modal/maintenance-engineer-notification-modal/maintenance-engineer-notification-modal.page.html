@@ -1,0 +1,482 @@
+<ion-header class="bg-brown-color">
+  <ion-toolbar class="bg-brown-color modaltoolbar">
+    <ion-title mode="ios" color="light">{{ getmachinename }}</ion-title>
+
+    <!-- FIX: slot="primary" is deprecated in Ionic -> use "end" -->
+    <ion-buttons slot="end">
+      <ion-button class="bg-light-color" (click)="btn_close()">
+        <ion-icon color="light" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar class="stepstoolbar">
+    <ion-row class="steps">
+      @for (step of ['STEP1', 'STEP2', 'STEP3', 'STEP4']; track step; let last =
+      $last) {
+      <ion-col class="circle" [style.backgroundColor]="getStatusColor(step)">
+        <span><b>{{ $index + 1 }}</b></span>
+      </ion-col>
+
+      @if (!last) {
+      <ion-col>
+        <hr />
+      </ion-col>
+      } }
+    </ion-row>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="machine-bg">
+  <div class="content">
+    @if (stepFlag) {
+    <form [formGroup]="step1Form" style="margin: 10px 10px 0px 10px">
+      <!-- Problem -->
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="title">
+              {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.problem' | translate
+              }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <div class="title"><b>:</b></div>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-select
+              mode="md"
+              [interfaceOptions]="breakdownOptions"
+              formControlName="select_breakdown"
+              [multiple]="false"
+              [okText]="'GENERALBUTTON.okay' | translate"
+              [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+              class="selectdropdown"
+              placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }}"
+              (ionChange)="breakdownhandleChange($event)"
+            >
+              @for (value of breakdownArr; track value) {
+              <ion-select-option [value]="parseString(value)">
+                {{ value.breakdownCoding }}
+              </ion-select-option>
+              }
+            </ion-select>
+          </ion-col>
+        </ion-row>
+
+        <div class="hl4line"></div>
+      </div>
+
+      <!-- Maintenance Type -->
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="title">
+              {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.maintenancetype' |
+              translate }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <div class="title"><b>:</b></div>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-select
+              mode="md"
+              [interfaceOptions]="maintenancetypeOptions"
+              formControlName="select_maintenancetype"
+              [multiple]="false"
+              [okText]="'GENERALBUTTON.okay' | translate"
+              [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+              class="selectdropdown"
+              placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }}"
+              (ionChange)="maintenancetypehandleChange($event)"
+            >
+              @for (value of maintenancetypeArr; track value) {
+              <ion-select-option [value]="parseString(value)">
+                {{ value.maintanence_type }}
+              </ion-select-option>
+              }
+            </ion-select>
+          </ion-col>
+        </ion-row>
+
+        <div class="hl4line"></div>
+      </div>
+
+      <!-- Part Defect -->
+      @if (materialArr.length > 0) {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="title">
+              {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.partdefect' |
+              translate }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <div class="title"><b>:</b></div>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-button
+              class="optionbutton"
+              (click)="callmodalcontroller('PartDefect')"
+            >
+              {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }}
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        @if (partvalue === '') {
+        <div class="hl4line"></div>
+        } @if (partvalue !== '') {
+        <div style="margin-top: 5px">
+          <table style="width: 100%">
+            <thead>
+              <tr class="table_head">
+                <th style="width: 15%; padding: 4px !important" scope="col">
+                  <span class="mdfont">No</span>
+                </th>
+                <th style="width: 70%; padding: 4px !important" scope="col">
+                  <span class="mdfont"
+                    >{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.partdefect' |
+                    translate }}</span
+                  >
+                </th>
+                <th style="width: 15%; padding: 4px !important" scope="col">
+                  <span class="mdfont"
+                    >{{ 'GENERALBUTTON.action' | translate }}</span
+                  >
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (value of partvalueArr; track value; let i = $index) {
+              <tr>
+                <td style="width: 15%">{{ i + 1 }}</td>
+                <td style="width: 70%">{{ value }}</td>
+                <td style="width: 15%">
+                  <ion-button
+                    style="margin: -8px; vertical-align: middle"
+                    (click)="clear('Part', i)"
+                    fill="clear"
+                  >
+                    <ion-icon
+                      class="icon"
+                      slot="icon-only"
+                      name="trash-outline"
+                    ></ion-icon>
+                  </ion-button>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        } @if (partvalue !== '') {
+        <div class="hl4line"></div>
+        }
+      </div>
+      }
+
+      <!-- Breakdown Causes -->
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="title">
+              {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.breakdowncauses' |
+              translate }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <div class="title"><b>:</b></div>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-button class="optionbutton" (click)="openBreakdownCauses()">
+              {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }}
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        @if (breakdowncausesvalue === '') {
+        <div class="hl4line"></div>
+        } @if (breakdowncausesvalue !== '') {
+        <div style="margin-top: 10px">
+          <table style="width: 100%">
+            <thead>
+              <tr class="table_head">
+                <th style="width: 15%; padding: 4px !important" scope="col">
+                  <span class="mdfont">No</span>
+                </th>
+                <th style="width: 85%; padding: 4px !important" scope="col">
+                  <span class="mdfont"
+                    >{{
+                    'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.breakdowncauses' |
+                    translate }}</span
+                  >
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (value of breakdowncausesvalueArr; track value; let i =
+              $index) {
+              <tr>
+                <td style="width: 15%">{{ i + 1 }}</td>
+                <td style="width: 85%">{{ value }}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        } @if (breakdowncausesvalue !== '') {
+        <div class="hl4line"></div>
+        }
+      </div>
+
+      <!-- Priority Level -->
+      @if (priorityLevelEligible) {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="title">Priority Level</div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <div class="title"><b>:</b></div>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-select
+              mode="md"
+              [interfaceOptions]="priorityLevelOption"
+              formControlName="select_priority_level"
+              [multiple]="false"
+              [okText]="'GENERALBUTTON.okay' | translate"
+              [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+              class="selectdropdown"
+              placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }}"
+              (ionChange)="priorityLevelChange($event)"
+            >
+              @for (value of priorityLevelArr; track value) {
+              <ion-select-option [value]="value">
+                {{ value.priority }}
+              </ion-select-option>
+              }
+            </ion-select>
+          </ion-col>
+        </ion-row>
+
+        <div class="hl4line"></div>
+      </div>
+      }
+
+      <!-- Assign To Option -->
+      @if (assignToEligible) {
+      <div>
+        <div>
+          <ion-row class="form-row">
+            <ion-col size="5.5">
+              <div class="title">
+                {{ 'PREVENTIVEMAINTENANCEASSIGN.assignto' | translate }}
+              </div>
+            </ion-col>
+
+            <ion-col size="0.5" style="text-align: center">
+              <div class="title"><b>:</b></div>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-row class="conditionradiobutton">
+                <ion-col>
+                  <ion-row>
+                    <ion-col style="text-align: left; padding: 0px">
+                      <input
+                        type="radio"
+                        id="radio_foreman"
+                        name="radio_conditionoption"
+                        value="Foreman"
+                        (change)="onConditionOptionChange('Foreman')"
+                        [checked]="foremanFlag"
+                      />
+                      <label for="radio_foreman">Foreman</label>
+                    </ion-col>
+                  </ion-row>
+
+                  <ion-row>
+                    <ion-col
+                      style="text-align: left; padding: 0px; margin-top: 20px"
+                    >
+                      <input
+                        type="radio"
+                        id="radio_chargeman"
+                        name="radio_conditionoption"
+                        value="Chargeman"
+                        (change)="onConditionOptionChange('Chargeman')"
+                        [checked]="chargemanFlag"
+                      />
+                      <label for="radio_chargeman">Chargeman</label>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+          <div class="hl4line"></div>
+        </div>
+
+        <!-- Incharge -->
+        @if (assignedtoFlag) {
+        <div>
+          <ion-row class="form-row">
+            <ion-col size="5.5">
+              <div class="title">
+                {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.incharge' |
+                translate }}
+              </div>
+            </ion-col>
+
+            <ion-col size="0.5" style="text-align: center">
+              <div class="title"><b>:</b></div>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-button class="optionbutton" (click)="openAssignedTo()">
+                {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate
+                }}
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+          @if (assignedtovalue === '') {
+          <div class="hl4line"></div>
+          } @if (assignedtovalue !== '') {
+          <div style="margin-top: 5px">
+            <table style="width: 100%">
+              <thead>
+                <tr class="table_head">
+                  <th style="width: 15%; padding: 4px !important" scope="col">
+                    <span class="mdfont">No</span>
+                  </th>
+                  <th style="width: 85%; padding: 4px !important" scope="col">
+                    <span class="mdfont"
+                      >{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.incharge' |
+                      translate }}</span
+                    >
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (value of assignedtovalueArr; track value; let i = $index)
+                {
+                <tr>
+                  <td style="width: 15%">{{ i + 1 }}</td>
+                  <td style="width: 85%">{{ value }}</td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          } @if (assignedtovalue !== '') {
+          <div class="hl4line"></div>
+          }
+        </div>
+        }
+      </div>
+      }
+
+      <!-- Remarks -->
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="title">
+              {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.remarks' | translate
+              }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <div class="title"><b>:</b></div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="form-row">
+          <ion-col>
+            <textarea
+              class="h7 form-control fs-12"
+              formControlName="ta_remarks"
+              placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.typeremark' | translate }}"
+              rows="4"
+              autosize
+            ></textarea>
+          </ion-col>
+        </ion-row>
+
+        <div class="hl4line"></div>
+      </div>
+
+      <ion-row>
+        <ion-col class="no-padding-col" style="text-align: center !important">
+          <button
+            type="submit"
+            class="btn btn-next border-green"
+            [disabled]="confirmDisable"
+            (click)="btn_next()"
+          >
+            <span class="icontext" style="color: #ffffff">
+              {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.save' | translate }}
+            </span>
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-select
+            mode="md"
+            [interfaceOptions]="breakdowncausesOptions"
+            formControlName="select_breakdowncauses"
+            [multiple]="true"
+            [okText]="'GENERALBUTTON.okay' | translate"
+            [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+            class="ionicselect"
+            (ionChange)="breakdowncauseshandleChange($event)"
+            #breakdowncausesSelect
+          >
+            @for (value of breakdowncausesArr; track value) {
+            <ion-select-option [value]="parseString(value)">
+              {{ value.BreakdownCause }}
+            </ion-select-option>
+            }
+          </ion-select>
+        </ion-col>
+        <ion-col>
+          <ion-select
+            mode="md"
+            [interfaceOptions]="assignedtoOptions"
+            formControlName="select_assignedto"
+            [multiple]="true"
+            [okText]="'GENERALBUTTON.okay' | translate"
+            [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+            class="ionicselect"
+            (ionChange)="assignedtohandleChange($event)"
+            #assignedtoSelect
+          >
+            @for (value of assignedtoArr; track value) {
+            <ion-select-option [value]="parseString(value)">
+              {{ value.name }}
+            </ion-select-option>
+            }
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </form>
+    }
+  </div>
+</ion-content>

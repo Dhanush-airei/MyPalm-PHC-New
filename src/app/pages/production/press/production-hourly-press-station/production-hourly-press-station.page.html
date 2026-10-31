@@ -1,0 +1,154 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  @if (!norecordsflag) {
+  <ion-list class="ion-padding-horizontal ion-padding-top">
+    @for (value of pressingstationArr; track value.machine_id) {
+    <ion-item class="ion-padding-bottom">
+      <ion-label>
+        <p class="h2 text-light"><b>{{ value.machine_name }}</b></p>
+
+        @if (value.status == '0') {
+        <p class="statustext text-light">
+          <b>Status: {{ 'HOURLYPRESSSTATION.offline' | translate }}</b>
+        </p>
+        } @if (value.status == '1') {
+        <p class="statustext text-light">
+          <b>Status: {{ 'HOURLYPRESSSTATION.online' | translate }}</b>
+        </p>
+        }
+
+        <!-- Table Data -->
+        @if (value.recordstatus != '') {
+        <table style="width: 100%; height: 100%" class="table table-bordered">
+          <!-- Press Data Enable Flag = 1 -->
+          @if (value.pressdataenableflag == 1) {
+          <tr class="tbl_head">
+            <th style="padding: 4px !important; width: 50%">
+              {{ value.digestortitle }}
+            </th>
+            <th colspan="1" style="padding: 4px !important; width: 50%">
+              {{ value.presstitle }}
+            </th>
+          </tr>
+
+          <tr>
+            <td scope="row">
+              {{ 'HOURLYPRESSSTATION.temperature' | translate }}:
+              <span class="fw-bold">{{value.temperature }}</span>
+            </td>
+            <td scope="row">
+              {{ 'HOURLYPRESSSTATION.motor' | translate }}:
+              <span class="fw-bold">{{ value.pressmotoramps }}</span>
+            </td>
+          </tr>
+
+          <tr>
+            <td scope="row">
+              {{ 'HOURLYPRESSSTATION.motor' | translate }}:
+              <span class="fw-bold"> {{ value.digestormotoramps }}</span>
+            </td>
+            <td scope="row">
+              {{ 'HOURLYPRESSSTATION.presscakedrainage' | translate }}:
+              <span class="fw-bold">{{ value.pressoilflow }}</span>
+            </td>
+          </tr>
+
+          <tr>
+            <td scope="row">
+              {{ 'HOURLYPRESSSTATION.level' | translate }}:
+              <span class="fw-bold"> {{ value.level }}</span>
+            </td>
+            <td scope="row">
+              {{ 'HOURLYPRESSSTATION.hydraulicpressure' | translate }}:
+              <span class="fw-bold"> {{ value.hydraulicpressure }}</span>
+            </td>
+          </tr>
+
+          <tr>
+            <td scope="row">
+              {{ 'HOURLYPRESSSTATION.digestordrainage' | translate }}:
+              <span class="fw-bold"> {{ value.digestordrainoilflow }}</span>
+            </td>
+          </tr>
+          }
+
+          <!-- Press Data Enable Flag = 0 -->
+          @if (value.pressdataenableflag == 0) {
+          <tr class="tbl_head">
+            <th colspan="2" style="padding: 4px !important; text-align: center">
+              {{ value.digestortitle }}
+            </th>
+          </tr>
+
+          <tr>
+            <td scope="row">
+              {{ 'HOURLYPRESSSTATION.temperature' | translate }}:
+            </td>
+            <td scope="row">{{ value.temperature }}</td>
+          </tr>
+
+          <tr>
+            <td scope="row">{{ 'HOURLYPRESSSTATION.motor' | translate }}:</td>
+            <td scope="row">{{ value.digestormotoramps }}</td>
+          </tr>
+
+          <tr>
+            <td scope="row">{{ 'HOURLYPRESSSTATION.level' | translate }}:</td>
+            <td scope="row">{{ value.level }}</td>
+          </tr>
+
+          <tr>
+            <td scope="row">
+              {{ 'HOURLYPRESSSTATION.digestordrainage' | translate }}:
+            </td>
+            <td scope="row">{{ value.digestordrainoilflow }}</td>
+          </tr>
+          }
+        </table>
+        }
+
+        <!-- Action Buttons -->
+        <ion-row class="row-reverse">
+          @if (value.status == '0') {
+          <button
+            type="button"
+            class="h7 btn btn-offline btn-sm margin-5px"
+            (click)="nodigestorpressalert(value)"
+          >
+            <ion-icon class="icon" name="power"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.updatebutton' | translate }}
+            </span>
+          </button>
+          } @if (value.status == '1') {
+          <button
+            type="button"
+            class="h7 btn btn-online btn-sm margin-5px"
+            (click)="callmodalcontroller(value)"
+          >
+            <ion-icon class="icon" name="radio-button-on"></ion-icon>
+            <span class="icontext">
+              {{ 'GENERALBUTTON.updatebutton' | translate }}
+            </span>
+          </button>
+          }
+        </ion-row>
+      </ion-label>
+    </ion-item>
+    }
+  </ion-list>
+  }
+
+  <!-- No Records -->
+  @if (norecordsflag) {
+  <div class="norecords">
+    {{ 'HOURLYPRESSSTATION.nopressingstationinonline' | translate }}
+  </div>
+  }
+</ion-content>

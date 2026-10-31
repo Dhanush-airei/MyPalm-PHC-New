@@ -1,0 +1,96 @@
+<!-- production-date-picker.component.html -->
+<!-- ================= FROM DATE, TO DATE AND GET BUTTON ================= -->
+
+<ion-row style="margin-top: 10px">
+  <!-- From Date -->
+  <ion-col size="4" style="align-self: center" no-padding>
+    <div class="h7 text-white">
+      <b>{{ "OWNERPRODUCTION.fromdate" | translate }}</b>
+    </div>
+    <input
+      type="text"
+      class="h7 form-control readonly"
+      [value]="displayFromDate"
+      placeholder="DD-MM-YYYY"
+      (click)="openFromDateModal()"
+      readonly
+    />
+  </ion-col>
+
+  <!-- To Date -->
+  <ion-col size="4" style="align-self: center" no-padding>
+    <div class="h7 text-white">
+      <b>{{ "OWNERPRODUCTION.todate" | translate }}</b>
+    </div>
+    <input
+      type="text"
+      class="h7 form-control readonly"
+      [value]="displayToDate"
+      placeholder="DD-MM-YYYY"
+      (click)="openToDateModal()"
+      readonly
+    />
+  </ion-col>
+
+  <!-- Retrieve Button -->
+  <ion-col size="4">
+    <div class="h7">&nbsp;</div>
+    <button
+      type="button"
+      class="h7 btn btn-general btn-sm float-right"
+      style="height: 31px; width: 100%"
+      (click)="onGetReport()"
+    >
+      {{ "OWNERPRODUCTION.getoldrecords" | translate }}
+    </button>
+  </ion-col>
+</ion-row>
+
+<!-- ================= FROM DATE MODAL ================= -->
+<ion-modal
+  [isOpen]="isFromDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onFromDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempFromDate"
+        [preferWheel]="true"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        [max]="maxDate"
+        (ionChange)="onFromDateChange($event)"
+        (ionCancel)="onFromDateCancel()"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- ================= TO DATE MODAL ================= -->
+<ion-modal
+  [isOpen]="isToDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onToDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempToDate"
+        [preferWheel]="true"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        [min]="tempFromDate"
+        [max]="maxDate"
+        (ionChange)="onToDateChange($event)"
+        (ionCancel)="onToDateCancel()"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

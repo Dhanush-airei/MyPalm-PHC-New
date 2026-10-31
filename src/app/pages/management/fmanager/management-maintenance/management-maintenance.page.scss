@@ -1,0 +1,233 @@
+/* management-maintenance.page.scss */
+
+.home-box {
+  padding: 5px;
+  margin-top: 0;
+}
+
+.form-row {
+  margin: 5px 0px 5px 0px;
+  align-items: center;
+}
+
+.form-control {
+  background-color: transparent;
+  color: #ffffff;
+}
+
+.titleheader {
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid #ffffff;
+  text-align: center;
+  background-color: #000000;
+  margin: 0px 5px 0px 5px;
+  padding: 5px 0px 5px 0px;
+}
+
+ion-buttons {
+  ion-button {
+    --padding-end: 0px;
+  }
+}
+
+.title {
+  text-align: center;
+  font-size: 11px;
+  font-weight: bold;
+  color: #ff9f0c;
+}
+
+.portraittitle {
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff9f0c;
+}
+
+.stationcard {
+  background-color: #ffffff;
+  border-radius: 0px 0px 5px 5px;
+  margin: 0px 5px 10px 5px;
+  padding-bottom: 10px;
+  background-image: url(../../../../../assets/img/palmbg.png);
+  background-position: center center fixed;
+  background-repeat: repeat;
+  background-size: cover;
+}
+
+img {
+  width: 25px;
+  height: 25px;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 10px 50px 50px 10px;
+  margin-bottom: 0px;
+  height: 40px;
+  background: linear-gradient(315deg, #f3f4f7 0%, #ffffff79 74%);
+}
+
+.portraitcard {
+  background-color: #ffffff;
+  border-radius: 10px 50px 50px 10px;
+  margin-bottom: 0px;
+  height: 50px;
+  background: linear-gradient(315deg, #f3f4f7 0%, #ffffff79 74%);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  margin-top: 5px;
+}
+
+.vertical-align-content {
+  display: flex !important;
+  align-content: center !important;
+  align-items: center !important;
+}
+
+.bg-light-color {
+  --color: var(--ion-color-white);
+}
+
+.badgecolor {
+  background: transparent;
+  margin: 5px 10px 0px 0px;
+  color: #1d2730;
+}
+
+.norecords {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 65%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.pleasewait {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.badgecolor {
+  background: transparent;
+  margin: 5px 10px 0px 0px;
+  color: #1d2730;
+}
+
+.twodigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+.iostwodigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+.onedigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  right: -0.2rem;
+  left: 18px;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border-top: 1px solid #c2c2c2;
+}
+
+.hl4line {
+  border-top: 1px solid #cecece;
+  height: 0px !important;
+  margin: 10px 30px 10px 30px;
+}
+
+.vl4line {
+  border-left: 1px solid #cecece;
+  height: 20px !important;
+}
+
+.portraitvl4line {
+  border-left: 1px solid #cecece;
+  height: 35px !important;
+}
+
+.btn-general {
+  background-color: none;
+  border-color: #ff9f0c;
+  color: #ffffff;
+}
+
+.btn-general1 {
+  background-color: none;
+  border-color: #ff9f0c;
+  color: #ffffff;
+  font-size: 10px;
+}
+
+.history_btn {
+  text-align: center;
+}
+
+.history_btn1 {
+  display: flex;
+  text-align: right;
+  justify-content: end;
+  padding-right: 15px;
+}
+
+.btn-success {
+  width: 50px;
+  height: 25px;
+}
+
+.actionbaricon {
+  font-size: 19px;
+}
+
+/* Value Text Styling */
+.value-text {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.h7 {
+  font-size: 12px;
+}
+
+ion-col {
+  padding: 2px;
+}
+
+ion-row {
+  margin: 0px;
+}

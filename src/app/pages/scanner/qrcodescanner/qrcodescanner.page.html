@@ -1,0 +1,32 @@
+<app-page-header
+  [appTitle]="appTitle"
+  [showLogo]="showLogo"
+  [showBackButton]="showBackButton"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg scanner-bg">
+  <!-- Main Title Header -->
+  <div class="maintitleheader">
+    <div class="col">
+      <div class="maintitle">{{ 'QRCODESCANNER.message' | translate }}</div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="qrcode-wrapper">
+      <div class="qrcodecard">
+        <img src="../../../assets/img/qrcode.png" alt="QR Code" />
+      </div>
+    </div>
+
+    <ion-row style="margin-top: 10px">
+      <ion-col style="text-align: center" class="ion-no-padding">
+        <button type="button" class="btn btn-scan" (click)="scanqrcode()">
+          <span class="icontext"> {{ 'QRCODESCANNER.scan' | translate }} </span>
+        </button>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

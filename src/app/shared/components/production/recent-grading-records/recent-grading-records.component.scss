@@ -1,0 +1,97 @@
+.please-wait {
+  position: absolute;
+  top: 70%;
+  right: 0;
+  left: 0;
+  transform: translateY(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff;
+
+  &__image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 8px;
+  }
+
+  &__text {
+    display: block;
+  }
+}
+.bg-card {
+  --background: #ffffff;
+  background-image: url("../../../../../assets/img/palmbg.png");
+  background-size: cover;
+  border: 1px solid #ffffff;
+  margin: 6px;
+
+  ion-row {
+    margin-top: -6px;
+  }
+
+  ion-col {
+    font-size: 11px;
+  }
+
+  ion-card-content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .title-content {
+    font-size: 15px;
+    color: #1d2730;
+    font-weight: bold;
+  }
+
+  .card-content {
+    padding: 0px;
+  }
+
+  .data {
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+  }
+
+  .statusdata {
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .btn-assign {
+    background-color: none;
+    border-color: #cb4335;
+    box-shadow: none;
+  }
+
+  .btn-assign:hover {
+    color: #cb4335;
+  }
+
+  .btn-view {
+    //background-color: #a8b6bc;
+    background-color: none;
+    border-color: #ff9f0c;
+  }
+
+  .btn-assign:hover {
+    color: #a8b6bc;
+  }
+
+  .btn-update {
+    background-color: none;
+    border-color: #ff9f0c;
+    box-shadow: none;
+  }
+
+  .btn-update:hover {
+    color: #ff9f0c;
+  }
+}

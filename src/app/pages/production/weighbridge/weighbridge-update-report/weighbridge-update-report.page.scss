@@ -1,0 +1,238 @@
+.content {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-box {
+  width: 100%;
+  max-width: 400px;
+  padding: 0px 5px 5px 11px;
+  margin-top: 10px;
+
+  ion-row {
+    margin-top: 0px;
+    margin-bottom: 4px;
+  }
+
+  ion-col {
+    font-size: 11px;
+    margin: 0px;
+    text-align: start;
+  }
+}
+
+.label-col {
+  text-align: right;
+  padding-right: 10px;
+  font-size: 11px;
+  font-weight: normal;
+  color: #000000;
+  white-space: nowrap;
+}
+
+.value-col {
+  text-align: left;
+  padding-left: 0px;
+  font-size: 11px;
+  color: #000000;
+  display: flex;
+  align-items: center;
+}
+
+.colon {
+  font-size: 11px;
+  color: #000000;
+  margin-right: 4px;
+}
+
+.data {
+  font-size: 11px;
+  color: #000000;
+  font-weight: normal;
+  margin: 0px;
+  padding: 0px;
+}
+
+.h7 {
+  font-size: 12px;
+  text-transform: none;
+}
+
+.form-control {
+  width: 100%;
+  padding: 6px 10px;
+  font-size: 12px;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  height: 32px;
+
+  &:focus {
+    outline: none;
+    border-color: #ff9f0c;
+    box-shadow: 0 0 0 2px rgba(255, 159, 12, 0.3);
+  }
+
+  &::placeholder {
+    color: #999999;
+    font-size: 12px;
+  }
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #ffffff;
+}
+
+// Buttons - Matching older version exactly
+.okaybutton {
+  width: 56px;
+  height: 56px;
+  margin: 0px;
+  border: 3px solid #3cd2a5 !important;
+  background-color: #ffffff;
+  background-image: url("/assets/img/okay.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  border-radius: 50%;
+  color: black;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(60, 210, 165, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+.cancelbutton {
+  width: 56px;
+  height: 56px;
+  margin: 0px;
+  border: 3px solid #ff6060 !important;
+  background-color: #ffffff;
+  background-image: url("/assets/img/cancel.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  border-radius: 50%;
+  color: black;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(255, 96, 96, 0.4);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Spinner for loading state
+.spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border: 3px solid #3cd2a5;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive
+// @media (max-width: 768px) {
+//   .home-box {
+//     max-width: 100%;
+//   }
+
+//   .label-col {
+//     font-size: 10px;
+//     padding-right: 8px;
+//   }
+
+//   .colon {
+//     font-size: 10px;
+//   }
+
+//   .data {
+//     font-size: 12px;
+//   }
+
+//   .form-control {
+//     font-size: 11px;
+//     padding: 5px 8px;
+//     height: 28px;
+//   }
+
+//   .okaybutton,
+//   .cancelbutton {
+//     width: 48px;
+//     height: 48px;
+//     background-size: 32px 32px;
+//   }
+// }
+
+// @media (max-width: 480px) {
+//   .home-box {
+//     padding: 0px 3px 5px 5px;
+//   }
+
+//   .label-col {
+//     font-size: 9px;
+//     padding-right: 6px;
+//   }
+
+//   .colon {
+//     font-size: 9px;
+//   }
+
+//   .data {
+//     font-size: 11px;
+//   }
+
+//   .form-control {
+//     font-size: 10px;
+//     padding: 4px 6px;
+//     height: 26px;
+//   }
+
+//   .okaybutton,
+//   .cancelbutton {
+//     width: 40px;
+//     height: 40px;
+//     background-size: 28px 28px;
+//     border-width: 2px !important;
+//   }
+// }

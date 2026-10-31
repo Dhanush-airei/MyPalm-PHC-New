@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color">
+    <ion-buttons slot="start">
+      <ion-button color="whitefav" (click)="dismiss()">
+        <ion-icon name="arrow-back" class="text-white"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    @if (title !== '') {
+    <ion-title mode="ios" color="light">{{title}}</ion-title>
+    } @else {
+    <ion-title mode="ios" color="light"
+      >{{ 'SEARCHACTIVITY.searchpartname' | translate}}</ion-title
+    >
+    }
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="materialsearchForm">
+    <ion-searchbar
+      #search
+      debounce="500"
+      (ionChange)="_ionchange($event)"
+      placeholder="{{ 'SEARCHACTIVITY.search' | translate}}"
+    ></ion-searchbar>
+
+    <ion-list>
+      @for (item of materialArr; track item.item_id) {
+      <ion-item (click)="getvalue(item)">
+        <ion-label class="h7" [style.color]="gettextColor(item.status)"
+          >{{item.item_name}}</ion-label
+        >
+      </ion-item>
+      }
+    </ion-list>
+
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="pagination($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="{{'NORECORDSFOUND.loadingmoredata' | translate}}"
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    @if (norecordsflag) {
+    <div class="norecords">{{ 'SEARCHACTIVITY.nopartsmapped' | translate}}</div>
+    }
+  </form>
+</ion-content>

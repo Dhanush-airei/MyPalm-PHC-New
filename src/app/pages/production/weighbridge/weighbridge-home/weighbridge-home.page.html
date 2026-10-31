@@ -1,0 +1,29 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Username with banner image -->
+  <app-user-profile></app-user-profile>
+
+  <!-- Date Picker -->
+  <app-date-picker
+    [date]="date"
+    [externalDate]="date"
+    (getRecords)="onDateRecordsGet($event)"
+  ></app-date-picker>
+
+  <hr />
+
+  <!-- Weighbridge Records Card -->
+  <app-weighbridge-records-card
+    [externalDate]="date"
+    [selectedDate]="userSelectedDate"
+    [refreshTrigger]="refreshTrigger"
+    (dateUpdate)="onDateUpdate($event)"
+  ></app-weighbridge-records-card>
+</ion-content>

@@ -1,0 +1,214 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="home-box">
+    <!-- Production Alerts Title -->
+    @if (userDesignation != 16) {
+    <div class="production-title">
+      {{ 'OWNERPRODUCTION.productionalerts' | translate }}
+    </div>
+    }
+
+    <!-- Production Date Picker Component -->
+    <app-production-date-picker
+      [fromDate]="fromDate"
+      [toDate]="toDate"
+      (fromDateChange)="onFromDateChange($event)"
+      (toDateChange)="onToDateChange($event)"
+      (getReport)="onDatePickerGetReport($event)"
+    ></app-production-date-picker>
+
+    <!-- Summary Button -->
+    @if (language === 'English') {
+    <ion-row class="summary-row">
+      <ion-col size="5"></ion-col>
+      <ion-col size="7">
+        <button type="button" class="btn-summary" (click)="productionAlerts()">
+          {{ 'OWNERPRODUCTION.summary' | translate }}
+        </button>
+      </ion-col>
+    </ion-row>
+    } @if (language === 'Malay') {
+    <ion-row class="summary-row">
+      <ion-col size="4.5"></ion-col>
+      <ion-col size="7.5">
+        <button type="button" class="btn-summary" (click)="productionAlerts()">
+          {{ 'OWNERPRODUCTION.summary' | translate }}
+        </button>
+      </ion-col>
+    </ion-row>
+    } @if (language === 'Portuguese') {
+    <ion-row class="summary-row">
+      <ion-col size="4.5"></ion-col>
+      <ion-col size="7.5">
+        <button type="button" class="btn-summary" (click)="productionAlerts()">
+          {{ 'OWNERPRODUCTION.summary' | translate }}
+        </button>
+      </ion-col>
+    </ion-row>
+    }
+
+    <!-- Production Data Display -->
+    @if (!noRecordsFlag) { @for (general of productionArr; track $index) {
+    <!-- Summary Info Table -->
+    <div class="info-table-wrapper">
+      <table class="info-table">
+        <tr>
+          <td class="info-cell" width="35%">
+            <span class="info-label"
+              >{{ 'OWNERPRODUCTION.millstartdate' | translate }} :</span
+            >
+            <span class="info-value">{{ general.start_date }}</span>
+          </td>
+          <td class="info-cell" width="35%">
+            <span class="info-label"
+              >{{ 'OWNERPRODUCTION.millstopdate' | translate }} :</span
+            >
+            <span class="info-value">{{ general.stop_date }}</span>
+          </td>
+          <td class="info-cell" width="30%">
+            <span class="info-label"
+              >{{ 'OWNERPRODUCTION.startedby' | translate }} :</span
+            >
+            <span class="info-value">{{ general.startedby }}</span>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- Alert Data Table -->
+    <div class="table-wrapper">
+      <table class="alert-table">
+        <thead>
+          <tr class="table-header">
+            <th class="header-cell">
+              <span class="header-text"
+                >{{ 'OWNERPRODUCTION.alerttime' | translate }}</span
+              >
+            </th>
+            <th class="header-cell">
+              <span class="header-text"
+                >{{ 'OWNERPRODUCTION.station' | translate }}</span
+              >
+            </th>
+            <th class="header-cell">
+              <span class="header-text"
+                >{{ 'OWNERPRODUCTION.parameters' | translate }}</span
+              >
+            </th>
+            <th class="header-cell">
+              <span class="header-text"
+                >{{ 'OWNERPRODUCTION.attendedby' | translate }}</span
+              >
+            </th>
+            <th class="header-cell">
+              <span class="header-text"
+                >{{ 'OWNERPRODUCTION.attendedtime' | translate }}</span
+              >
+            </th>
+            <th class="header-cell">
+              <span class="header-text"
+                >{{ 'OWNERPRODUCTION.image' | translate }}</span
+              >
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (productiondata of general.alertdata; track $index) {
+          <tr class="data-row">
+            <td class="data-cell">{{ productiondata.alerttime }}</td>
+            <td class="data-cell">{{ productiondata.station }}</td>
+            <td
+              class="data-cell parameters-cell"
+              [innerHTML]="productiondata.parameters"
+            ></td>
+
+            @if (productiondata.attendedby != '') {
+            <td class="data-cell">{{ productiondata.attendedby }}</td>
+            } @else {
+            <td class="data-cell">-</td>
+            }
+
+            <!-- Attended Status: 1 = Attended -->
+            @if (productiondata.attendedstatus == 1) {
+            <td class="data-cell">
+              <div class="status-badge attended">
+                {{ productiondata.attendedtime }}
+              </div>
+              @if (productiondata.remarks != '') {
+              <div class="remarks-text">{{ productiondata.remarks }}</div>
+              }
+            </td>
+            }
+
+            <!-- Attended Status: 2 = Unable to Rectify -->
+            @if (productiondata.attendedstatus == 2) {
+            <td class="data-cell">
+              <div class="status-badge unable">
+                {{ productiondata.attendedtime }}
+              </div>
+              @if (productiondata.remarks != '') {
+              <div class="remarks-text">{{ productiondata.remarks }}</div>
+              }
+            </td>
+            }
+
+            <!-- Attended Status: 0 = Unattended -->
+            @if (productiondata.attendedstatus == 0) {
+            <td class="data-cell">
+              <div class="status-badge unattended">
+                {{ productiondata.attendedtime }}
+              </div>
+              @if (productiondata.remarks != '') {
+              <div class="remarks-text">{{ productiondata.remarks }}</div>
+              }
+            </td>
+            }
+
+            <!-- Images -->
+            <td class="data-cell">
+              @if (productiondata.images != '') {
+              <button
+                type="button"
+                class="btn-view-image"
+                (click)="btnViewImages(productiondata.images)"
+              >
+                {{ 'GENERALBUTTON.viewbutton' | translate }}
+              </button>
+              } @else {
+              <span>-</span>
+              }
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    } }
+
+    <!-- No Records -->
+    @if (noRecordsFlag) {
+    <div class="no-records">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+
+    <!-- Loading -->
+    @if (pleaseWaitFlag) {
+    <div class="please-wait">
+      <div class="loading-container">
+        <img class="loading-image" src="../../../assets/img/loading.gif" />
+      </div>
+      <span class="loading-text"
+        >{{ 'NORECORDSFOUND.loading' | translate }}</span
+      >
+    </div>
+    }
+  </div>
+</ion-content>

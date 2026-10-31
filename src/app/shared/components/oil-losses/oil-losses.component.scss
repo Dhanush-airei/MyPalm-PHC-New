@@ -1,0 +1,466 @@
+.content {
+  width: 100%;
+  background-color: none;
+  text-align: center;
+  margin-top: 0px;
+}
+
+ion-button {
+  --padding-start: 0px;
+  --padding-end: 0px;
+}
+
+.form-row {
+  margin-top: -25px;
+  margin-left: 2px;
+}
+
+.form-rowtime {
+  margin-top: 5px;
+}
+
+.form-row {
+  margin: 5px;
+  align-items: center;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: transparent;
+  color: #ffffff;
+}
+
+p {
+  margin: 0px !important;
+}
+
+.history_btn {
+  text-align: center;
+}
+
+.norecords {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.pleasewait {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.circle {
+  background-position: center center;
+  background-size: contain;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #c2c2c2;
+  padding: 10px;
+  height: 90px;
+  text-align: center;
+  width: 90px;
+  margin-top: 10px;
+  padding-top: 25px;
+  margin-bottom: 5px;
+  animation: blink 1s linear infinite;
+}
+
+.circlemalay {
+  background-position: center center;
+  background-size: contain;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #c2c2c2;
+  padding: 10px;
+  height: 90px;
+  text-align: center;
+  width: 90px;
+  margin-top: 10px;
+  padding-top: 25px;
+  margin-bottom: 5px;
+  animation: blink 1s linear infinite;
+}
+
+.circlenotblink {
+  background-position: center center;
+  background-size: contain;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #c2c2c2;
+  padding: 10px;
+  height: 90px;
+  text-align: center;
+  width: 90px;
+  margin-top: 10px;
+  padding-top: 25px;
+  margin-bottom: 5px;
+}
+
+.circlenotblinkmalay {
+  background-position: center center;
+  background-size: contain;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #c2c2c2;
+  padding: 10px;
+  height: 90px;
+  text-align: center;
+  width: 90px;
+  margin-top: 10px;
+  padding-top: 25px;
+  margin-bottom: 5px;
+}
+
+.presscard {
+  background-color: black;
+  padding: 10px;
+}
+
+.statustitle {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.mdfont {
+  font-size: 11px;
+  text-align: left;
+  font-weight: normal !important;
+}
+
+.mdfonttime {
+  font-size: 12px;
+  text-align: center;
+  font-weight: normal !important;
+}
+
+.bg-light-color {
+  --color: var(--ion-color-white);
+}
+
+.presstitle {
+  border-radius: 5px 5px 0px 0px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #ff9f0c;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  margin: 5px;
+}
+
+.data {
+  font-size: 14px;
+  color: #000;
+  margin: 0px;
+  text-align: left;
+}
+
+.maincard {
+  height: 480px;
+  width: auto;
+  margin: 5px;
+  background-color: #1d2730;
+  border: 1px solid #fff;
+  text-align: center;
+  border-radius: 20px 20px 10px 10px;
+}
+
+hr {
+  border-top: 1px dashed #21202071;
+  height: 0px !important;
+  margin: 5px;
+}
+
+.rowdata {
+  padding-left: 10px;
+}
+
+/* Swiper pagination styles */
+swiper-container {
+  --swiper-pagination-color: #cba60f;
+  --swiper-pagination-bullet-inactive-color: #6d6969;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+  --swiper-pagination-bullet-size: 8px;
+}
+
+swiper-container::part(bullet) {
+  background-color: #6d6969;
+  opacity: 1;
+}
+
+swiper-container::part(bullet-active) {
+  background-color: #cba60f;
+}
+
+.checkcard {
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  margin: 5px;
+  background-image: url(../../../../assets/img/palmbg.png);
+  background-size: cover;
+}
+
+.reasoncard {
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  margin: 10px 5px 5px 5px;
+  background-image: url(../../../../assets/img/palmbg.png);
+  background-size: cover;
+  height: 100px;
+  position: relative;
+}
+
+.actioncard {
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  margin: 10px 5px 5px 5px;
+  background-image: url(../../../../assets/img/palmbg.png);
+  background-size: cover;
+  height: 125px;
+  position: relative;
+}
+
+.malayactioncard {
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  background-color: #f7f7f7;
+  margin: 10px 5px 5px 5px;
+  background-image: url(../../../../assets/img/palmbg.png);
+  background-size: cover;
+  height: 125px;
+}
+
+.btn-general {
+  background-color: none;
+  border-color: #ff9f0c;
+  color: #ffffff;
+}
+
+.checkcarddetails {
+  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 0px 0px 5px 5px;
+  background-color: #f7f7f7;
+  margin: 5px;
+  background-image: url(../../../../assets/img/palmbg.png);
+  background-size: cover;
+}
+
+.badgecolor {
+  background: transparent;
+  margin: 5px 10px 0px 0px;
+  color: #1d2730;
+}
+
+.actionbaricon {
+  font-size: 19px;
+}
+
+.twodigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+.iostwodigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+.onedigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  right: -0.2rem;
+  left: 18px;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+.notificationtwodigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  right: -0.8rem;
+  opacity: 0.9;
+  font-size: 15px;
+  margin: 5px;
+}
+
+.notificationiostwodigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  right: -0.6rem;
+  opacity: 0.9;
+  font-size: 15px;
+  margin: 5px;
+}
+
+.notificationonedigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  right: -0.2rem;
+  opacity: 0.9;
+  font-size: 15px;
+  margin: 5px;
+}
+
+.badgeblink {
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.title_header {
+  margin: 10px 10px 10px 0px;
+}
+
+.maintitleheader {
+  border-radius: 5px;
+  border: 1px solid #dee2e6;
+  background-color: #ffffff;
+  margin: 0px 10px 0px 5px;
+  padding: 5px 5px 5px 5px;
+}
+
+.maintitle {
+  font-size: 8px;
+  font-weight: bold;
+  color: #ffffff;
+  text-align: center;
+}
+
+.super {
+  font-size: large;
+  color: red;
+}
+
+.title_head {
+  font-size: 12px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+}
+
+table {
+  font-size: 11px;
+  line-height: 1.42857143;
+  color: #333;
+  padding: 5px;
+  border-collapse: collapse;
+  border: 1px solid #dee2e6;
+  text-align: center;
+  margin-left: 10px;
+}
+
+.table td,
+.table th {
+  text-align: center;
+  padding: 0.3rem !important;
+}
+
+.reasonheader {
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid #ffffff;
+  text-align: center;
+  background-color: #cb4335;
+  padding: 5px 5px 5px 5px;
+}
+
+.reasontitle {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+}
+
+.actionheader {
+  border-radius: 5px 5px 0px 0px;
+  border: 1px solid #ffffff;
+  text-align: center;
+  background-color: #008000;
+  padding: 5px 5px 5px 5px;
+}
+
+.actiontitle {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  text-align: center;
+}
+
+.float-button {
+  position: absolute;
+  text-align: center;
+  background-color: transparent !important;
+  color: #ff9f0c;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 0px;
+  font-size: 24px;
+  bottom: 10px;
+  right: 5px;
+}
+
+.float-button-two {
+  position: absolute;
+  text-align: center;
+  background-color: transparent !important;
+  color: #ff9f0c;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 0px;
+  font-size: 24px;
+  bottom: 10px;
+  right: 5px;
+}

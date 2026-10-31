@@ -1,0 +1,39 @@
+<ion-content>
+  <div class="p-2">
+    <form class="home-box" [formGroup]="ffbcageForm">
+      <div class="fs-16 text-center fw-bold">{{ gettitle }}</div>
+
+      <div class="mt-3">
+        <div class="title">{{ message }}</div>
+
+        <!-- In Use -->
+        <ion-row class="mt-3 form-row">
+          <ion-col>
+            <textarea
+              type="number"
+              class="h7 form-control text-dark fs-12"
+              [placeholder]="placeholder"
+              formControlName="reason"
+              rows="5"
+            ></textarea>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <!-- Buttons -->
+      <ion-row class="mt-3">
+        <ion-col class="buttons">
+          <button
+            type="button"
+            class="cancelbutton"
+            (click)="cancel()"
+          ></button>
+        </ion-col>
+
+        <ion-col class="buttons">
+          <button type="button" class="okaybutton" (click)="save()"></button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,122 @@
+<!-- oil-losses-summary.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div id="chartContainer8" style="margin: 10px">
+    <!-- Month Picker -->
+    <app-month-picker
+      [month]="reportDateDisplay"
+      [externalMonth]="reportDateExternal"
+      (getRecords)="onMonthSelected($event)"
+    ></app-month-picker>
+
+    <!-- OER MTD -->
+    @if (mtd != '' && oerMtdFlag == 1) {
+    <ion-row>
+      <ion-col size="1"></ion-col>
+      <ion-col size="10" class="bg-oermtd" style="font-weight: bold">
+        OER (%) {{ 'REPORTOILLOSSES.monthtodate' | translate }} :
+        <span style="color: #3cd2a5">{{ mtd }}</span>
+      </ion-col>
+      <ion-col size="1"></ion-col>
+    </ion-row>
+    }
+
+    <!-- Oil Losses Cards -->
+    @for (item of oillossesArr; track $index) {
+    <ion-card class="bg-card">
+      <ion-card-header>
+        <ion-row>
+          <ion-col size="6" style="font-weight: bold" class="text-uppercase">
+            {{ 'OWNERSTATISTICS.date' | translate }} : {{ item.date }}
+          </ion-col>
+          <ion-col size="6" style="text-align: right; font-weight: bold">
+            OER (%): {{ item.oer }}
+          </ion-col>
+        </ion-row>
+      </ion-card-header>
+
+      <ion-card-content class="cardcontent">
+        <table style="width: 100%; height: 100%" class="table table-bordered">
+          <tbody>
+            <tr style="font-weight: bold">
+              <td scope="row" style="overflow: auto">Press</td>
+              <td scope="row" style="overflow: auto">MyPalm</td>
+              <td scope="row" style="overflow: auto">
+                {{ 'REPORTOILLOSSES.mypalmaverage' | translate }}
+              </td>
+              @if (millCode != '1041') {
+              <td scope="row" style="overflow: auto">Lab Composite Oil Loss</td>
+              } @if (millCode == '1041') {
+              <td scope="row" style="overflow: auto">SpecFit Oil Loss</td>
+              }
+            </tr>
+
+            @for (data of item.pressdata; track $index) {
+            <tr>
+              <td scope="row" style="overflow: auto" width="15%">
+                {{ data.pressvalue }}
+              </td>
+              <td scope="row" style="overflow: auto" width="35%">
+                <ion-row>
+                  <ion-col size="9" style="align-self: center">
+                    @if (data.mypalm != '' && data.mypalm != '-') {
+                    <div style="margin-left: 15px">{{ data.mypalm }}</div>
+                    } @if (data.mypalm == '' || data.mypalm == '-') {
+                    <div style="margin-left: 15px; margin-top: 20px">
+                      {{ data.mypalm }}
+                    </div>
+                    }
+                  </ion-col>
+                  @if (data.mypalmArr.length > 0) {
+                  <ion-col size="3" style="align-self: center">
+                    <div
+                      (click)="openPopup(data.mypalmArr)"
+                      class="float-button-two"
+                    >
+                      <ion-icon name="add-circle"></ion-icon>
+                    </div>
+                  </ion-col>
+                  }
+                </ion-row>
+              </td>
+              <td scope="row" style="overflow: auto" width="25%">
+                {{ data.mypalmavg }}
+              </td>
+              <td scope="row" style="overflow: auto" width="25%">
+                {{ data.laboilloss }}
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </ion-card-content>
+    </ion-card>
+    }
+
+    <!-- No Records -->
+    @if (noRecordsFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+
+    <!-- Loading -->
+    @if (pleaseWaitFlag) {
+    <div class="pleasewait">
+      <div style="width: 100%; text-align: center">
+        <img
+          style="width: 80px; height: 80px"
+          src="../../../assets/img/loading.gif"
+        />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>

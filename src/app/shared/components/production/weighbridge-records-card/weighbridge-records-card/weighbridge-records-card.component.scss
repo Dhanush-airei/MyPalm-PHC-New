@@ -1,0 +1,201 @@
+.weighbridge-records-container {
+  width: 100%;
+  padding: 0 5px;
+
+  // Initial state for animation
+  opacity: 0;
+  transform: translateX(600px);
+  will-change: transform, opacity;
+}
+
+// Search Section
+.search-section {
+  padding-bottom: 6px;
+}
+
+.search-bar-wrapper {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 0;
+  margin: 0 6px;
+  border: 1px solid #ced4da;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.custom-search-container {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  min-height: 44px;
+  gap: 10px;
+}
+
+// Search Icon - Always on LEFT
+.search-icon-left {
+  color: #666666;
+  font-size: 20px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+// Input Field
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #000000;
+  font-family: "Chakra Petch", sans-serif;
+  padding: 6px 0;
+  min-height: 32px;
+  width: 100%;
+
+  &::placeholder {
+    color: #999999;
+    font-size: 14px;
+    font-weight: 400;
+    opacity: 1;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+// Clear Button - Shows only when typing
+.clear-icon {
+  color: #000000;
+  font-size: 26px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    color: #ff6060;
+    transform: scale(1.1);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+// Cards Container
+.cards-container {
+  padding-bottom: 20px;
+}
+
+// Card Styles
+.bg-card {
+  --background: #ffffff;
+  background-image: url("../../../../../../assets/img/palmbg.png");
+  background-size: cover;
+  border: 1px solid #ffffff;
+  margin: 6px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+  ion-row {
+    margin-top: -6px;
+  }
+
+  ion-col {
+    font-size: 11px;
+  }
+
+  ion-card-content {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .title-content {
+    font-size: 15px;
+    color: #1d2730;
+    font-weight: bold;
+  }
+
+  .card-content {
+    padding: 0px;
+  }
+
+  .data {
+    font-size: 14px;
+    color: black;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+
+  .statusdata {
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .btn-update {
+    background-color: transparent;
+    border: 1px solid #ff6060;
+    color: #000000;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: normal;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    margin-left: 3px;
+
+    &:hover {
+      background-color: #ff6060;
+      color: #ffffff;
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(255, 96, 96, 0.4);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}
+
+// Loading State
+.please-wait {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: #ffffff;
+
+  &__image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 12px;
+  }
+
+  &__text {
+    font-size: 14px;
+    color: #999;
+  }
+}
+
+// No Records
+.norecords {
+  text-align: center;
+  margin-top: 150px;
+  padding: 40px 20px;
+  color: #999;
+  font-size: 16px;
+}
+
+// Infinite Scroll
+.loadmore {
+  color: #ffffff;
+  padding: 10px 0;
+}

@@ -1,0 +1,138 @@
+<!-- predictive-maintenance.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="home-box">
+    <!-- Month Picker -->
+    <app-month-picker
+      [month]="reportDateDisplay"
+      [externalMonth]="reportDateExternal"
+      (getRecords)="onMonthSelected($event)"
+    ></app-month-picker>
+
+    <hr />
+
+    <!-- Rejected Records Button -->
+    <ion-row>
+      <ion-col size="4"></ion-col>
+      <ion-col size="8" style="text-align: right !important; padding: 1px">
+        <button
+          type="button"
+          class="btn btn-rejected"
+          (click)="btnRejectedRecords()"
+        >
+          <span class="icontext" style="color: #ffffff">
+            {{ 'QRCODESCANNER.rejectedrecords' | translate }}
+          </span>
+        </button>
+      </ion-col>
+    </ion-row>
+
+    <!-- Table Data -->
+    @if (notificationListArr.length > 0) {
+    <div class="table-responsive">
+      <table class="table table-bordered w-100">
+        <thead>
+          <tr class="table_head bg-table-black">
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.datetime' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.notificationid' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.station' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.machine' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">Part Name</th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.status' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.detail' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (value of notificationListArr; track $index) {
+          <tr class="table-row">
+            <td class="p-1" scope="row">{{ value.insDate }}</td>
+
+            @if (value.notification_no != '') {
+            <td class="p-1" scope="row">{{ value.notification_no }}</td>
+            } @else {
+            <td class="p-1" scope="row">-</td>
+            }
+
+            <td class="p-1" scope="row">{{ value.stationname || '-' }}</td>
+
+            <td class="p-1" scope="row">{{ value.machinename || '-' }}</td>
+
+            <td class="p-1" scope="row">{{ value.partdefect || '-' }}</td>
+
+            @if (value.statusId != '') {
+            <td
+              class="p-1 status-cell"
+              scope="row"
+              [style.background-color]="getStatusTextColor(value.statusId)"
+            >
+              {{ value.statusname }}
+            </td>
+            } @else {
+            <td class="p-1" scope="row">-</td>
+            } @if (value.statusId != '') {
+            <td class="p-1" scope="row">
+              <button
+                type="button"
+                class="btn btn-sm border-blue text-white"
+                (click)="callModalController(value)"
+              >
+                <span class="icontext"
+                  >{{ 'GENERALBUTTON.viewbutton' | translate }}</span
+                >
+              </button>
+            </td>
+            } @else {
+            <td class="p-1" scope="row">-</td>
+            }
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+
+    <!-- No Records -->
+    @if (noRecordsFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+
+    <!-- Loading -->
+    @if (pleaseWaitFlag) {
+    <div class="pleasewait">
+      <div style="width: 100%; text-align: center">
+        <img
+          style="width: 80px; height: 80px"
+          src="../../../assets/img/loading.gif"
+        />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>

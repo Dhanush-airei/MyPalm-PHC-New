@@ -1,0 +1,25 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Map Container -->
+  <div #map id="map"></div>
+
+  <!-- Loading Indicator -->
+  @if (pleaseWaitFlag) {
+  <div class="pleasewait">
+    <div style="width: 100%; text-align: center">
+      <img
+        style="width: 80px; height: 80px"
+        src="assets/img/loading.gif"
+        alt="Loading"
+      />
+    </div>
+    {{ 'NORECORDSFOUND.loading' | translate }}
+  </div>
+  }
+</ion-content>

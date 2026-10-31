@@ -1,0 +1,200 @@
+<app-page-header
+  [appTitle]="appTitle"
+  [showLogo]="showLogo"
+  [showBackButton]="showBackButton"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="form-container">
+    <form [formGroup]="editStatusForm">
+      <!-- Processed Date -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="title">{{ 'STATUSREPORT.date' | translate }}</div>
+        </ion-col>
+
+        <ion-col size="6">
+          <button
+            type="button"
+            class="form-control readonly-field"
+            (click)="openProcessedPicker()"
+          >
+            {{ processedDateDisplay || 'DD-MM-YYYY' }}
+          </button>
+        </ion-col>
+      </ion-row>
+
+      <!-- FFB Processed -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="title">
+            {{ 'STATUSREPORT.ffbprocessed' | translate }} <b>(MT)</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            formControlName="txt_ffbprocessed"
+            placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- FFB Balance -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="title">
+            {{ 'STATUSREPORT.ffbbalance' | translate }} <b>(MT)</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            formControlName="txt_ffbbalance"
+            placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Average Cage Weight -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="title">
+            {{ 'STATUSREPORT.average' | translate }}<br />
+            {{ 'STATUSREPORT.cageweight' | translate }} <b>(MT)</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            formControlName="txt_average_cage_weight"
+            placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- DOBI Process -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="title">
+            {{ 'STATUSREPORT.dobiprocess' | translate }} <b>(%)</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            formControlName="txt_dobiprocess"
+            placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+            (keypress)="dobiDecimalFilter($event)"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- DOBI Tank -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="title">
+            {{ 'STATUSREPORT.dobitank' | translate }} <b>(%)</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            formControlName="txt_dobitank"
+            placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+            (keypress)="dobiDecimalFilter($event)"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- OER -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="title">
+            {{ 'STATUSREPORT.oer' | translate }} <b>(%)</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            formControlName="txt_oer"
+            placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- MTD OER -->
+      <ion-row class="form-row">
+        <ion-col size="6">
+          <div class="title">
+            {{ 'STATUSREPORT.mtdoer' | translate }} <b>(%)</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control"
+            formControlName="txt_mtdoer"
+            placeholder="{{ 'GRADINGHOME.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+          />
+        </ion-col>
+      </ion-row>
+
+      <!-- Save Button -->
+      <ion-row style="margin-top: 20px">
+        <ion-col style="text-align: center">
+          <button
+            type="button"
+            [disabled]="saveDisable"
+            class="btn btn-save"
+            (click)="btn_save()"
+          >
+            {{ 'GENERALBUTTON.savebutton' | translate }}
+          </button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+
+  <!-- Processed Date Picker Modal -->
+  <ion-modal
+    [isOpen]="isDatePickerOpen"
+    cssClass="date-modal"
+    (didDismiss)="onDateDismiss()"
+  >
+    <ng-template>
+      <div class="calendar-wrapper">
+        <ion-datetime
+          [value]="tempDate"
+          presentation="date"
+          [showDefaultButtons]="true"
+          doneText="{{ 'GENERALBUTTON.okay' | translate }}"
+          cancelText="{{ 'GENERALBUTTON.cancelbutton' | translate }}"
+          [max]="maxDate"
+          (ionChange)="onDateChange($event)"
+        >
+        </ion-datetime>
+      </div>
+    </ng-template>
+  </ion-modal>
+</ion-content>

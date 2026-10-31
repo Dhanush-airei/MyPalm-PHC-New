@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color">
+    <ion-buttons slot="start">
+      <ion-button color="whitefav" (click)="dismiss()">
+        <ion-icon name="arrow-back" class="text-white"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title mode="ios" color="light">
+      {{ 'SEARCHACTIVITY.searchactivity' | translate }}
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar class="bg-search-color">
+    <ion-searchbar
+      #search
+      [debounce]="500"
+      (ionChange)="ionSearchChange($event)"
+      [placeholder]="'SEARCHACTIVITY.search' | translate"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    @for ( item of (activitylistArray); track item.activity_name ) {
+    <ion-item (click)="getvalue(item)">
+      <ion-label class="h7 text-dark"> {{ item.activity_name }} </ion-label>
+    </ion-item>
+    }
+  </ion-list>
+
+  @if (norecordsflag) {
+  <div class="norecords">
+    {{ 'SEARCHACTIVITY.nosearchrecords' | translate }}
+  </div>
+  }
+</ion-content>

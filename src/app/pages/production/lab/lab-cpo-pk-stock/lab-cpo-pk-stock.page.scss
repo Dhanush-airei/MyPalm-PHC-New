@@ -1,0 +1,271 @@
+.home-box {
+  padding: 5px 5px 5px 5px;
+  margin-top: 0px;
+}
+
+ion-buttons {
+  ion-button {
+    --padding-end: 0px;
+  }
+}
+
+.firstsegment {
+  width: 100%;
+  margin-top: -5px;
+
+  ion-segment-button {
+    min-height: 40px;
+    height: 40px;
+    width: 115px;
+    margin-left: 1px;
+    margin-right: 1px;
+    margin-top: 10px;
+    --indicator-box-shadow: none;
+    border-radius: 5px !important;
+    --background: linear-gradient(315deg, #d9d9d9 100%);
+    --color: #000000;
+    --background-checked: linear-gradient(180deg, #1d2730 0%, #1d2730 74%);
+    --color-checked: white;
+    --indicator-color: transparent !important;
+    --border-color: none;
+  }
+}
+
+.bg-light-color {
+  --color: var(--ion-color-white);
+}
+
+.actionbaricon {
+  font-size: 19px;
+}
+
+.badgeblink {
+  animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #000000;
+  font-size: 12px;
+}
+
+.form-control:focus {
+  border-color: #ff9f0c;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(255, 159, 12, 0.25);
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.form-control.readonly {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  cursor: pointer;
+}
+
+.h7 {
+  font-size: 12px;
+}
+
+.h6 {
+  font-size: 14px;
+}
+
+.hl4line {
+  border-top: 1px solid #ffffff;
+  height: 0px !important;
+  margin: 5px 5px 0px 5px;
+}
+
+.suptitle {
+  font-size: 12px;
+  color: #ffffff;
+}
+
+.header-label {
+  color: #ff9f0c;
+  font-size: 12px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.btn-save {
+  width: 150px;
+  font-size: 12px;
+  background-color: transparent;
+  border: 1px solid #3cd2a5;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+// .btn-save:hover:not(:disabled) {
+//   background-color: #3cd2a5;
+//   color: #000000;
+// }
+
+.btn-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+ion-row {
+  padding: 2px 0;
+}
+
+/* Notification badge styles */
+.twodigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+.iostwodigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+.onedigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  right: -0.2rem;
+  left: 18px;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+.notificationonedigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  right: -0.2rem;
+  left: 18px;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+.notificationtwodigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+.notificationiostwodigitbadgecount {
+  background: white;
+  padding: 5px;
+  color: red;
+  border-radius: 20px;
+  position: absolute;
+  opacity: 0.9;
+  margin: 5px;
+}
+
+/* ================================
+   Glassmorphism Date Modal
+   ================================ */
+
+::ng-deep ion-modal.date-modal {
+  --background: transparent;
+  --box-shadow: none;
+  --width: auto;
+  --height: auto;
+  --border-radius: 24px;
+  --transition: none !important;
+}
+
+/* Modal content */
+::ng-deep ion-modal.date-modal::part(content) {
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 1px rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  width: fit-content;
+  height: fit-content;
+}
+
+/* Backdrop */
+::ng-deep ion-modal.date-modal::part(backdrop) {
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Picker Wrapper */
+.picker-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.picker-wrapper ion-datetime {
+  --background: #ffffff;
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  --padding-start: 15px;
+  --padding-end: 15px;
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+  min-width: 300px;
+}
+
+/* Calendar day spacing */
+.picker-wrapper ion-datetime::part(calendar-day) {
+  margin: 5px;
+  padding: 15px;
+}
+
+/* Selected day */
+.picker-wrapper ion-datetime::part(calendar-day-active) {
+  border-radius: 50%;
+}

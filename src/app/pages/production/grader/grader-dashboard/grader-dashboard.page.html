@@ -1,0 +1,30 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Username with banner image -->
+  <app-user-profile></app-user-profile>
+
+  <!-- Receive new load button -->
+  <div class="d-flex justify-content-end m-2">
+    <button
+      type="button"
+      class="btn border-red btn-sm px-3 text-white fs-12"
+      (click)="toggleNewLoad()"
+    >
+      <span>{{ 'GRADINGHOME.newgrading' | translate}}</span>
+    </button>
+  </div>
+  @if (showNewLoad){
+  <app-receive-new-load
+    (buttonClick)="refreshLatestGraderRecords($event)"
+  ></app-receive-new-load>
+  }
+
+  <!-- Recent Grading Lists -->
+  <app-recent-grading-records></app-recent-grading-records>
+</ion-content>

@@ -1,0 +1,35 @@
+<ion-content>
+  <div>
+    <form class="p-4" [formGroup]="myForm">
+      <div class="fs-16 fw-bold mb-2">{{ gettitle }}</div>
+      <p class="text-black fs-14 text-center">{{ alertMessage }}</p>
+
+      <ion-row class="form-row">
+        <ion-col>
+          <textarea
+            class="form-control fs-12"
+            formControlName="remarks"
+            placeholder="Enter The Reason"
+            rows="4"
+            autosize
+          ></textarea>
+        </ion-col>
+      </ion-row>
+
+      <!-- Buttons -->
+      <ion-row class="mt-3">
+        <ion-col class="buttons">
+          <button
+            type="button"
+            class="cancelbutton"
+            (click)="cancel()"
+          ></button>
+        </ion-col>
+
+        <ion-col class="buttons">
+          <button type="button" class="okaybutton" (click)="save()"></button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+</ion-content>

@@ -1,0 +1,111 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- Map Container -->
+  <div #map id="map"></div>
+
+  <!-- Supplier List -->
+  @if (locationArray.length > 0) { @for (eachitem of locationArray; track
+  eachitem.supplierid) {
+  <ion-card class="bg-card">
+    <ion-card-header>
+      <ion-row>
+        <ion-col style="font-weight: bold; text-transform: uppercase">
+          {{ eachitem.suppliername }}
+        </ion-col>
+      </ion-row>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-row class="form-row">
+        <ion-col size="4">
+          {{ 'SUPPLIERSUPPLYCHAIN.suppliercategory' | translate }}
+        </ion-col>
+        <ion-col size="0.5">:</ion-col>
+        <ion-col size="7.5">{{ eachitem.category }}</ion-col>
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col size="4">
+          {{ 'SUPPLIERSUPPLYCHAIN.mspostatus' | translate }}
+        </ion-col>
+        <ion-col size="0.5">:</ion-col>
+        <ion-col size="7.5" [style.color]="getTextColor(eachitem.certified)">
+          {{ eachitem.certified }}
+        </ion-col>
+      </ion-row>
+
+      @if (eachitem.gbpscordinate && eachitem.gbpscordinate !== '' &&
+      eachitem.gbpscordinate !== '-') {
+      <ion-row class="form-row">
+        <ion-col size="4">
+          {{ 'SUPPLIERSUPPLYCHAIN.gpscoordinate' | translate }}
+        </ion-col>
+        <ion-col size="0.5">:</ion-col>
+        <ion-col size="7.5">{{ eachitem.gbpscordinate }}</ion-col>
+      </ion-row>
+      }
+
+      <ion-row class="form-row">
+        <ion-col size="4">
+          {{ 'SUPPLIERSUPPLYCHAIN.totaltonnagesupply' | translate }}
+        </ion-col>
+        <ion-col size="0.5">:</ion-col>
+        <ion-col size="7.5">{{ eachitem.totaltonnage }}</ion-col>
+      </ion-row>
+
+      @if (eachitem.latitude && eachitem.latitude !== '' && eachitem.latitude
+      !== '-') {
+      <ion-row class="row-reverse">
+        <button
+          type="button"
+          class="h7 btn btn-view btn-sm margin-5px"
+          (click)="getPolygon(eachitem)"
+        >
+          <ion-icon class="icon" name="location-outline"></ion-icon>
+          <span class="icontext"
+            >{{ 'SUPPLIERSUPPLYCHAIN.map' | translate }}</span
+          >
+        </button>
+      </ion-row>
+      }
+    </ion-card-content>
+  </ion-card>
+  } }
+
+  <!-- No Records -->
+  @if (noRecordFlag) {
+  <div class="norecords">{{ 'NORECORDSFOUND.norecordsfound' | translate }}</div>
+  }
+
+  <!-- Loading Indicator -->
+  @if (pleaseWaitFlag && !isLoadingMore) {
+  <div class="pleasewait">
+    <div style="width: 100%; text-align: center">
+      <img
+        style="width: 80px; height: 80px"
+        src="assets/img/loading.gif"
+        alt="Loading"
+      />
+    </div>
+    {{ 'NORECORDSFOUND.loading' | translate }}
+  </div>
+  }
+
+  <!-- Infinite Scroll for Pagination -->
+  @if (locationArray.length > 0) {
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="newPagination($event)">
+    <ion-infinite-scroll-content
+      class="loadmore"
+      loadingSpinner="bubbles"
+      [loadingText]="'NORECORDSFOUND.loadingmoredata' | translate"
+    >
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  }
+</ion-content>

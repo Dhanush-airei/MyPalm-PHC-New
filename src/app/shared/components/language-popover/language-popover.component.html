@@ -1,0 +1,35 @@
+<ion-content class="language-popover">
+  <div class="popover-header">
+    <h2></h2>
+  </div>
+
+  <ion-list lines="none">
+    <ion-item
+      button
+      detail="false"
+      *ngFor="let language of languages"
+      (click)="selectLanguage(language)"
+    >
+      <!-- Flag -->
+      <ion-avatar slot="start">
+        <img [src]="language.flag" [alt]="language.name" />
+      </ion-avatar>
+
+      <!-- Language Name -->
+      <ion-label>
+        <h3>{{ language.name }}</h3>
+
+        <p>{{ language.nativeName }}</p>
+      </ion-label>
+
+      <!-- Selected -->
+      <ion-icon
+        *ngIf="selectedLanguage === language.name"
+        slot="end"
+        name="checkmark-circle"
+        color="primary"
+      >
+      </ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>

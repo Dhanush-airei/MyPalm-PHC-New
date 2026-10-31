@@ -1,0 +1,108 @@
+.firstsegment {
+  width: 100%;
+
+  ion-segment-button {
+    min-height: 45px;
+    height: 45px;
+
+    --indicator-box-shadow: none;
+    border-radius: 5px !important;
+    --background: linear-gradient(315deg, #d9d9d9 0%, #e9e9e9 74%);
+    --color: #000000;
+    --background-checked: linear-gradient(180deg, #1d2730 0%, #1d2730 74%);
+    --color-checked: white;
+    --indicator-color: transparent !important; /* this solution */
+    --border-color: none;
+  }
+}
+/* Main segment container */
+.custom-segment {
+  position: relative;
+  display: flex;
+  gap: 0;
+}
+
+/* Segment buttons */
+ion-segment-button.segment-btn-new,
+ion-segment-button.segment-btn-pending {
+  position: relative;
+  flex: 1;
+}
+
+/* Badge positioning - between buttons */
+ion-segment-button.segment-btn-new ion-badge,
+ion-segment-button.segment-btn-pending ion-badge {
+  position: absolute;
+  right: -9px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+/* Badge styling */
+.badgecount {
+  background-color: #e74c3c;
+  color: white;
+  font-weight: bold;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  margin: 0 !important;
+}
+
+/* Blink animation */
+.badgeblink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.norecords {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 65%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+.please-wait {
+  position: absolute;
+  top: 70%;
+  right: 0;
+  left: 0;
+  transform: translateY(-50%);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff;
+
+  &__image {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    margin-bottom: 8px;
+  }
+
+  &__text {
+    display: block;
+  }
+}

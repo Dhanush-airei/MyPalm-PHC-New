@@ -1,0 +1,20 @@
+<div class="header-card">
+  <img src="assets/img/header_myPalm.png" alt="Header" class="header-image" />
+
+  <div class="header-overlay">
+    <div class="welcome-card">
+      <p class="welcome-text">
+        {{ "GRADINGHOME.welcome" | translate }} {{ userName }}
+      </p>
+      <span>
+        @if (eligibleProfile) {
+          <ion-icon
+            class="fs-16 text-white"
+            name="person-outline"
+            (click)="openProfile()"
+          ></ion-icon>
+        }
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,261 @@
+<!-- corrective-maintenance.page.html -->
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="home-box">
+    <form [formGroup]="correctiveForm">
+      <ion-row>
+        <!-- Date Picker and Incharge Section -->
+        <ion-col size="9.5">
+          <!-- From Date & To Date -->
+          <ion-row class="ion-align-items-center">
+            <!-- From Date Label -->
+            <ion-col size="2" class="ion-align-self-center">
+              <div class="h7 text-white">
+                <b>{{ 'REPORTCORRECTIVEMAINTENANCE.fromdate' | translate }}</b>
+              </div>
+            </ion-col>
+
+            <ion-col size="4">
+              <input
+                type="text"
+                class="h7 form-control readonly"
+                formControlName="from_date"
+                placeholder="DD-MM-YYYY"
+                (click)="openFromDateTimePicker()"
+                readonly
+                style="height: 35px"
+              />
+            </ion-col>
+
+            <!-- To Date Label -->
+            <ion-col size="2" class="ion-align-self-center">
+              <div class="h7 text-white">
+                <b>{{ 'REPORTCORRECTIVEMAINTENANCE.todate' | translate }}</b>
+              </div>
+            </ion-col>
+
+            <!-- To Date Input -->
+            <ion-col size="4">
+              <input
+                type="text"
+                class="h7 form-control readonly"
+                formControlName="to_date"
+                placeholder="DD-MM-YYYY"
+                (click)="openToDateTimePicker()"
+                readonly
+                style="height: 35px"
+              />
+            </ion-col>
+          </ion-row>
+
+          <!-- Incharge Person -->
+          <ion-row class="ion-align-items-center mt-10">
+            <ion-col size="6">
+              <div class="h7 text-white"><b>Incharge Person</b></div>
+            </ion-col>
+
+            <ion-col size="6">
+              <ion-select
+                mode="md"
+                [interfaceOptions]="inchargeOption"
+                formControlName="select_incharge_person"
+                [okText]="'GENERALBUTTON.okay' | translate"
+                [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+                class="selectdropdown"
+                placeholder="{{ 'GENERALBUTTON.select' | translate }}"
+                (ionChange)="inchargeChange($event)"
+              >
+                <ion-select-option value="">
+                  {{ 'SUPERVISORDASHBOARD.select' | translate }}
+                </ion-select-option>
+
+                @for (value of inchargePersonArr; track value.userId) {
+                <ion-select-option [value]="value.userId">
+                  {{ value.name }}
+                </ion-select-option>
+                }
+              </ion-select>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+
+        <!-- Get Button Column -->
+        <ion-col size="2.5" class="btn-column">
+          <button
+            type="button"
+            class="h7 btn btn-general btn-sm w-100"
+            style="height: 31px"
+            (click)="getNotification()"
+          >
+            {{ 'GENERALBUTTON.getrecords' | translate }}
+          </button>
+        </ion-col>
+      </ion-row>
+      <hr />
+    </form>
+
+    <!-- Table Data -->
+    @if (!enableFlag) {
+    <div class="table-responsive">
+      <table class="table table-bordered w-100">
+        <thead>
+          <tr class="table_head bg-table-black">
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.datetime' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.notificationid' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.station' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.machine' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.assignedto' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.taskstarttime' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.taskcompletiontime' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.totaltaskexecutionduration' |
+              translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.status' | translate }}
+            </th>
+
+            <th class="p-1 text-orange" scope="col">
+              {{ 'REPORTCORRECTIVEMAINTENANCE.detail' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (value of notificationlistArr; track $index) {
+          <tr class="table-row">
+            <td class="p-1" scope="row">{{ value.insDate }}</td>
+            <td class="p-1" scope="row">{{ value.notificationno }}</td>
+            <td class="p-1" scope="row">{{ value.stationname }}</td>
+            <td class="p-1" scope="row">{{ value.equipment }}</td>
+
+            @if (value.carriedoutby != '') {
+            <td class="p-1" scope="row">{{ value.carriedoutby }}</td>
+            } @else {
+            <td class="p-1" scope="row">-</td>
+            }
+            <!-- @if (value.task_start_time != '') { -->
+            <td class="p-1" scope="row">{{ value.task_start_time }}</td>
+            <!-- } @else {
+            <td class="p-1" scope="row">-</td>
+            } -->
+            <!-- @if (value.task_completion_time != '') { -->
+            <td class="p-1" scope="row">{{ value.task_completion_time }}</td>
+            <!-- } 
+            @else {
+            <td class="p-1" scope="row">-</td>
+            }  -->
+            <!-- @if (value.total_task_execution_duration != '') { -->
+            <td class="p-1" scope="row">
+              {{ value.total_task_execution_duration }}
+            </td>
+            <!-- } @else {
+            <td class="p-1" scope="row">-</td>
+            } -->
+
+            <td
+              class="p-1 status-cell"
+              scope="row"
+              [style.background-color]="getStatusTextColor(value.statusId)"
+            >
+              {{ value.statusname }}
+            </td>
+
+            <td class="p-1" scope="row">
+              <button
+                type="button"
+                class="btn btn-sm border-blue text-white"
+                (click)="callModalController(value)"
+              >
+                <span class="icontext"
+                  >{{ 'GENERALBUTTON.viewbutton' | translate }}</span
+                >
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    }
+
+    <!-- No Records -->
+    @if (enableFlag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>
+
+<!-- ================= FROM DATE MODAL ================= -->
+<ion-modal
+  [isOpen]="isFromDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onFromDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempFromDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onFromDateChange($event)"
+        [max]="maxDate"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- ================= TO DATE MODAL ================= -->
+<ion-modal
+  [isOpen]="isToDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onToDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [value]="tempToDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onToDateChange($event)"
+        [min]="tempFromDate"
+        [max]="maxDate"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

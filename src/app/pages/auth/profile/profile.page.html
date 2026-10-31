@@ -1,0 +1,88 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="d-flex justify-content-center my-4">
+    <div class="profile-image-container">
+      <img [src]="profileImage" alt="Profile" class="profile-image p-2" />
+    </div>
+  </div>
+  <h4 class="text-white text-center">{{ name }}</h4>
+  <p class="text-center txt-designation">{{ designation }}</p>
+
+  <div
+    class="card border-0 shadow-sm rounded-3 m-4"
+    style="background-color: #00000030"
+  >
+    <!-- Change Password -->
+    <button
+      type="button"
+      class="list-group-item list-group-item-action d-flex align-items-center justify-content-between border-0 p-3"
+      (click)="changePassword()"
+    >
+      <div class="d-flex align-items-center">
+        <ion-icon name="lock-closed-outline" class="fs-4 text-primary me-3">
+        </ion-icon>
+
+        <span class="fw-medium text-white"
+          >{{ 'MORE.changepassword' | translate}}</span
+        >
+      </div>
+
+      <ion-icon name="chevron-forward-outline" class="text-secondary">
+      </ion-icon>
+    </button>
+
+    <!-- Delete Account (only shown when backend login_check === '1') -->
+    @if (showDeleteAccountButton) {
+    <button
+      type="button"
+      class="list-group-item list-group-item-action d-flex align-items-center justify-content-between border-top p-3"
+      (click)="openDeleteModal()"
+    >
+      <div class="d-flex align-items-center">
+        <ion-icon name="trash-outline" class="fs-4 text-danger me-3">
+        </ion-icon>
+
+        <span class="fw-medium text-white"
+          >{{ 'MORE.delete_account' | translate }}</span
+        >
+      </div>
+
+      <ion-icon name="chevron-forward-outline" class="text-secondary">
+      </ion-icon>
+    </button>
+    }
+
+    <!-- Logout -->
+    <button
+      type="button"
+      class="list-group-item list-group-item-action d-flex align-items-center justify-content-between border-top p-3"
+      (click)="openLogoutModal()"
+    >
+      <div class="d-flex align-items-center">
+        <ion-icon name="log-out-outline" class="fs-4 theme-color me-3">
+        </ion-icon>
+
+        <span class="fw-medium text-white">
+          {{ 'MORE.logout' | translate }}</span
+        >
+      </div>
+
+      <ion-icon name="chevron-forward-outline" class="text-secondary">
+      </ion-icon>
+    </button>
+  </div>
+
+  <p class="text-white text-center fs-13">{{ 'MORE.poweredby' | translate}}</p>
+  <img
+    src="../../../assets/img/airei_logo_white.png"
+    alt=""
+    class="w-50 mx-auto d-block"
+  />
+</ion-content>

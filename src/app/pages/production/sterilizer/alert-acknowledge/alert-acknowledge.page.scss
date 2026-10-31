@@ -1,0 +1,371 @@
+.content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 45%;
+  transform: translateY(-50%);
+}
+
+ion-header {
+  .modaltoolbar {
+    border-bottom: 1px solid #ffffff71;
+  }
+}
+
+ion-footer {
+  background-color: #1d2730;
+  border-top: 1px solid #ffffff71;
+  .footerbutton {
+    margin: 10px 0px 10px 0px;
+  }
+}
+
+.steps {
+  padding: 10px;
+}
+
+form {
+  padding: 5px;
+}
+
+.form-row {
+  align-items: center;
+}
+
+.footer {
+  background-color: #1d2730;
+}
+
+.title {
+  color: white;
+  font-size: 14px;
+  text-align: left;
+}
+
+.viewtitle {
+  color: #ff9f0c;
+  font-size: 14px;
+  text-align: left;
+}
+
+.imagetitle {
+  margin: 5px 0px 5px 0px;
+  text-align: center;
+  font-weight: bold;
+  color: #ff9f0c;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  background: transparent;
+  border: 1px solid #ffffff;
+  flex-grow: 0;
+  padding: 0;
+}
+
+.circle span {
+  color: #ffffff;
+  text-align: center;
+  width: 40px;
+  display: inline-block;
+  margin: auto;
+}
+
+select {
+  text-align: center;
+  text-align-last: center;
+  -moz-text-align-last: center;
+}
+
+.selectdropdown {
+  background-color: transparent;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  border: 0.5px solid #ff9f0c;
+  color: #ffffff;
+  border-radius: 5px;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  --placeholder-color: white;
+  --placeholder-opacity: 1;
+}
+
+ion-select::part(icon) {
+  width: 15px;
+  visibility: hidden;
+}
+
+.ionicselect {
+  color: transparent;
+  font-size: 1px;
+  content-visibility: hidden;
+  margin: 0px;
+  padding: 0px;
+}
+
+.optionbutton {
+  --background: transparent;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  text-transform: initial;
+  margin: 0 !important;
+  border-radius: 5px;
+  border: 0.5px solid #ff9f0c;
+  --background-activated: transparent;
+  --color-activated: #ffffff;
+  --background-focused: transparent;
+  --color-focused: #ffffff;
+  --background-hover: transparent;
+  --color-hover: #ffffff;
+  --color: #ffffff;
+}
+
+.optionactivebutton {
+  --background: #3cd2a5;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  text-transform: initial;
+  border-radius: 50px;
+  margin: 20px 0px 0px 0px;
+  color: #000000;
+}
+
+.backbutton {
+  background: #0000005c;
+}
+
+.btn-previous {
+  width: 120px;
+  height: 40px;
+  border-radius: 50px;
+  background-color: #ff6060;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #ff6060;
+}
+
+.btn-next {
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #3cd2a5;
+}
+
+sup {
+  color: red;
+}
+
+hr {
+  height: 1px;
+  border-top: 1px solid #ffffff;
+}
+
+.hl4line {
+  border-top: 1px dashed #ffffff71;
+  height: 0px !important;
+  margin: 20px;
+}
+
+.notificationform-row {
+  margin: 4px;
+  text-align: left;
+}
+
+table {
+  margin-top: 10px;
+  font-size: 11px;
+  line-height: 1.42857143;
+  padding: 5px;
+  background-color: #1d2730;
+  border-collapse: collapse;
+}
+
+.table td,
+.table th {
+  text-align: center;
+  vertical-align: middle;
+  color: #ffffff;
+  padding: 0.3rem !important;
+}
+
+.table_head {
+  background-color: #3cd2a5;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.data {
+  background-color: #f4fbf9;
+  color: #000000 !important;
+}
+
+.blockdata {
+  color: #000000 !important;
+}
+
+.logoimg {
+  width: 50px;
+}
+
+.statusimg {
+  width: 30px;
+}
+
+.titleheader {
+  border-radius: 5px 5px 0px 0px;
+  text-align: center;
+  background-color: #1d2730;
+  font-size: 14px;
+  color: #ffffff;
+  margin: 10px 0px 0px 0px;
+  padding: 10px;
+}
+
+.tasktitleheader {
+  border-radius: 5px;
+  text-align: center;
+  background-color: #1d2730;
+  font-size: 14px;
+  color: #ffffff;
+  margin: 10px 0px 0px 0px;
+  padding: 10px;
+}
+
+.notificationcard {
+  border: 1px solid #1d2730;
+  background-color: #f4fbf9;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 0px 0px 5px 5px;
+  padding: 5px 5px 5px 0px;
+}
+
+.btn-attendrectify {
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  border: 1px solid #3cd2a5;
+}
+
+.btn-unabletorectify {
+  width: 125px;
+  font-size: 12px;
+  background-color: none;
+  border: 0.5px solid #ff6060;
+  color: #ffffff;
+}
+
+.notificationtitle {
+  color: #ff9f0c;
+  font-size: 14px;
+  text-align: center;
+}
+
+.ion-text-end {
+  float: right;
+}
+
+.userfont {
+  font-size: 12px;
+}
+
+.usertext {
+  color: #ffffff;
+}
+
+.nopadding {
+  padding-right: 6px !important;
+}
+
+.swiper-slide-active {
+  transform: scale(1.05, 1.05);
+  ion-card {
+    img {
+      transform: scale(1, 1);
+    }
+  }
+}
+
+.swiper-slide {
+  transition: 400ms all ease-in-out;
+}
+
+.imgmarigin {
+  margin-left: 15px;
+}
+
+.imagecard {
+  margin: 10px;
+  padding: 5px 0px 5px 0px;
+  background-color: transparent;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+}
+
+.imagePreview {
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
+  background-position: center center;
+  background: url("../../../../../assets/img/noimage.png");
+  background-color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: inline-block;
+  box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
+}
+
+.imagePresent {
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
+  background-position: center center;
+  background-color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: inline-block;
+  box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
+}
+
+.btn-imageview {
+  width: 200px;
+  font-size: 14px;
+  background-color: none;
+  border: 2px solid #30beff;
+  color: #ffffff;
+}
+
+.btn-imageupload {
+  width: 200px;
+  font-size: 14px;
+  background-color: none;
+  border: 2px solid #ff9f0c;
+  color: #ffffff;
+}
+
+.icon {
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.icontext {
+  vertical-align: middle;
+}

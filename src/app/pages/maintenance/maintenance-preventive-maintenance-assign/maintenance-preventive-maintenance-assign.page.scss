@@ -1,0 +1,329 @@
+ion-content {
+  background-image: url(../../../../assets/img/machinebg.png);
+  background-position: center center fixed;
+  background-repeat: repeat;
+  background-size: cover;
+}
+
+.content {
+  text-align: center;
+}
+
+ion-header {
+  .modaltoolbar {
+    border-bottom: 1px solid #ffffff71;
+  }
+}
+
+.stepform {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 45%;
+  transform: translateY(-50%);
+  padding-left: 10px;
+}
+
+.steps {
+  padding: 10px;
+}
+
+form {
+  padding: 10px;
+}
+
+.form-row {
+  align-items: center;
+}
+
+.footer {
+  background-color: #1d2730;
+}
+
+.title {
+  color: white;
+  font-size: 14px;
+  text-align: left;
+}
+
+.viewtitle {
+  color: #ff9f0c;
+  font-size: 14px;
+  text-align: left;
+}
+
+.selecteddata {
+  margin-top: 20px;
+  color: #3cd2a5;
+  text-align: center;
+  font-size: 14px;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  background: transparent;
+  border: 1px solid #ffffff;
+  flex-grow: 0;
+  padding: 0;
+
+  span {
+    color: #ffffff;
+    text-align: center;
+    width: 40px;
+    display: inline-block;
+    margin: auto;
+  }
+}
+
+select {
+  text-align: center;
+  text-align-last: center;
+  -moz-text-align-last: center;
+}
+
+.selectdropdown {
+  background-color: transparent;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  border: 0.5px solid #ff9f0c;
+  color: #ffffff;
+  border-radius: 5px;
+  text-align: center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  --placeholder-color: white;
+  --placeholder-opacity: 1;
+}
+
+ion-select::part(icon) {
+  width: 15px;
+  visibility: hidden;
+}
+
+/* ===================================================== */
+/* FIX: keep layout/dimensions so Ionic can anchor the   */
+/* overlay. Invisible but measurable — no z-index: -1.   */
+/* ===================================================== */
+.select-anchor {
+  position: relative;
+}
+
+.ionicselect {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 40px;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  margin: 0;
+  padding: 0;
+  z-index: 1;
+}
+
+.optionbutton {
+  --background: transparent;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  text-transform: initial;
+  margin: 0 !important;
+  border-radius: 5px;
+  border: 0.5px solid #ff9f0c;
+  --background-activated: transparent;
+  --color-activated: #ffffff;
+  --background-focused: transparent;
+  --color-focused: #ffffff;
+  --background-hover: transparent;
+  --color-hover: #ffffff;
+  --color: #ffffff;
+}
+
+.optionactivebutton {
+  --background: #ff9f0c;
+  width: 100%;
+  height: 40px;
+  font-size: 14px;
+  text-transform: initial;
+  border-radius: 50px;
+  margin: 20px 0px 0px 0px;
+  color: #000000;
+}
+
+.backbutton {
+  background: #0000005c;
+}
+
+.btn-success {
+  width: 120px;
+}
+
+.btn-previous {
+  width: 120px;
+  height: 40px;
+  border-radius: 50px;
+  background-color: #ff6060;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #ff6060;
+}
+
+.btn-next {
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: transparent;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid #3cd2a5;
+  color: #ffffff;
+}
+
+/* ===================================================== */
+/* Table — full grid borders (vertical + horizontal)     */
+/* ===================================================== */
+table {
+  width: 100%;
+  font-size: 12px;
+  line-height: 1.42857143;
+  color: #ffffff;
+  margin-top: 8px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+table th,
+table td {
+  padding: 6px 4px;
+  border: 1px solid #ffffff;
+  color: #ffffff;
+  vertical-align: middle;
+  text-align: center;
+  background: transparent;
+  color: white;
+}
+
+.table_head {
+  background-color: #000000;
+  color: #ff9f0c;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table_head th {
+  color: #ff9f0c;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Keep for the existing markup reference (safe fallback) */
+.table td,
+.table th {
+  padding: 6px 4px;
+}
+
+.table-bordered {
+  border-collapse: collapse;
+  border: 1px solid #ffffff;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #ffffff;
+}
+
+.icon {
+  vertical-align: middle;
+  font-size: 15px;
+  color: #ff0000;
+}
+
+.icontext {
+  vertical-align: middle;
+  font-size: 14px;
+}
+
+sup {
+  color: red;
+}
+
+.conditionradiobutton {
+  label {
+    font-weight: bold;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #ffffff;
+    margin-bottom: 0px;
+  }
+
+  input[type="radio"] {
+    margin-top: -4px;
+    vertical-align: middle;
+  }
+
+  input[type="radio"]:after {
+    width: 18px;
+    height: 18px;
+    border-radius: 18px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #d1d3d1;
+    content: "";
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid white;
+  }
+
+  input[type="radio"]:checked:after {
+    width: 18px;
+    height: 18px;
+    border-radius: 18px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #08ff08;
+    content: "";
+    display: inline-block;
+    visibility: visible;
+    border: 1px solid white;
+  }
+}
+
+hr {
+  height: 1px;
+  border-top: 1px solid #ffffff;
+}
+
+.hl4line {
+  border-top: 1px dashed #ffffff;
+  height: 0px !important;
+  margin: 10px 20px 10px 20px;
+}
+
+.h7 {
+  font-size: 14px;
+}
+
+.mdfont {
+  font-size: 13px;
+}
+
+/* Overlay styling – ensures MD popup shows the list properly */
+ion-alert.multiselect {
+  --backdrop-opacity: 0.4;
+
+  .alert-wrapper {
+    max-height: 80vh;
+  }
+
+  .alert-checkbox-group {
+    max-height: 55vh;
+    overflow-y: auto;
+  }
+}

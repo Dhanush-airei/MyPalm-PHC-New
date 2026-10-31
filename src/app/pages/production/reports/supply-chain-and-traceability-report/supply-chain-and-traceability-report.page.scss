@@ -1,0 +1,243 @@
+#dealermap {
+  width: 100%;
+  height: 70%;
+}
+
+.categorytxt {
+  font-size: 12px;
+}
+
+.header {
+  background-color: black;
+  height: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff;
+  vertical-align: middle;
+}
+
+.bg-card {
+  --background: none;
+  background-color: #ffffff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 10px 5px 5px 5px;
+
+  ion-col {
+    font-size: 11px;
+  }
+
+  ion-card-header {
+    border-radius: 4px 4px 0px 0px;
+    background-color: #000000;
+    color: #ff9f0c;
+    padding: 5px;
+    text-align: center;
+  }
+
+  ion-card-content {
+    padding: 5px 10px 5px 10px;
+  }
+}
+
+/* Hide the close (X) button in Google Maps InfoWindow - Multiple approaches */
+.gm-ui-hover-effect,
+.gm-style-iw button[title*="Close"],
+.gm-style-iw .gm-ui-hover-effect,
+.gm-style-iw button.gm-ui-hover-effect,
+div.gm-style-iw button.gm-ui-hover-effect {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  pointer-events: none !important;
+}
+
+/* Hide any SVG or image inside close button */
+.gm-ui-hover-effect svg,
+.gm-ui-hover-effect img,
+.gm-style-iw svg,
+.gm-style-iw img {
+  display: none !important;
+}
+
+/* Hide Google Maps attribution and terms */
+.gm-style-cc,
+.gm-style-ccc,
+.gm-fullscreen-control,
+.gm-style .gm-style-cc,
+.gm-style .gm-style-ccc,
+div[class*="gm-style-cc"],
+div[class*="gm-style-ccc"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Hide "Terms" and "Map Data" links */
+a[href*="maps/terms"],
+a[href*="map/terms"],
+a[href*="about/"],
+a[href*="maps/about/"],
+a[title*="Terms"],
+a[title*="terms"],
+a[title*="Map Data"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Hide keyboard shortcuts text */
+.gm-style-iw-c .gm-style-iw-d {
+  font-size: 13px !important;
+}
+
+/* Additional container hiding */
+.gm-style-iw-d ~ div,
+.gm-style-iw-t {
+  button.gm-ui-hover-effect {
+    display: none !important;
+  }
+}
+
+.norecords {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.loading-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #ffffff;
+
+  ion-spinner {
+    width: 50px;
+    height: 50px;
+    margin: 0 auto;
+  }
+
+  p {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+}
+
+.vertical-align-content {
+  display: flex;
+  align-items: center;
+}
+
+.h7 {
+  font-size: 12px;
+}
+
+// Google Maps Info Window Styles
+::ng-deep {
+  .gm-style-iw {
+    .btn-info {
+      background-color: #17a2b8;
+      border-color: #17a2b8;
+      color: #ffffff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.3s ease;
+      padding: 5px 10px;
+
+      &:hover {
+        background-color: #138496;
+        border-color: #117a8b;
+      }
+    }
+
+    .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+      border-radius: 0.2rem;
+    }
+
+    /* Highlight effect for the button when marker is clicked - Stays permanently */
+    .highlight-btn {
+      border: 3px solid #17a2b8 !important;
+      //   box-shadow: 0 0 15px rgba(41, 90, 163, 0.8) !important;
+      animation: blinkOnce 0.5s ease-in-out 1; /* 3 pulses when first applied */
+      animation-fill-mode: forwards;
+      background-color: #17a2b8 !important;
+      color: #ffffff !important;
+    }
+
+    /* Pulse animation for highlight effect */
+    @keyframes blinkOnce {
+      0% {
+        border-color: #17a2b8;
+        // box-shadow: 0 0 10px rgba(0, 102, 255, 0.8);
+        transform: scale(1);
+      }
+      25% {
+        border-color: #17a2b8;
+        // box-shadow: 0 0 25px rgba(0, 102, 255, 0.9);
+        transform: scale(1.05);
+      }
+      50% {
+        border-color: #17a2b8;
+        // box-shadow: 0 0 10px rgba(0, 102, 255, 0.8);
+        transform: scale(1);
+      }
+      75% {
+        border-color: #17a2b8;
+        // box-shadow: 0 0 25px rgba(0, 102, 255, 0.9);
+        transform: scale(1.05);
+      }
+      100% {
+        border-color: #17a2b8;
+        // box-shadow: 0 0 15px rgba(0, 102, 255, 0.8);
+        transform: scale(1);
+      }
+    }
+
+    /* Hide close button in info window */
+    button.gm-ui-hover-effect {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      width: 0 !important;
+      height: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: none !important;
+      overflow: hidden !important;
+    }
+
+    /* Hide close button SVG */
+    button.gm-ui-hover-effect svg {
+      display: none !important;
+    }
+  }
+
+  /* Remove attribution controls globally */
+  .gm-style-cc {
+    display: none !important;
+  }
+}
+
+/* Hide keyboard shortcuts */
+.gm-style .gm-style-iw-c {
+  button.gm-ui-hover-effect {
+    display: none !important;
+  }
+}

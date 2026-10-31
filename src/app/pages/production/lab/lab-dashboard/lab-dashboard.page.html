@@ -1,0 +1,153 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+  #pageHeader
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <!-- User Profile with Welcome Message -->
+  <app-user-profile></app-user-profile>
+
+  <!-- Daily FFA Quality Form -->
+  <div>
+    <div class="reportstitleheader">Daily FFA Quality</div>
+
+    <form [formGroup]="labForm">
+      <!-- Date -->
+      <div class="form-row" style="margin-top: 10px">
+        <div class="col">
+          <div class="h7 text-white">
+            {{ 'OILLOSSESSREPORT.date' | translate }}
+          </div>
+        </div>
+
+        <div class="col">
+          <input
+            type="text"
+            class="h7 form-control readonly"
+            formControlName="txt_date"
+            placeholder="DD-MM-YYYY"
+            (click)="openDatePicker()"
+            readonly
+          />
+        </div>
+      </div>
+
+      <!-- Time -->
+      <div class="form-row" style="margin-top: 20px">
+        <div class="col">
+          <div class="h7 text-white">
+            {{ 'OILLOSSESSREPORT.time' | translate }}
+          </div>
+        </div>
+
+        <div class="col">
+          <input
+            type="text"
+            class="h7 form-control readonly"
+            formControlName="txt_fromtime"
+            placeholder="HH:mm"
+            (click)="openTimePicker()"
+            readonly
+          />
+        </div>
+      </div>
+
+      <!-- Gutter FFA -->
+      <div class="form-row" style="margin-top: 20px">
+        <div class="col">
+          <div class="h7 text-white">
+            {{ 'OILLOSSESSREPORT.gutterffa' | translate }} (%)
+          </div>
+        </div>
+
+        <div class="col">
+          <input
+            type="number"
+            class="h7 form-control text-dark"
+            placeholder="{{ 'OILLOSSESSREPORT.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_gutter"
+          />
+        </div>
+      </div>
+
+      <!-- Vertical Clarifier FFA -->
+      <div class="form-row" style="margin-top: 20px">
+        <div class="col">
+          <div class="h7 text-white">
+            {{ 'OILLOSSESSREPORT.verticalclarifierffa' | translate }} (%)
+          </div>
+        </div>
+
+        <div class="col">
+          <input
+            type="number"
+            class="h7 form-control text-dark"
+            placeholder="{{ 'OILLOSSESSREPORT.enter' | translate }}"
+            (keypress)="decimalFilter($event)"
+            formControlName="txt_vertical"
+          />
+        </div>
+      </div>
+
+      <!-- Save Button -->
+      <div style="text-align: center; margin: 20px 0px 10px 0px">
+        <button
+          type="submit"
+          [disabled]="isDisabled"
+          class="h6 btn btn-save"
+          (click)="showAlert()"
+        >
+          {{ 'GENERALBUTTON.savebutton' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+</ion-content>
+
+<!-- Date Modal -->
+<ion-modal
+  [isOpen]="isDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onDateDismiss()"
+>
+  <ng-template>
+    <div class="picker-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempDate"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onDateChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- Time Modal -->
+<ion-modal
+  [isOpen]="isTimeModalOpen"
+  cssClass="time-modal"
+  (didDismiss)="onTimeDismiss()"
+>
+  <ng-template>
+    <div class="picker-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempTime"
+        presentation="time"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        hourCycle="h12"
+        locale="en-US"
+        (ionChange)="onTimeChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>

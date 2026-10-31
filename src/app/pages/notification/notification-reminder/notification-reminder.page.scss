@@ -1,0 +1,217 @@
+ion-card {
+  padding: 0px;
+  margin: 0px;
+  border-radius: 0px;
+  --background: var(--ion-color-appcolor);
+  --color-selected: var(--ion-color-lightorange) !important;
+}
+
+ion-tab-bar {
+  --background: transparent;
+  background-image: linear-gradient(180deg, #1d2730 0%, #1d2730 74%);
+  --color-selected: #ff9f0c !important;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+}
+
+ion-tab-button {
+  --ripple-color: transparent;
+  --color: #ffffff;
+  --color-selected: #ff9f0c;
+  font-weight: bold;
+}
+
+ion-icon {
+  --ionicon-stroke-width: 20px;
+}
+
+.alertcard {
+  --background: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  margin: 10px 5px 0px 5px;
+
+  .form-row {
+    margin: 0px !important;
+  }
+
+  ion-card-content {
+    padding: 0px;
+  }
+
+  ion-card-header {
+    padding: 8px;
+    background-color: #000000;
+  }
+
+  .btn-acknowledge {
+    background-color: none;
+    border-color: #cb4335;
+  }
+}
+
+.segment-card {
+  display: flex;
+  overflow-x: scroll;
+  .segment-item {
+    display: inline-block !important;
+    width: auto !important;
+  }
+}
+
+.home-box {
+  padding: 5px;
+}
+
+.card {
+  border: 1px solid #ffffff71;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  padding: 10px;
+  //   margin: 10px 5px 0px 5px;
+}
+
+.alertcheckcard {
+  width: 100%;
+  height: 50px;
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  background-color: #fffff0;
+  text-align: left;
+}
+
+.checkcard {
+  width: 100%;
+  height: 50px;
+  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  background-color: #fffff0;
+  text-align: left;
+}
+
+.todaybadge {
+  background-color: #008000;
+  padding: 10px;
+  color: #ffffff;
+  border-radius: 20px;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.1rem;
+  opacity: 0.9;
+  animation: blink 1s linear infinite;
+  font-size: 14px;
+}
+
+.yesterdaybadge {
+  background-color: #ffbf00;
+  padding: 10px;
+  color: #000000;
+  border-radius: 20px;
+  position: absolute;
+  top: 0.1rem;
+  right: 0.1rem;
+  opacity: 0.9;
+  animation: blink 1s linear infinite;
+  font-size: 14px;
+}
+
+.olderbadge {
+  background-color: #ff0000;
+  padding: 10px;
+  color: #ffffff;
+  border-radius: 20px;
+  position: absolute;
+  top: 0.45rem;
+  right: 1.3rem;
+  opacity: 0.9;
+  animation: blink 1s linear infinite;
+  font-size: 14px;
+}
+
+.norecords {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.btn-attendrectify {
+  font-size: 12px;
+  background-color: none;
+  border: 1px solid #008000;
+  color: #000000;
+}
+
+.btn-unabletorectify {
+  margin-left: 5px;
+  font-size: 12px;
+  background-color: none;
+  border: 1px solid #cb4335;
+  color: #000000;
+}
+
+.btn-read {
+  font-size: 12px;
+  background-color: none;
+  border: 1px solid #ff9f0c;
+  color: #000000;
+}
+
+.btn-acknowledge {
+  font-size: 12px;
+  background-color: none;
+  border: 1px solid #cb4335;
+  color: #000000;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border-top: 1px solid #ffffff71;
+}
+
+.marigin-10px {
+  margin: 10px;
+}
+
+.row-reverse {
+  flex-direction: row-reverse;
+}
+
+.text-dark {
+  color: #000000 !important;
+  padding-top: 3px;
+}
+
+.float-right {
+  float: right;
+}
+
+.ion-padding-horizontal {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.ion-padding-top {
+  padding-top: 10px;
+}

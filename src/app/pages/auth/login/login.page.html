@@ -1,0 +1,116 @@
+<ion-content fullscreen class="login-page">
+  <!-- Header Image -->
+  <div class="header-image">
+    <div class="top-buttons pt-5 px-2">
+      <div>
+        <button class="orange-btn" *ngIf="showSignupButton">
+          <ion-icon name="person-add-outline"></ion-icon>
+          <span>Sign Up</span>
+        </button>
+      </div>
+      <div>
+        <button class="orange-btn" (click)="openLanguagePopover($event)">
+          <ion-icon name="language-outline"></ion-icon>
+          <span>{{ 'LOGIN.language' | translate}}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div class="login-container">
+    <div class="logo-box">
+      <img src="../../../../assets/img/mypalm.png" alt="" />
+    </div>
+
+    <h1>PLANTATIONS ET</h1>
+    <h2>HUILERIES DU CONGO</h2>
+    <!-- Current Estate -->
+    <ion-row class="estates" *ngIf="displayEstate">
+      <ion-col>
+        <ion-label>{{ displayEstate.name }}</ion-label>
+      </ion-col>
+    </ion-row>
+
+    <!-- Estate Selection -->
+    <div
+      class="d-flex overflow-auto gap-2 py-2 estate-scroll"
+      *ngIf="showEstateSelection"
+    >
+      <ion-chip
+        *ngFor="let estate of estates"
+        class="estate-chip"
+        [ngClass]="{
+          'active': selectedEstate?.name === estate.name
+        }"
+        (click)="selectEstate(estate)"
+      >
+        <ion-label>{{ estate.name }}</ion-label>
+      </ion-chip>
+    </div>
+    <form [formGroup]="loginForm">
+      <!-- Mill Code -->
+      <!-- <div class="input-box d-flex align-items-center">
+        <ion-icon name="business-outline" class="me-3 fs-5"></ion-icon>
+
+        <input
+          type="text"
+          class="form-control border-0 bg-transparent shadow-none px-0"
+          placeholder="{{ 'LOGIN.millcode' | translate}}"
+          formControlName="millCode"
+        />
+      </div> -->
+
+      <!-- Username -->
+      <div class="input-box d-flex align-items-center mt-3">
+        <ion-icon name="person-outline" class="me-3 fs-5"></ion-icon>
+
+        <input
+          type="text"
+          class="form-control border-0 bg-transparent shadow-none px-0"
+          placeholder="{{ 'LOGIN.username' | translate}}"
+          formControlName="username"
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="input-box d-flex align-items-center mt-3">
+        <ion-icon name="lock-closed-outline" class="me-3 fs-5"></ion-icon>
+
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          class="form-control border-0 bg-transparent shadow-none px-0"
+          placeholder="{{ 'LOGIN.password' | translate}}"
+          formControlName="password"
+        />
+
+        <ion-icon
+          class="ms-2 fs-5"
+          role="button"
+          [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"
+          (click)="togglePassword()"
+        >
+        </ion-icon>
+      </div>
+
+      <button
+        type="button"
+        class="login-btn"
+        [disabled]="isLoading"
+        (click)="onSubmit()"
+      >
+        <ng-container *ngIf="!isLoading; else loadingTemplate">
+          {{ 'LOGIN.buttonlogin' | translate }}
+        </ng-container>
+
+        <ng-template #loadingTemplate>
+          <ion-spinner color="light"></ion-spinner>
+        </ng-template>
+      </button>
+    </form>
+    <div class="footer">
+      <p>© 2026 AIREI Sdn. Bhd. All rights reserved.</p>
+      <p>Version</p>
+    </div>
+  </div>
+</ion-content>

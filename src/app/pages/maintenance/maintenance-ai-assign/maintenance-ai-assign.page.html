@@ -1,0 +1,350 @@
+<ion-header class="bg-brown-color">
+  <ion-toolbar class="bg-brown-color modaltoolbar">
+    <ion-title mode="ios" color="light" class="fs-12"
+      >{{ getmachinename }}</ion-title
+    >
+
+    <ion-buttons slot="end">
+      <ion-button class="bg-light-color" (click)="btn_close()">
+        <ion-icon color="light" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="">
+  <div>
+    <form [formGroup]="aiForm" style="margin: 10px 10px 0px 10px">
+      <!-- Station -->
+      @if (getstationname !== '') {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="text-start text-white fs-12">
+              {{ 'PREVENTIVEMAINTENANCEASSIGN.station' | translate }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <b class="text-white">:</b>
+          </ion-col>
+
+          <ion-col size="6">
+            <div class="viewtitle fs-12" style="text-align: left">
+              <b>{{ getstationname }}</b>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+      }
+
+      <!-- Machine -->
+      @if (getmachinename !== '') {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="text-start text-white fs-12">
+              {{ 'PREVENTIVEMAINTENANCEASSIGN.machine' | translate }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <b class="text-white">:</b>
+          </ion-col>
+
+          <ion-col size="6">
+            <div class="viewtitle fs-12" style="text-align: left">
+              <b>{{ getmachinename }}</b>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+      }
+
+      <!-- Part Name -->
+      @if (getpartname !== '') {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="text-start text-white fs-12">
+              {{ 'PREVENTIVEMAINTENANCEASSIGN.partname' | translate }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <b class="text-white">:</b>
+          </ion-col>
+
+          <ion-col size="6">
+            <div class="viewtitle fs-12" style="text-align: left">
+              <b>{{ getpartname }}</b>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+      }
+
+      <!-- Current Running Hours -->
+      @if (getcurrentrunninghours !== '') {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="text-start text-white fs-12">
+              {{ 'PREVENTIVEMAINTENANCEASSIGN.currentrunninghours' | translate
+              }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <b class="text-white">:</b>
+          </ion-col>
+
+          <ion-col size="6">
+            <div class="viewtitle fs-12" style="text-align: left">
+              <b>{{ getcurrentrunninghours }}</b>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+      }
+
+      <!-- Maximum Running Hours -->
+      @if (getmaximumrunninghours !== '') {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="text-start text-white fs-12">
+              {{ 'PREVENTIVEMAINTENANCEASSIGN.lifetimehours' | translate }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <b class="text-white">:</b>
+          </ion-col>
+
+          <ion-col size="6">
+            <div class="viewtitle fs-12" style="text-align: left">
+              <b>{{ getmaximumrunninghours }}</b>
+            </div>
+          </ion-col>
+        </ion-row>
+      </div>
+      }
+
+      <!-- Assign To Options -->
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="text-start text-white fs-12">
+              {{ 'PREVENTIVEMAINTENANCEASSIGN.assignto' | translate }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <b class="text-white">:</b>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-row class="conditionradiobutton">
+              <ion-col>
+                <ion-row>
+                  <ion-col style="text-align: left; padding: 0px">
+                    <input
+                      type="radio"
+                      id="radio_foreman"
+                      name="radio_conditionoption"
+                      value="Foreman"
+                      (change)="onConditionOptionChange('Foreman')"
+                      [checked]="foremanFlag"
+                    />
+                    <label for="radio_foreman">Foreman</label>
+                  </ion-col>
+                </ion-row>
+
+                <ion-row>
+                  <ion-col
+                    style="text-align: left; padding: 0px; margin-top: 20px"
+                  >
+                    <input
+                      type="radio"
+                      id="radio_chargeman"
+                      name="radio_conditionoption"
+                      value="Chargeman"
+                      (change)="onConditionOptionChange('Chargeman')"
+                      [checked]="chargemanFlag"
+                    />
+                    <label for="radio_chargeman">Chargeman</label>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </div>
+
+      <!-- Incharge Selection -->
+      @if (assignedtoFlag) {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="text-start text-white fs-12">
+              {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.incharge' | translate
+              }}
+            </div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <b class="text-white">:</b>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-button class="optionbutton fs-12" (click)="openAssignedTo()">
+              {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }}
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+        @if (assignedtovalueArr.length === 0) { } @else {
+        <div style="margin-top: 5px">
+          <table style="width: 100%">
+            <thead>
+              <tr class="table_head">
+                <th style="width: 15%; padding: 4px !important" scope="col">
+                  No
+                </th>
+                <th style="width: 85%; padding: 4px !important" scope="col">
+                  {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.incharge' |
+                  translate }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (value of assignedtovalueArr; track value; let i = $index) {
+              <tr>
+                <td style="width: 15%">{{ i + 1 }}</td>
+                <td style="width: 85%">{{ value }}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        }
+      </div>
+      }
+
+      <!-- Schedule Checkbox -->
+      @if (assignedtoFlag) {
+      <div>
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="text-start text-white fs-12">Schedule?</div>
+          </ion-col>
+
+          <ion-col size="0.5" style="text-align: center">
+            <b class="text-white">:</b>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-checkbox
+              mode="md"
+              style="vertical-align: middle"
+              (ionChange)="isscheduleChecked($event)"
+            ></ion-checkbox>
+          </ion-col>
+        </ion-row>
+
+        <!-- Schedule DateTime -->
+        @if (schedulechecked === 1) {
+        <ion-row class="form-row">
+          <ion-col size="5.5">
+            <div class="text-start text-white fs-12">Date & Time</div>
+          </ion-col>
+
+          <ion-col size="0.5" class="text-center">
+            <b class="text-white">:</b>
+          </ion-col>
+
+          <ion-col size="6">
+            <ion-button
+              class="optionbutton fs-12"
+              (click)="openDateTimePicker()"
+            >
+              @if(displayScheduleDateTime != ""){ {{ displayScheduleDateTime |
+              date:'dd-MM-yyyy HH:mm' }} }@else{ {{
+              'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }} }
+            </ion-button>
+          </ion-col>
+        </ion-row>
+        }
+      </div>
+      }
+
+      <!-- Submit Button -->
+      @if (assignedtoFlag) {
+      <div style="text-align: center; margin: 30px 0px 10px 0px">
+        <button
+          type="submit"
+          [disabled]="isDisabled"
+          class="btn btn-sm border-green rounded-pill text-white py-2 px-5"
+          (click)="assign()"
+        >
+          {{ 'GENERALBUTTON.assignbutton' | translate }}
+        </button>
+      </div>
+      }
+
+      <!-- Hidden Selects for Modal Ref -->
+      <ion-select
+        mode="md"
+        [interfaceOptions]="assignedtoOptions"
+        formControlName="select_assignedto"
+        [multiple]="true"
+        [okText]="'GENERALBUTTON.okay' | translate"
+        [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+        class="ionicselect"
+        (ionChange)="assignedtohandleChange($event)"
+        #assignedtoSelect
+      >
+        @for (value of assignedtoArr; track value) {
+        <ion-select-option [value]="parseString(value)">
+          {{ value.name }}
+        </ion-select-option>
+        }
+      </ion-select>
+
+      <ion-modal [isOpen]="isDateTimePickerOpen" cssClass="date-modal">
+        <ng-template>
+          <div class="calendar-wrapper">
+            <ion-datetime
+              [value]="tempDateTime"
+              presentation="date-time"
+              [preferWheel]="true"
+              hourCycle="h23"
+              locale="en-GB"
+              (ionChange)="onDateTimeChange($event)"
+            >
+            </ion-datetime>
+
+            <div
+              class="datetime-buttons"
+              style="
+                background: white;
+                display: flex;
+                justify-content: space-between;
+                padding: 0 10px;
+              "
+            >
+              <ion-button fill="clear" (click)="cancelDateTime()">
+                {{ 'GENERALBUTTON.cancelbutton' | translate }}
+              </ion-button>
+
+              <ion-button fill="clear" (click)="confirmDateTime()">
+                {{ 'GENERALBUTTON.okay' | translate }}
+              </ion-button>
+            </div>
+          </div>
+        </ng-template>
+      </ion-modal>
+    </form>
+  </div>
+</ion-content>

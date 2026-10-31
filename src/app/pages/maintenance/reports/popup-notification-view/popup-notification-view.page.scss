@@ -1,0 +1,417 @@
+/* popup-notification-view.page.scss */
+
+ion-content {
+  --ion-background-color: #ffffff;
+}
+
+.home-box {
+  padding: 0px 10px 10px 10px;
+}
+
+form {
+  padding: 5px;
+}
+
+.form-row {
+  margin: 5px;
+  align-items: center;
+}
+
+.item-inner {
+  border-style: unset !important;
+}
+
+/* ======================================== */
+/* Multiple Parts Table Styles */
+/* ======================================== */
+
+.multipleparts {
+  table {
+    margin-bottom: 0px;
+    margin-left: 2px;
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: 1.42857143;
+    padding: 5px;
+    background-color: #1d2730;
+    border-collapse: collapse;
+    border: 1px solid #dee2e6;
+    width: 100%;
+  }
+
+  .table th {
+    text-align: center;
+    vertical-align: middle;
+    color: #000000;
+    font-weight: normal;
+    padding: 0.3rem !important;
+    border: 1px solid #dee2e6;
+  }
+
+  .table td {
+    text-align: left;
+    vertical-align: middle;
+    color: #ffffff;
+    padding: 0.3rem !important;
+    border: 1px solid #dee2e6;
+  }
+
+  .table_head {
+    background-color: #ff9f0c;
+    color: #000000;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .current_table_head {
+    background-color: #1d2730;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+    border: 0.1px solid #ffffff;
+  }
+
+  .task_table_head {
+    background-color: #ffffff;
+    color: #000000;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .head {
+    color: #000000;
+    font-weight: normal;
+  }
+
+  .current_head {
+    color: #ffffff !important;
+    font-weight: bold !important;
+    padding: 4px !important;
+  }
+}
+
+/* ======================================== */
+/* Main Table Styles */
+/* ======================================== */
+
+table {
+  margin-top: 10px;
+  font-size: 11px;
+  line-height: 1.42857143;
+  padding: 5px;
+  background-color: #1d2730;
+  border-collapse: collapse;
+  border: 1px solid #dee2e6;
+  width: 100%;
+}
+
+.table td,
+.table th {
+  text-align: center;
+  vertical-align: middle;
+  color: #ffffff;
+  padding: 0.3rem !important;
+  border: 1px solid #dee2e6;
+}
+
+.table_head {
+  background-color: #3cd2a5;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.data {
+  background-color: #f4fbf9;
+  color: #000000 !important;
+}
+
+.blockdata {
+  color: #000000 !important;
+}
+
+/* ======================================== */
+/* Images and Logos */
+/* ======================================== */
+
+.logoimg {
+  width: 50px;
+}
+
+.statusimg {
+  width: 30px;
+}
+
+/* ======================================== */
+/* Title Headers */
+/* ======================================== */
+
+.titleheader {
+  border-radius: 5px 5px 0px 0px;
+  text-align: center;
+  background-color: #1d2730;
+  font-size: 14px;
+  color: #ffffff;
+  margin: 10px 0px 0px 0px;
+  padding: 10px;
+}
+
+.tasktitleheader {
+  border-radius: 5px;
+  text-align: center;
+  background-color: #1d2730;
+  font-size: 14px;
+  color: #ffffff;
+  margin: 10px 0px 0px 0px;
+  padding: 10px;
+}
+
+.title {
+  color: #ff9f0c;
+}
+
+/* ======================================== */
+/* Notification Card */
+/* ======================================== */
+
+.notificationcard {
+  border: 1px solid #1d2730;
+  background-color: #f4fbf9;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 0px 0px 5px 5px;
+  padding: 5px 5px 5px 0px;
+}
+
+/* ======================================== */
+/* Image Preview */
+/* ======================================== */
+
+.imagePreview {
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
+  background-position: center center;
+  background: url("../../../../../assets/img/noimage.png");
+  background-color: #ffffff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: inline-block;
+  box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
+}
+
+.imagePresent {
+  width: 150px;
+  height: 150px;
+  border-radius: 5px;
+  background-position: center center;
+  background-color: #ffffff;
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: inline-block;
+  box-shadow: 0px -3px 6px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* ======================================== */
+/* Buttons */
+/* ======================================== */
+
+.btn-primary {
+  width: 150px;
+  font-size: 12px;
+}
+
+.btn-success {
+  width: 150px;
+  height: 40px;
+  font-size: 14px;
+  background-color: #1d2730;
+  border-radius: 40px;
+  border: 0.5px solid #3cd2a5;
+}
+
+.btn-success:active,
+.btn-success:hover,
+.btn-success:focus {
+  width: 150px;
+  height: 40px;
+  font-size: 14px;
+  background-color: #1d2730 !important;
+  border-radius: 40px;
+  border: 0.5px solid #3cd2a5 !important;
+}
+
+.btn-warning {
+  width: 150px;
+  font-size: 12px;
+}
+
+.btn-update {
+  font-size: 11px;
+  background-color: none;
+  border: 1px solid #ff9f0c;
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-upload {
+  margin-top: -5px;
+  display: block;
+  border-radius: 0px;
+  box-shadow: 0px 4px 6px 2px rgba(0, 0, 0, 0.2);
+}
+
+.btn-imageview {
+  font-size: 12px;
+  background-color: none;
+  border: 1px solid #30beff;
+  color: #000000;
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn {
+  border-radius: 4px;
+  border: 1px solid;
+  cursor: pointer;
+  border: 1px solid #30beff;
+}
+
+.ion-text-end {
+  float: right;
+}
+
+.float-right {
+  float: right;
+}
+
+/* ======================================== */
+/* Utility Classes */
+/* ======================================== */
+
+.bg-yellow {
+  background-color: #474747;
+  padding: 10px;
+}
+
+.bg-brown-color {
+  --background: #1d2730;
+}
+
+.bg-light-color {
+  --color: var(--ion-color-white);
+}
+
+.modaltoolbar {
+  --min-height: 56px;
+}
+
+.text-dark {
+  color: #000000 !important;
+}
+
+.h7 {
+  font-size: 12px;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.icontext {
+  vertical-align: middle;
+}
+
+.form-row {
+  align-items: center;
+}
+
+ion-select::part(placeholder) {
+  opacity: 1;
+}
+
+.imgmarigin {
+  margin-left: 10px;
+}
+
+.userfont {
+  font-size: 12px;
+}
+
+.usertext {
+  color: #ffffff;
+}
+
+.nopadding {
+  padding-right: 6px !important;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  padding: 5px;
+  border-top: 1px solid #c2c2c2;
+}
+
+sup {
+  color: red;
+}
+
+ion-checkbox.checkbox-disabled {
+  opacity: 1;
+}
+
+white-background {
+  width: 50% !important;
+  font-weight: bold !important;
+}
+
+/* ======================================== */
+/* Acknowledgements Modal - Global */
+/* ======================================== */
+
+::ng-deep ion-modal.acknowledgement-modal {
+  --width: 95% !important;
+  --height: 80% !important;
+  --border-radius: 10px !important;
+  --backdrop-opacity: 0.8;
+  --background: #1d2730;
+  backdrop-filter: blur(1px);
+
+  &::part(content) {
+    border: 2px solid #ffffff;
+    border-radius: 10px !important;
+    overflow: hidden;
+  }
+
+  ion-content {
+    --background: none;
+    background-color: #1d2730;
+    background-image: none;
+  }
+}
+
+/* ========================================
+   Image Slider Modal
+   ======================================== */
+
+::ng-deep ion-modal.image-slider-modal {
+  --width: 100%;
+  --height: 100%;
+  --border-radius: 0;
+  --background: #000;
+
+  &::part(content) {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    background: #000;
+  }
+
+  &::part(backdrop) {
+    background: rgba(0, 0, 0, 0.8);
+  }
+}

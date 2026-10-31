@@ -1,0 +1,323 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color modaltoolbar">
+    <ion-title mode="ios" color="light">{{ partname }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button class="bg-light-color" (click)="btn_close()">
+        <ion-icon color="light" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #pageTop>
+  <form [formGroup]="assignForm">
+    <!-- Task Title -->
+    <div class="headtitle">
+      <b>{{ task }}</b>
+      <div class="hl4line"></div>
+    </div>
+
+    <!-- Status - If task having id greater than zero -->
+    @if (taskid > 0) {
+    <div style="margin-top: 10px">
+      <ion-row class="form-row">
+        <ion-col size="5.3">
+          <div class="title">
+            {{ 'CORRECTIVEMAINTENACE.status' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="6.7" class="actionradiobutton">
+          <input
+            type="radio"
+            id="radio_done"
+            name="radio_actionoption"
+            value="Done"
+            (change)="onConditionOptionChange('Good')"
+            [checked]="goodFlag"
+          />
+          <label for="radio_done">Good/Done</label>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col size="5.3"></ion-col>
+        <ion-col size="6.7" class="actionradiobutton">
+          <input
+            type="radio"
+            id="radio_notdone"
+            name="radio_actionoption"
+            value="Not Done"
+            (change)="onConditionOptionChange('Not Done')"
+            [checked]="notdoneflag"
+          />
+          <label for="radio_notdone">Not Done</label>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col size="5.3"></ion-col>
+        <ion-col size="6.7" class="actionradiobutton">
+          <input
+            type="radio"
+            id="radio_abnormal"
+            name="radio_actionoption"
+            value="Abnormal"
+            (change)="onConditionOptionChange('Abnormal')"
+            [checked]="abnormalFlag"
+          />
+          <label for="radio_abnormal">
+            {{ 'MAINTENANCEACCEPTMODAL.abnormal' | translate }}
+          </label>
+        </ion-col>
+      </ion-row>
+    </div>
+    }
+
+    <!-- Status - If task having id equals to zero -->
+    @if (taskid <= 0) {
+    <div style="margin-top: 10px">
+      <ion-row class="form-row">
+        <ion-col size="5.3">
+          <div class="title">
+            {{ 'CORRECTIVEMAINTENACE.status' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="6.7" class="actionradiobutton">
+          <input
+            type="radio"
+            id="radio_done"
+            name="radio_actionoption"
+            value="Done"
+            (change)="onConditionOptionChange('Good')"
+            [checked]="goodFlag"
+          />
+          <label for="radio_done">Good</label>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col size="5.3"></ion-col>
+        <ion-col size="6.7" class="actionradiobutton">
+          <input
+            type="radio"
+            id="radio_abnormal"
+            name="radio_actionoption"
+            value="Abnormal"
+            (change)="onConditionOptionChange('Abnormal')"
+            [checked]="abnormalFlag"
+          />
+          <label for="radio_abnormal">
+            {{ 'MAINTENANCEACCEPTMODAL.abnormal' | translate }}
+          </label>
+        </ion-col>
+      </ion-row>
+    </div>
+    }
+
+    <!-- Abnormal Section -->
+    @if (abnormalFlag) {
+    <!-- Maintenance Type -->
+    <div style="margin-top: 10px">
+      <ion-row class="form-row">
+        <ion-col size="5.5">
+          <div class="title">
+            {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.maintenancetype' |
+            translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: center">
+          <div class="title"><b>:</b></div>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-select
+            mode="md"
+            [interfaceOptions]="maintenancetypeOptions"
+            formControlName="select_maintenancetype"
+            multiple="false"
+            [okText]="'GENERALBUTTON.okay' | translate"
+            [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+            class="selectdropdown"
+            placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }}"
+            (ionChange)="maintenancetypehandleChange($event)"
+          >
+            @for (value of maintenancetypeArr; track $index; let i = $index) {
+            <ion-select-option value="{{ parseString(value) }}">
+              {{ value.maintanence_type }}
+            </ion-select-option>
+            }
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <!-- Damage Type -->
+    <div style="margin-top: 10px">
+      <ion-row class="form-row">
+        <ion-col size="5.5">
+          <div class="title">
+            {{ 'MAINTENANCEACKNOWLEDGEMODAL.damagetype' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: center">
+          <div class="title"><b>:</b></div>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-button class="optionbutton" (click)="openDamageType()">
+            {{ 'MAINTENANCEACKNOWLEDGEMODAL.select' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <!-- Hidden IonSelect for Damage Type -->
+      <ion-select
+        mode="md"
+        [interfaceOptions]="damagetypeOptions"
+        formControlName="select_damagetype"
+        multiple="true"
+        [okText]="'GENERALBUTTON.okay' | translate"
+        [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+        class="ionicselect"
+        (ionChange)="damagehandleChange($event)"
+        #damagetypeSelect
+      >
+        @for (value of damageArr; track $index; let i = $index) {
+        <ion-select-option value="{{ parseString(value) }}">
+          {{ value.damage }}
+        </ion-select-option>
+        }
+      </ion-select>
+
+      <!-- Selected Damage Type Table -->
+      @if (damagetypevalue != '') {
+      <div style="margin-top: 5px">
+        <table class="selected-table">
+          <thead>
+            <tr class="table_head">
+              <th class="table-cell" style="width: 15%">
+                {{ 'CORRECTIVEMAINTENACE.status' | translate }}
+              </th>
+              <th class="table-cell" style="width: 85%">
+                {{ 'MAINTENANCEACKNOWLEDGEMODAL.damagetype' | translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (value of damagetypevalueArr; track $index; let i = $index) {
+            <tr>
+              <td class="table-cell">{{ i + 1 }}</td>
+              <td class="table-cell">{{ value }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </div>
+    }
+
+    <!-- Remarks -->
+    @if (abnormalFlag == true || goodFlag == true) {
+    <div>
+      <ion-row class="form-row">
+        <ion-col size="5.5">
+          <div class="title">
+            {{ 'SUPERVISORDASHBOARD.remarks' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: center">
+          <div class="title"><b>:</b></div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col>
+          <div>
+            <textarea
+              id="ta_remarks"
+              class="form-control"
+              formControlName="ta_remarks"
+              placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.typeremark' | translate }}"
+              rows="4"
+              (focus)="scrollbottom()"
+            ></textarea>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <div class="hl4line"></div>
+    </div>
+    }
+
+    <!-- Reason -->
+    @if (notdoneflag) {
+    <div>
+      <ion-row class="form-row">
+        <ion-col size="5.5">
+          <div class="title">
+            {{ 'SUPERVISORDASHBOARD.reason' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: center">
+          <div class="title"><b>:</b></div>
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col>
+          <div>
+            <textarea
+              id="ta_reason"
+              class="form-control"
+              formControlName="ta_reason"
+              placeholder="Please Enter the reason"
+              rows="4"
+              (focus)="scrollbottom()"
+            ></textarea>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <div class="hl4line"></div>
+    </div>
+    }
+
+    <!-- Save Button -->
+    <ion-row style="margin-top: 10px">
+      <ion-col style="text-align: center !important">
+        <button
+          type="submit"
+          class="btn btn-next"
+          [disabled]="confirmDisable"
+          (click)="savealert()"
+        >
+          <span class="icontext" style="color: #ffffff">
+            {{ 'PREVENTIVEMAINTENANCEASSIGN.save' | translate }}
+          </span>
+        </button>
+      </ion-col>
+    </ion-row>
+  </form>
+
+  <!-- Loading Spinner -->
+  @if (pleasewaitflag) {
+  <div class="pleasewait">
+    <div style="width: 100%; text-align: center">
+      <img
+        style="width: 80px; height: 80px"
+        src="../../../assets/img/loading.gif"
+        alt="Loading"
+      />
+    </div>
+    {{ 'NORECORDSFOUND.pleasewait' | translate }}
+  </div>
+  }
+</ion-content>

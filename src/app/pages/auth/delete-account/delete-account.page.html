@@ -1,0 +1,35 @@
+<ion-content class="ion-padding">
+  <div class="text-center">
+    <div class="mb-3">
+      <ion-icon
+        name="trash-outline"
+        class="text-danger"
+        style="font-size: 60px"
+      >
+      </ion-icon>
+    </div>
+
+    <h4 class="fw-bold mb-2">{{ 'MORE.delete_account' | translate }}</h4>
+
+    <p class="text-secondary mb-4">
+      {{ 'MORE.delete_account_confirmation' | translate }}
+    </p>
+
+    <div class="d-flex gap-2">
+      <button class="btn btn-outline-secondary w-50 h42px" (click)="cancel()">
+        {{ 'GENERALBUTTON.cancelbutton' | translate }}
+      </button>
+
+      <button
+        class="btn btn-danger w-50 h42px"
+        [disabled]="isLoading"
+        (click)="confirmDelete()"
+      >
+        @if (!isLoading) { {{ 'SUPERVISORDASHBOARD.delete' | translate }} }
+        @else {
+        <ion-spinner color="light"></ion-spinner>
+        }
+      </button>
+    </div>
+  </div>
+</ion-content>

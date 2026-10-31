@@ -1,0 +1,481 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color modaltoolbar">
+    <ion-title mode="ios" color="light">{{ title }}</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button class="bg-light-color" (click)="btn_close()">
+        <ion-icon color="light" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #pageTop>
+  <form [formGroup]="assignForm">
+    <!-- Station -->
+    @if (getstationid != '') {
+    <ion-row class="form-row">
+      <ion-col size="5.5">
+        <div class="title">
+          {{ 'PREVENTIVEMAINTENANCEASSIGN.station' | translate }}
+        </div>
+      </ion-col>
+
+      <ion-col size="0.5" style="text-align: right">
+        <div class="title">
+          <b>:</b>
+        </div>
+      </ion-col>
+
+      <ion-col size="6" style="text-align: left">
+        <div class="viewtitle"><b>{{ getstationname }}</b></div>
+      </ion-col>
+    </ion-row>
+    }
+
+    <!-- Machine -->
+    @if (getmachineid != '') {
+    <ion-row class="form-row">
+      <ion-col size="5.5">
+        <div class="title">
+          {{ 'PREVENTIVEMAINTENANCEASSIGN.machine' | translate }}
+        </div>
+      </ion-col>
+
+      <ion-col size="0.5" style="text-align: right">
+        <div class="title">
+          <b>:</b>
+        </div>
+      </ion-col>
+
+      <ion-col size="6" style="text-align: left">
+        <div class="viewtitle"><b>{{ getmachinename }}</b></div>
+      </ion-col>
+    </ion-row>
+    }
+
+    <!-- Part Name Selection -->
+    <div style="margin-top: 10px">
+      <ion-row class="form-row">
+        <ion-col size="5.5">
+          <div class="title">
+            {{ 'PREVENTIVEMAINTENANCEASSIGN.partname' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: right">
+          <div class="title">
+            <b>:</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6" style="text-align: initial">
+          <ion-button class="optionbutton" (click)="openParts()">
+            {{ 'PREVENTIVEMAINTENANCEASSIGN.select' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <!-- Hidden IonSelect for Parts -->
+      <ion-select
+        mode="md"
+        [interfaceOptions]="partsOptions"
+        formControlName="select_parts"
+        multiple="true"
+        [okText]="'GENERALBUTTON.okay' | translate"
+        [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+        class="ionicselect"
+        (ionChange)="partshandleChange($event)"
+        #partsSelect
+      >
+        @for (value of multipartsArr; track $index; let i = $index) {
+        <ion-select-option value="{{ parseString(value) }}">
+          {{ value.partname }}
+        </ion-select-option>
+        }
+      </ion-select>
+
+      <!-- Selected Parts Table -->
+      @if (partvalue != '') {
+      <div style="margin-top: 5px">
+        <table class="selected-table">
+          <thead>
+            <tr class="table_head">
+              <th
+                style="
+                  padding: 4px !important;
+                  width: 15%;
+                  border: 1px solid #ffffff;
+                  text-align: center;
+                "
+              >
+                No
+              </th>
+              <th
+                style="
+                  padding: 4px !important;
+                  width: 85%;
+                  border: 1px solid #ffffff;
+                  text-align: center;
+                "
+              >
+                {{ 'PREVENTIVEMAINTENANCEASSIGN.partname' | translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (value of partvalueArr; track $index; let i = $index) {
+            <tr>
+              <td
+                style="
+                  padding: 4px !important;
+                  text-align: center;
+                  border: 1px solid #ffffff;
+                  background: transparent;
+                  color: #ffffff;
+                "
+              >
+                {{ i + 1 }}
+              </td>
+              <td
+                style="
+                  padding: 4px !important;
+                  text-align: center;
+                  border: 1px solid #ffffff;
+                  background: transparent;
+                  color: #ffffff;
+                "
+              >
+                {{ value }}
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </div>
+
+    <!-- Assigned To -->
+    <div style="margin-top: 10px">
+      <ion-row class="form-row">
+        <ion-col size="5.5">
+          <div class="title">
+            {{ 'PREVENTIVEMAINTENANCEASSIGN.assignto' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: right">
+          <div class="title">
+            <b>:</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6" style="text-align: initial">
+          <ion-button class="optionbutton" (click)="openAssignedTo()">
+            {{ 'PREVENTIVEMAINTENANCEASSIGN.select' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <!-- Hidden IonSelect for Assigned To -->
+      <ion-select
+        mode="md"
+        [interfaceOptions]="assignedtoOptions"
+        formControlName="select_assignedto"
+        multiple="true"
+        [okText]="'GENERALBUTTON.okay' | translate"
+        [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+        class="ionicselect"
+        (ionChange)="assignedtohandleChange($event)"
+        #assignedtoSelect
+      >
+        @for (value of assignedtoArr; track $index; let i = $index) {
+        <ion-select-option value="{{ parseString(value) }}">
+          {{ value.name }}
+        </ion-select-option>
+        }
+      </ion-select>
+
+      <!-- Selected Assigned To Table -->
+      @if (assignedtovalue != '') {
+      <div style="margin-top: 5px">
+        <table class="selected-table">
+          <thead>
+            <tr class="table_head">
+              <th
+                style="
+                  padding: 4px !important;
+                  width: 15%;
+                  border: 1px solid #ffffff;
+                  text-align: center;
+                "
+              >
+                No
+              </th>
+              <th
+                style="
+                  padding: 4px !important;
+                  width: 85%;
+                  border: 1px solid #ffffff;
+                  text-align: center;
+                "
+              >
+                {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.incharge' |
+                translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (value of assignedtovalueArr; track $index; let i = $index) {
+            <tr>
+              <td
+                style="
+                  padding: 4px !important;
+                  text-align: center;
+                  border: 1px solid #ffffff;
+                  background: transparent;
+                  color: #ffffff;
+                "
+              >
+                {{ i + 1 }}
+              </td>
+              <td
+                style="
+                  padding: 4px !important;
+                  text-align: center;
+                  border: 1px solid #ffffff;
+                  background: transparent;
+                  color: #ffffff;
+                "
+              >
+                {{ value }}
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </div>
+
+    <!-- RoPM - Condition -->
+    <div style="margin-top: 10px">
+      <ion-row class="form-row">
+        <ion-col size="4">
+          <div class="title">
+            {{ 'MAINTENANCEACCEPTMODAL.condition' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="8">
+          <ion-row class="conditionradiobutton">
+            <ion-col>
+              <ion-row>
+                <ion-col size="5" style="text-align: right; padding: 0px">
+                  <input
+                    type="radio"
+                    id="radio_good"
+                    name="radio_conditionoption"
+                    value="Good"
+                    (change)="onConditionOptionChange('Good')"
+                    [checked]="goodFlag"
+                  />
+                  <label for="radio_good"
+                    >{{ 'MAINTENANCEACCEPTMODAL.good' | translate }}</label
+                  >
+                </ion-col>
+                <ion-col size="7" style="text-align: right; padding: 0px">
+                  <input
+                    type="radio"
+                    id="radio_abnormal"
+                    name="radio_conditionoption"
+                    value="Abnormal"
+                    (change)="onConditionOptionChange('Abnormal')"
+                    [checked]="abnormalFlag"
+                  />
+                  <label for="radio_abnormal"
+                    >{{ 'MAINTENANCEACCEPTMODAL.abnormal' | translate }}</label
+                  >
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <!-- Abnormal Section -->
+    @if (abnormalFlag) {
+    <!-- Maintenance Type -->
+    <div style="margin-top: 10px">
+      <ion-row class="form-row">
+        <ion-col size="5.5">
+          <div class="title">
+            {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.maintenancetype' |
+            translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: center">
+          <div class="title">
+            <b>:</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-select
+            mode="md"
+            [interfaceOptions]="maintenancetypeOptions"
+            formControlName="select_maintenancetype"
+            multiple="false"
+            [okText]="'GENERALBUTTON.okay' | translate"
+            [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+            class="selectdropdown"
+            placeholder="{{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.select' | translate }}"
+            (ionChange)="maintenancetypehandleChange($event)"
+          >
+            @for (value of maintenancetypeArr; track $index; let i = $index) {
+            <ion-select-option value="{{ parseString(value) }}">
+              {{ value.maintanence_type }}
+            </ion-select-option>
+            }
+          </ion-select>
+        </ion-col>
+      </ion-row>
+    </div>
+
+    <!-- Damage Type -->
+    <div style="margin-top: 10px">
+      <ion-row class="form-row">
+        <ion-col size="5.5">
+          <div class="title">
+            {{ 'MAINTENANCEACKNOWLEDGEMODAL.damagetype' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: center">
+          <div class="title">
+            <b>:</b>
+          </div>
+        </ion-col>
+
+        <ion-col size="6">
+          <ion-button class="optionbutton" (click)="openDamageType()">
+            {{ 'MAINTENANCEACKNOWLEDGEMODAL.select' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <!-- Hidden IonSelect for Damage Type -->
+      <ion-select
+        mode="md"
+        [interfaceOptions]="damagetypeOptions"
+        formControlName="select_damagetype"
+        multiple="true"
+        [okText]="'GENERALBUTTON.okay' | translate"
+        [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+        class="ionicselect"
+        (ionChange)="damagehandleChange($event)"
+        #damagetypeSelect
+      >
+        @for (value of damageArr; track $index; let i = $index) {
+        <ion-select-option value="{{ parseString(value) }}">
+          {{ value.damage }}
+        </ion-select-option>
+        }
+      </ion-select>
+
+      <!-- Selected Damage Type Table -->
+      @if (damagetypevalue != '') {
+      <div style="margin-top: 5px">
+        <table class="selected-table">
+          <thead>
+            <tr class="table_head">
+              <th
+                style="
+                  padding: 4px !important;
+                  width: 15%;
+                  border: 1px solid #ffffff;
+                  text-align: center;
+                "
+              >
+                No
+              </th>
+              <th
+                style="
+                  padding: 4px !important;
+                  width: 85%;
+                  border: 1px solid #ffffff;
+                  text-align: center;
+                "
+              >
+                {{ 'MAINTENANCEACKNOWLEDGEMODAL.damagetype' | translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (value of damagetypevalueArr; track $index; let i = $index) {
+            <tr>
+              <td
+                style="
+                  padding: 4px !important;
+                  text-align: center;
+                  border: 1px solid #ffffff;
+                  background: transparent;
+                  color: #ffffff;
+                "
+              >
+                {{ i + 1 }}
+              </td>
+              <td
+                style="
+                  padding: 4px !important;
+                  text-align: center;
+                  border: 1px solid #ffffff;
+                  background: transparent;
+                  color: #ffffff;
+                "
+              >
+                {{ value }}
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </div>
+    }
+
+    <!-- Save Button -->
+    <ion-row style="margin-top: 10px">
+      <ion-col style="text-align: center !important">
+        <button
+          type="submit"
+          class="btn btn-next"
+          [disabled]="confirmDisable"
+          (click)="savealert()"
+        >
+          <span class="icontext" style="color: #ffffff">
+            {{ 'PREVENTIVEMAINTENANCEASSIGN.save' | translate }}
+          </span>
+        </button>
+      </ion-col>
+    </ion-row>
+  </form>
+
+  <!-- Loading Spinner -->
+  @if (pleasewaitflag) {
+  <div class="pleasewait">
+    <div style="width: 100%; text-align: center">
+      <img
+        style="width: 80px; height: 80px"
+        src="../../../assets/img/loading.gif"
+        alt="Loading"
+      />
+    </div>
+    {{ 'NORECORDSFOUND.pleasewait' | translate }}
+  </div>
+  }
+</ion-content>

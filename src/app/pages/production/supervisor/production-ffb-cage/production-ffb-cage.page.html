@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color">
+    <ion-title mode="md" color="light" class="text-center fs-14">
+      <div class="ion-text-wrap">{{ 'FFBCAGES.title' | translate }}</div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="content">
+    <form class="home-box" [formGroup]="ffbcageForm">
+      <ion-row class="form-row" style="margin-top: 10px">
+        <ion-col size="6">
+          <div class="h7 text-dark">{{ 'FFBCAGES.inuse' | translate }}</div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control text-dark"
+            placeholder="{{ 'FFBCAGES.enter' | translate }}"
+            formControlName="txt_ffbcageinuse"
+            (keypress)="numberFilter($event)"
+          />
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="form-row" style="margin-top: 10px">
+        <ion-col size="6">
+          <div class="h7 text-dark">{{ 'FFBCAGES.notinuse' | translate }}</div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control text-dark"
+            placeholder="{{ 'FFBCAGES.enter' | translate }}"
+            formControlName="txt_ffbcagenotinuse"
+            (keypress)="numberFilter($event)"
+          />
+        </ion-col>
+      </ion-row>
+
+      <ion-row class="form-row" style="margin-top: 10px">
+        <ion-col size="6">
+          <div class="h7 text-dark">
+            {{ 'FFBCAGES.underrepair' | translate }}
+          </div>
+        </ion-col>
+        <ion-col size="6">
+          <input
+            type="number"
+            class="h7 form-control text-dark"
+            placeholder="{{ 'FFBCAGES.enter' | translate }}"
+            formControlName="txt_ffbcageunderipe"
+            (keypress)="numberFilter($event)"
+          />
+        </ion-col>
+      </ion-row>
+
+      <ion-row style="margin-top: 20px">
+        <ion-col
+          style="
+            align-self: center;
+            text-align: center;
+            padding: 0px;
+            margin: 0px;
+          "
+        >
+          <button
+            class="cancelbutton"
+            type="button"
+            (click)="cancel()"
+          ></button>
+        </ion-col>
+
+        <ion-col
+          style="
+            align-self: center;
+            text-align: center;
+            padding: 0px;
+            margin: 0px;
+          "
+        >
+          <button class="okaybutton" type="button" (click)="save()"></button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
+</ion-content>

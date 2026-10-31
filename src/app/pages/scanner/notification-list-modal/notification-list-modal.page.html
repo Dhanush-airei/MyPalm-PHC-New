@@ -1,0 +1,676 @@
+<app-page-header
+  [appTitle]="appTitle"
+  [showLogo]="showLogo"
+  [showBackButton]="showBackButton"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div class="content">
+    <!-- Station / Machinery Info Card -->
+    @if (stationName !== '' || machineryName !== '') {
+    <div class="checkcard">
+      @if (stationName !== '') {
+      <ion-row>
+        <ion-col size="3.5">
+          <div class="info-text">{{ 'QRCODESCANNER.station' | translate }}</div>
+        </ion-col>
+        <ion-col size="0.5">
+          <div class="info-text">:</div>
+        </ion-col>
+        <ion-col size="8">
+          <div class="info-text info-text--bold">{{ stationName }}</div>
+        </ion-col>
+      </ion-row>
+      } @if (machineryName !== '') {
+      <ion-row>
+        <ion-col size="3.5">
+          <div class="info-text">
+            {{ 'QRCODESCANNER.machinery' | translate }}
+          </div>
+        </ion-col>
+        <ion-col size="0.5">
+          <div class="info-text">:</div>
+        </ion-col>
+        <ion-col size="8">
+          <div class="info-text info-text--bold">{{ machineryName }}</div>
+        </ion-col>
+      </ion-row>
+      }
+    </div>
+    }
+
+    <!-- Main Segment Tabs -->
+    <div class="firstsegment">
+      <ion-segment [value]="tabsSegment" (ionChange)="segmentChanged($event)">
+        <ion-segment-button value="Corrective Maintenance">
+          <ion-label class="segment-label">
+            {{ 'QRCODESCANNER.corrective' | translate }}
+          </ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="Preventive Maintenance">
+          <ion-label class="segment-label">
+            {{ 'QRCODESCANNER.preventivemaintenance' | translate }}
+          </ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="Predictive Maintenance">
+          <ion-label class="segment-label">
+            {{ 'QRCODESCANNER.predictivemaintenance' | translate }}
+          </ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+
+    <!-- Corrective Maintenance -->
+    @if (tabsSegment === 'Corrective Maintenance') {
+    <div>
+      <form [formGroup]="historyForm" class="status-select-wrapper">
+        <select
+          formControlName="select_cm_status"
+          class="text-dark status-select"
+          (change)="onChangeStatus('CM')"
+        >
+          <option value="">
+            {{ 'QRCODESCANNER.searchbystatus' | translate }}
+          </option>
+          @for (item of statusArr; track item.id) {
+          <option [value]="item.id">{{ item.status }}</option>
+          }
+        </select>
+        <span class="select-chevron"></span>
+      </form>
+
+      <!-- History Timeline -->
+      @if (!enableFlag) {
+      <div class="container">
+        <ul>
+          @for (value of historyList; track $index) {
+          <li>
+            <div class="textdate">{{ value.date }}</div>
+            <span
+              class="time"
+              [style]="'--timeline-color:' + getBorderColor(value.statusId)"
+            ></span>
+
+            <div class="home-box">
+              <div class="card gedf-card margin-bottom">
+                <div class="card-header">
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="h7 text-dark card-status-name">
+                        <b>{{ value.statusName }}</b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-card">
+                  @if (value.notificationno !== '') {
+                  <ion-row style="margin-top: 1px">
+                    <ion-col size="4.5"><b>ID</b></ion-col>
+                    <ion-col size="0.5">:</ion-col>
+                    <ion-col size="7">
+                      <p>{{ value.notificationno }}</p>
+                    </ion-col>
+                  </ion-row>
+                  } @if (value.partdefect !== '') {
+                  <ion-row>
+                    <ion-col size="4.5">
+                      <b>{{ 'QRCODESCANNER.partdefect' | translate }}</b>
+                    </ion-col>
+                    <ion-col size="0.5">:</ion-col>
+                    <ion-col size="7">
+                      <p [innerHTML]="value.partdefect"></p>
+                    </ion-col>
+                  </ion-row>
+                  } @if (value.damage !== '') {
+                  <ion-row>
+                    <ion-col size="4.5">
+                      <b>{{ 'QRCODESCANNER.damage' | translate }}</b>
+                    </ion-col>
+                    <ion-col size="0.5">:</ion-col>
+                    <ion-col size="7">
+                      <p>{{ value.damage }}</p>
+                    </ion-col>
+                  </ion-row>
+                  } @if (value.operationoractivity !== '') {
+                  <ion-row>
+                    <ion-col size="4.5">
+                      <b>{{ 'QRCODESCANNER.operationactivity' | translate }}</b>
+                    </ion-col>
+                    <ion-col size="0.5">:</ion-col>
+                    <ion-col size="7">
+                      <p>{{ value.operationoractivity }}</p>
+                    </ion-col>
+                  </ion-row>
+                  }
+                </div>
+
+                <ion-row class="row-reverse">
+                  <button
+                    type="button"
+                    class="h7 btn timelinebtn btn-sm margin-5px"
+                    (click)="getTimeline(value)"
+                  >
+                    <ion-icon class="icon" name="stopwatch-outline"></ion-icon>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="h7 btn summarybtn btn-sm margin-5px"
+                    (click)="getMaintenanceSummary(value)"
+                  >
+                    <ion-icon
+                      class="icon"
+                      name="document-text-outline"
+                    ></ion-icon>
+                  </button>
+                </ion-row>
+              </div>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+      }
+
+      <!-- Infinite Scroll -->
+      @if (historyList.length > 0 && !enableFlag && historyList.length <
+      totalPage) {
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="pagination($event)">
+        <ion-infinite-scroll-content
+          class="loadmore"
+          loadingSpinner="bubbles"
+          loadingText="{{ 'NORECORDSFOUND.loadingmoredata' | translate }}"
+        >
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      }
+
+      <!-- No Records -->
+      @if (enableFlag) {
+      <div class="norecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      }
+
+      <!-- Loading -->
+      @if (pleaseWaitFlag) {
+      <div class="pleasewait">
+        <div style="width: 100%; text-align: center">
+          <img
+            style="width: 80px; height: 80px"
+            src="../../../assets/img/loading.gif"
+            alt="Loading"
+          />
+        </div>
+        {{ 'NORECORDSFOUND.loading' | translate }}
+      </div>
+      }
+    </div>
+    }
+
+    <!-- Preventive Maintenance -->
+    @if (tabsSegment === 'Preventive Maintenance') {
+    <div>
+      <!-- Sub-segment: RoPM / RePM -->
+      <div class="secondsegment">
+        <ion-segment
+          mode="md"
+          [value]="secondTabsSegment"
+          (ionChange)="secondSegmentChanged($event)"
+        >
+          <ion-segment-button value="RoPM">
+            <ion-label class="segment-label">
+              {{ 'QRCODESCANNER.routine' | translate }}
+            </ion-label>
+          </ion-segment-button>
+
+          <ion-segment-button value="RePM">
+            <ion-label class="segment-label">
+              {{ 'QRCODESCANNER.replacement' | translate }}
+            </ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+
+      <!-- RoPM -->
+      @if (secondTabsSegment === 'RoPM') {
+      <div>
+        <form [formGroup]="historyForm" class="status-select-wrapper">
+          <select
+            formControlName="select_ropm_status"
+            class="text-dark status-select"
+            (change)="onChangeStatus('RoPM')"
+          >
+            <option value="">
+              {{ 'QRCODESCANNER.searchbystatus' | translate }}
+            </option>
+            @for (item of statusArr; track item.id) {
+            <option [value]="item.id">{{ item.status }}</option>
+            }
+          </select>
+          <span class="select-chevron"></span>
+        </form>
+
+        @if (!enableFlag) {
+        <div class="container">
+          <ul>
+            @for (value of historyList; track $index) {
+            <li>
+              <div class="textdate">{{ value.date }}</div>
+              <span
+                class="time"
+                [style]="'--timeline-color:' + getBorderColor(value.statusId)"
+              ></span>
+
+              <div class="home-box">
+                <div class="card gedf-card margin-bottom">
+                  <div class="card-header">
+                    <div class="form-row">
+                      <div class="col">
+                        <div class="h7 text-dark card-status-name">
+                          <b>{{ value.statusName }}</b>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-card">
+                    @if (value.notificationno !== '') {
+                    <ion-row style="margin-top: 1px">
+                      <ion-col size="4.5"><b>ID</b></ion-col>
+                      <ion-col size="0.5">:</ion-col>
+                      <ion-col size="7">
+                        <p>{{ value.notificationno }}</p>
+                      </ion-col>
+                    </ion-row>
+                    } @if (value.partdefect !== '') {
+                    <ion-row>
+                      <ion-col size="4.5">
+                        <b>{{ 'QRCODESCANNER.partdefect' | translate }}</b>
+                      </ion-col>
+                      <ion-col size="0.5">:</ion-col>
+                      <ion-col size="7">
+                        <p [innerHTML]="value.partdefect"></p>
+                      </ion-col>
+                    </ion-row>
+                    } @if (value.damage !== '') {
+                    <ion-row>
+                      <ion-col size="4.5">
+                        <b>{{ 'QRCODESCANNER.damage' | translate }}</b>
+                      </ion-col>
+                      <ion-col size="0.5">:</ion-col>
+                      <ion-col size="7">
+                        <p>{{ value.damage }}</p>
+                      </ion-col>
+                    </ion-row>
+                    } @if (value.operationoractivity !== '') {
+                    <ion-row>
+                      <ion-col size="4.5">
+                        <b
+                          >{{ 'QRCODESCANNER.operationactivity' | translate
+                          }}</b
+                        >
+                      </ion-col>
+                      <ion-col size="0.5">:</ion-col>
+                      <ion-col size="7">
+                        <p>{{ value.operationoractivity }}</p>
+                      </ion-col>
+                    </ion-row>
+                    }
+                  </div>
+
+                  <ion-row class="row-reverse">
+                    <button
+                      type="button"
+                      class="h7 btn timelinebtn btn-sm margin-5px"
+                      (click)="getTimeline(value)"
+                    >
+                      <ion-icon
+                        class="icon"
+                        name="stopwatch-outline"
+                      ></ion-icon>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="h7 btn summarybtn btn-sm margin-5px"
+                      (click)="getMaintenanceSummary(value)"
+                    >
+                      <ion-icon
+                        class="icon"
+                        name="document-text-outline"
+                      ></ion-icon>
+                    </button>
+                  </ion-row>
+                </div>
+              </div>
+            </li>
+            }
+          </ul>
+        </div>
+        } @if (historyList.length > 0 && !enableFlag && historyList.length <
+        totalPage) {
+        <ion-infinite-scroll
+          threshold="100px"
+          (ionInfinite)="pagination($event)"
+        >
+          <ion-infinite-scroll-content
+            class="loadmore"
+            loadingSpinner="bubbles"
+            loadingText="{{ 'NORECORDSFOUND.loadingmoredata' | translate }}"
+          >
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+        } @if (enableFlag) {
+        <div class="norecords">
+          {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+        </div>
+        } @if (pleaseWaitFlag) {
+        <div class="pleasewait">
+          <div style="width: 100%; text-align: center">
+            <img
+              style="width: 80px; height: 80px"
+              src="../../../assets/img/loading.gif"
+              alt="Loading"
+            />
+          </div>
+          {{ 'NORECORDSFOUND.loading' | translate }}
+        </div>
+        }
+      </div>
+      }
+
+      <!-- RePM -->
+      @if (secondTabsSegment === 'RePM') {
+      <div>
+        <form [formGroup]="historyForm" class="status-select-wrapper">
+          <select
+            formControlName="select_repm_status"
+            class="text-dark status-select"
+            (change)="onChangeStatus('RePM')"
+          >
+            <option value="">
+              {{ 'QRCODESCANNER.searchbystatus' | translate }}
+            </option>
+            @for (item of statusArr; track item.id) {
+            <option [value]="item.id">{{ item.status }}</option>
+            }
+          </select>
+          <span class="select-chevron"></span>
+        </form>
+
+        @if (!enableFlag) {
+        <div class="container">
+          <ul>
+            @for (value of historyList; track $index) {
+            <li>
+              <div class="textdate">{{ value.date }}</div>
+              <span
+                class="time"
+                [style]="'--timeline-color:' + getBorderColor(value.statusId)"
+              ></span>
+
+              <div class="home-box">
+                <div class="card gedf-card margin-bottom">
+                  <div class="card-header">
+                    <div class="form-row">
+                      <div class="col">
+                        <div class="h7 text-dark card-status-name">
+                          <b>{{ value.statusName }}</b>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="bg-card">
+                    @if (value.notificationno !== '') {
+                    <ion-row style="margin-top: 1px">
+                      <ion-col size="4.5"><b>ID</b></ion-col>
+                      <ion-col size="0.5">:</ion-col>
+                      <ion-col size="7">
+                        <p>{{ value.notificationno }}</p>
+                      </ion-col>
+                    </ion-row>
+                    } @if (value.partdefect !== '') {
+                    <ion-row>
+                      <ion-col size="4.5">
+                        <b>{{ 'QRCODESCANNER.partdefect' | translate }}</b>
+                      </ion-col>
+                      <ion-col size="0.5">:</ion-col>
+                      <ion-col size="7">
+                        <p [innerHTML]="value.partdefect"></p>
+                      </ion-col>
+                    </ion-row>
+                    } @if (value.damage !== '') {
+                    <ion-row>
+                      <ion-col size="4.5">
+                        <b>{{ 'QRCODESCANNER.damage' | translate }}</b>
+                      </ion-col>
+                      <ion-col size="0.5">:</ion-col>
+                      <ion-col size="7">
+                        <p>{{ value.damage }}</p>
+                      </ion-col>
+                    </ion-row>
+                    } @if (value.operationoractivity !== '') {
+                    <ion-row>
+                      <ion-col size="4.5">
+                        <b
+                          >{{ 'QRCODESCANNER.operationactivity' | translate
+                          }}</b
+                        >
+                      </ion-col>
+                      <ion-col size="0.5">:</ion-col>
+                      <ion-col size="7">
+                        <p>{{ value.operationoractivity }}</p>
+                      </ion-col>
+                    </ion-row>
+                    }
+                  </div>
+
+                  <ion-row class="row-reverse">
+                    <button
+                      type="button"
+                      class="h7 btn timelinebtn btn-sm margin-5px"
+                      (click)="getTimeline(value)"
+                    >
+                      <ion-icon
+                        class="icon"
+                        name="stopwatch-outline"
+                      ></ion-icon>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="h7 btn summarybtn btn-sm margin-5px"
+                      (click)="getMaintenanceSummary(value)"
+                    >
+                      <ion-icon
+                        class="icon"
+                        name="document-text-outline"
+                      ></ion-icon>
+                    </button>
+                  </ion-row>
+                </div>
+              </div>
+            </li>
+            }
+          </ul>
+        </div>
+        } @if (historyList.length > 0 && !enableFlag && historyList.length <
+        totalPage) {
+        <ion-infinite-scroll
+          threshold="100px"
+          (ionInfinite)="pagination($event)"
+        >
+          <ion-infinite-scroll-content
+            class="loadmore"
+            loadingSpinner="bubbles"
+            loadingText="{{ 'NORECORDSFOUND.loadingmoredata' | translate }}"
+          >
+          </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+        } @if (enableFlag) {
+        <div class="norecords">
+          {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+        </div>
+        } @if (pleaseWaitFlag) {
+        <div class="pleasewait">
+          <div style="width: 100%; text-align: center">
+            <img
+              style="width: 80px; height: 80px"
+              src="../../../assets/img/loading.gif"
+              alt="Loading"
+            />
+          </div>
+          {{ 'NORECORDSFOUND.loading' | translate }}
+        </div>
+        }
+      </div>
+      }
+    </div>
+    }
+
+    <!-- Predictive Maintenance -->
+    @if (tabsSegment === 'Predictive Maintenance') {
+    <div>
+      <form [formGroup]="historyForm" class="status-select-wrapper">
+        <select
+          formControlName="select_pm_status"
+          class="text-dark status-select"
+          (change)="onChangeStatus('PM')"
+        >
+          <option value="">
+            {{ 'QRCODESCANNER.searchbystatus' | translate }}
+          </option>
+          @for (item of statusArr; track item.id) {
+          <option [value]="item.id">{{ item.status }}</option>
+          }
+        </select>
+        <span class="select-chevron"></span>
+      </form>
+
+      @if (!enableFlag) {
+      <div class="container">
+        <ul>
+          @for (value of historyList; track $index) {
+          <li>
+            <div class="textdate">{{ value.date }}</div>
+            <span
+              class="time"
+              [style]="'--timeline-color:' + getBorderColor(value.statusId)"
+            ></span>
+
+            <div class="home-box">
+              <div class="card gedf-card margin-bottom">
+                <div class="card-header">
+                  <div class="form-row">
+                    <div class="col">
+                      <div class="h7 text-dark card-status-name">
+                        <b>{{ value.statusName }}</b>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-card">
+                  @if (value.notificationno !== '') {
+                  <ion-row style="margin-top: 1px">
+                    <ion-col size="4.5"><b>ID</b></ion-col>
+                    <ion-col size="0.5">:</ion-col>
+                    <ion-col size="7">
+                      <p>{{ value.notificationno }}</p>
+                    </ion-col>
+                  </ion-row>
+                  } @if (value.partdefect !== '') {
+                  <ion-row>
+                    <ion-col size="4.5">
+                      <b>{{ 'QRCODESCANNER.partdefect' | translate }}</b>
+                    </ion-col>
+                    <ion-col size="0.5">:</ion-col>
+                    <ion-col size="7">
+                      <p [innerHTML]="value.partdefect"></p>
+                    </ion-col>
+                  </ion-row>
+                  } @if (value.damage !== '') {
+                  <ion-row>
+                    <ion-col size="4.5">
+                      <b>{{ 'QRCODESCANNER.damage' | translate }}</b>
+                    </ion-col>
+                    <ion-col size="0.5">:</ion-col>
+                    <ion-col size="7">
+                      <p>{{ value.damage }}</p>
+                    </ion-col>
+                  </ion-row>
+                  } @if (value.operationoractivity !== '') {
+                  <ion-row>
+                    <ion-col size="4.5">
+                      <b>{{ 'QRCODESCANNER.operationactivity' | translate }}</b>
+                    </ion-col>
+                    <ion-col size="0.5">:</ion-col>
+                    <ion-col size="7">
+                      <p>{{ value.operationoractivity }}</p>
+                    </ion-col>
+                  </ion-row>
+                  }
+                </div>
+
+                <ion-row class="row-reverse">
+                  <button
+                    type="button"
+                    class="h7 btn timelinebtn btn-sm margin-5px"
+                    (click)="getTimeline(value)"
+                  >
+                    <ion-icon class="icon" name="stopwatch-outline"></ion-icon>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="h7 btn summarybtn btn-sm margin-5px"
+                    (click)="getMaintenanceSummary(value)"
+                  >
+                    <ion-icon
+                      class="icon"
+                      name="document-text-outline"
+                    ></ion-icon>
+                  </button>
+                </ion-row>
+              </div>
+            </div>
+          </li>
+          }
+        </ul>
+      </div>
+      } @if (historyList.length > 0 && !enableFlag && historyList.length <
+      totalPage) {
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="pagination($event)">
+        <ion-infinite-scroll-content
+          class="loadmore"
+          loadingSpinner="bubbles"
+          loadingText="{{ 'NORECORDSFOUND.loadingmoredata' | translate }}"
+        >
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      } @if (enableFlag) {
+      <div class="norecords">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      } @if (pleaseWaitFlag) {
+      <div class="pleasewait">
+        <div style="width: 100%; text-align: center">
+          <img
+            style="width: 80px; height: 80px"
+            src="../../../assets/img/loading.gif"
+            alt="Loading"
+          />
+        </div>
+        {{ 'NORECORDSFOUND.loading' | translate }}
+      </div>
+      }
+    </div>
+    }
+  </div>
+</ion-content>

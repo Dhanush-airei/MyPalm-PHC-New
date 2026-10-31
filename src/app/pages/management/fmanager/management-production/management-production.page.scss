@@ -1,0 +1,339 @@
+/* management-production.page.scss */
+
+.home-box {
+  padding: 5px;
+  margin-top: 0;
+}
+
+/* ======================
+   Production Title
+   ====================== */
+
+.production-title {
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 5px;
+  color: #ff9f0c;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* ======================
+   Summary Button
+   ====================== */
+
+.summary-row {
+  margin-top: 5px;
+}
+
+.btn-summary {
+  height: 31px;
+  width: 100%;
+  background: transparent;
+  border: 1.5px solid #3cd2a5;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: normal;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  padding: 0 10px;
+}
+
+.btn-summary:hover {
+  background: rgba(60, 210, 165, 0.1);
+}
+
+.btn-summary:active {
+  transform: scale(0.97);
+}
+
+/* ======================
+   Info Table (Summary)
+   ====================== */
+
+.info-table-wrapper {
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.info-table .info-cell {
+  padding: 8px 10px;
+  color: #ffffff;
+  text-align: left;
+  border: 1px solid #dee2e6;
+  vertical-align: middle;
+}
+
+.info-label {
+  font-weight: bold;
+  color: #ffffff;
+  margin-right: 4px;
+}
+
+.info-value {
+  color: #ffffff;
+}
+
+/* ======================
+   Alert Data Table
+   ====================== */
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 5px;
+  border-radius: 4px;
+  //   border: 1px solid #dee2e6;
+}
+
+.alert-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid #dee2e6;
+}
+
+/* Table Header */
+.table-header {
+  background: #1d2730;
+}
+
+.header-cell {
+  padding: 6px 8px;
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  border: 1px solid #dee2e6;
+  background: #1d2730;
+}
+
+.header-text {
+  color: #ff9f0c;
+  font-weight: bold;
+  font-size: 11px;
+  letter-spacing: 0.3px;
+}
+
+/* Table Body */
+.data-row {
+  transition: background 0.2s ease;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.data-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.data-row:last-child {
+  border-bottom: none;
+}
+
+.data-cell {
+  padding: 8px 10px;
+  text-align: center;
+  vertical-align: middle;
+  color: #ffffff;
+  border: 1px solid #dee2e6;
+  min-height: 40px;
+}
+
+.parameters-cell {
+  text-align: left;
+  word-wrap: break-word;
+  max-width: 200px;
+}
+
+/* ======================
+   Status Badges
+   ====================== */
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 60px;
+}
+
+.status-badge.attended {
+  background: #28a745;
+  color: #ffffff;
+}
+
+.status-badge.unable {
+  background: #ffc107;
+  color: #000000;
+}
+
+.status-badge.unattended {
+  background: #dc3545;
+  color: #ffffff;
+  animation: blink 1s linear infinite;
+}
+
+.remarks-text {
+  padding-top: 8px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  word-wrap: break-word;
+}
+
+/* ======================
+   View Image Button
+   ====================== */
+
+.btn-view-image {
+  background: transparent;
+  border: 1.5px solid #30beff;
+  border-radius: 4px;
+  color: #ffffff;
+  padding: 4px 12px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.btn-view-image:hover {
+  background: rgba(48, 190, 255, 0.15);
+}
+
+.btn-view-image:active {
+  transform: scale(0.95);
+}
+
+/* ======================
+   No Records / Loading
+   ====================== */
+
+.no-records {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 60%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.please-wait {
+  text-align: center;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.loading-container {
+  width: 100%;
+  text-align: center;
+}
+
+.loading-image {
+  width: 80px;
+  height: 80px;
+}
+
+.loading-text {
+  display: block;
+  margin-top: 10px;
+}
+
+/* ======================
+   Animation
+   ====================== */
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* ======================
+   Scrollbar Styling
+   ====================== */
+
+.table-wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+  background: #ff9f0c;
+  border-radius: 3px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #e08a00;
+}
+
+/* ======================
+   Production Date Picker Component Overrides
+   ====================== */
+
+::ng-deep .production-date-picker {
+  .form-control {
+    background-color: transparent !important;
+    color: #ffffff !important;
+    padding: 0.2rem 0.6rem !important;
+  }
+
+  .btn-general {
+    background: transparent !important;
+    border-color: #ff9f0c !important;
+    color: #ffffff !important;
+  }
+}
+
+/* ======================
+   Image Slider Modal
+   ====================== */
+
+.image-slider-modal {
+  --width: 100%;
+  --height: 100%;
+  --border-radius: 0;
+  --background: #000;
+}
+
+.image-slider-modal::part(content) {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  background: #000;
+}
+
+.image-slider-modal::part(backdrop) {
+  background: rgba(0, 0, 0, 0.8);
+}

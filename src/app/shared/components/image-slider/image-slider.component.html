@@ -1,0 +1,37 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content fullscreen class="image-slider-content">
+  <div
+    class="ion-content-bg w-100 h-100 d-flex justify-content-center align-items-center"
+  >
+    <swiper-container
+      class="image-swiper"
+      [navigation]="false"
+      [pagination]="true"
+      zoom="true"
+      centered-slides="true"
+      slides-per-view="1"
+    >
+      @for (item of imagesArr; track $index) {
+        <swiper-slide>
+          <div class="image-wrapper">
+            <div class="swiper-zoom-container">
+              <img [src]="item.image" [alt]="item.title" />
+            </div>
+
+            @if (item.title) {
+              <div class="image-title">
+                {{ item.title }}
+              </div>
+            }
+          </div>
+        </swiper-slide>
+      }
+    </swiper-container>
+  </div>
+</ion-content>

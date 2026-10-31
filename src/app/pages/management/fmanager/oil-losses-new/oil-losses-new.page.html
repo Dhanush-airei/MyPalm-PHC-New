@@ -1,0 +1,165 @@
+<app-page-header
+  [showBackButton]="showBackButton"
+  [showLogo]="showLogo"
+  [appTitle]="appTitle"
+  [actions]="headerActions"
+></app-page-header>
+
+<ion-content class="ion-content-bg">
+  <div id="chartContainer8" style="margin: 10px">
+    <!-- Date Picker Component -->
+    <app-date-picker
+      [date]="displayDateForPicker"
+      [externalDate]="externalDate"
+      (getRecords)="onGetRecords($event)"
+    ></app-date-picker>
+
+    <hr />
+
+    <!-- Data Table -->
+    @if (!norecordsflag) {
+    <div style="overflow-x: auto; margin-top: 20px">
+      @for (general of oillossesArr; track general) { @if
+      (general.pressdata.length > 0) {
+      <table style="width: 100%; height: 100%" class="table table-bordered">
+        <tr class="table_head">
+          <th colspan="6" scope="colgroup" style="padding: 4px !important">
+            <span class="presstitle">{{ general.pressname }}</span>
+          </th>
+        </tr>
+
+        <tr class="table_head">
+          <th colspan="1" scope="colgroup" style="padding: 4px !important">
+            <span class="mdfont"
+              >{{ 'REPORTPRESSSTATION.time' | translate }}</span
+            >
+          </th>
+
+          <!-- Oil Loss Header - English/French -->
+          @if (getLanguage == 'English' || getLanguage == 'French') {
+          <th colspan="1" scope="colgroup" style="padding: 4px !important">
+            <span class="mdfont">
+              {{ 'OILLOSSESNEW.oilloss' | translate }}<br />(%)
+            </span>
+          </th>
+          }
+
+          <!-- Oil Loss Header - Malay -->
+          @if (getLanguage == 'Malay') {
+          <th colspan="1" scope="colgroup" style="padding: 4px !important">
+            <span class="mdfont">
+              {{ 'OILLOSSESHISTORY.mypalm' | translate }}<br />
+              {{ 'OILLOSSESHISTORY.oil' | translate }}<br />
+              {{ 'OILLOSSESHISTORY.loss' | translate }}<br />(%)
+            </span>
+          </th>
+          }
+
+          <!-- Oil Loss Header - Portuguese -->
+          @if (getLanguage == 'Portuguese') {
+          <th colspan="1" scope="colgroup" style="padding: 4px !important">
+            <span class="mdfont">
+              {{ 'OILLOSSESHISTORY.oil' | translate }}<br />
+              {{ 'OILLOSSESHISTORY.loss' | translate }}<br />(%)
+            </span>
+          </th>
+          }
+
+          <!-- Reason Header - English/Portuguese/French -->
+          @if (getLanguage == 'English' || getLanguage == 'Portuguese' ||
+          getLanguage == 'French') {
+          <th colspan="1" scope="colgroup" style="padding: 4px !important">
+            <span class="mdfont">
+              {{ 'OILLOSSESHISTORY.reasonforoilloss' | translate }}<br />
+              {{ 'OILLOSSESHISTORY.reasonforoillosssubtitle' | translate }}
+            </span>
+          </th>
+          }
+
+          <!-- Reason Header - Malay -->
+          @if (getLanguage == 'Malay') {
+          <th colspan="1" scope="colgroup" style="padding: 4px !important">
+            <span class="mdfont">
+              {{ 'OILLOSSESHISTORY.reasonforoilloss' | translate }}<br />
+              {{ 'OILLOSSESHISTORY.reasonforoillosssubtitle1' | translate }}<br />
+              {{ 'OILLOSSESHISTORY.reasonforoillosssubtitle2' | translate }}
+            </span>
+          </th>
+          }
+
+          <!-- Recommendations Header -->
+          <th colspan="1" scope="colgroup" style="padding: 4px !important">
+            <span class="mdfont"
+              >{{ 'OILLOSSESNEW.recommendations' | translate }}</span
+            >
+          </th>
+        </tr>
+
+        <!-- Table Data Rows -->
+        @for (value of general.pressdata; track value) {
+        <tr>
+          <td scope="row" width="10%">{{ value.time }}</td>
+          <td
+            scope="row"
+            [style.color]="getStatusBackgroundColor(value.level)"
+            class="blink"
+            style="font-size: 12px"
+            width="10%"
+          >
+            <b>{{ value.predictedvalue }}</b><br />
+            {{ value.levelvalue }}
+          </td>
+          <td
+            scope="row"
+            class="leftallign"
+            style="overflow: auto; vertical-align: initial"
+            width="35%"
+          >
+            @for (valuedata of value.reasons; track valuedata; let i = $index) {
+            {{ i + 1 }}) {{ valuedata.values }}<br />
+            }
+          </td>
+          <td
+            scope="row"
+            class="leftallign"
+            style="overflow: auto; vertical-align: initial"
+            width="45%"
+          >
+            @for (valuedata of value.actions; track valuedata; let i = $index) {
+            {{ i + 1 }}) {{ valuedata.values }}<br />
+            }
+          </td>
+        </tr>
+        }
+      </table>
+
+      <div class="nopressstationrecords" @if (general.length="" ="0)">
+        {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+      </div>
+      <hr />
+      } }
+    </div>
+    }
+
+    <!-- No Records -->
+    @if (norecordsflag) {
+    <div class="norecords">
+      {{ 'NORECORDSFOUND.norecordsfound' | translate }}
+    </div>
+    }
+
+    <!-- Loading -->
+    @if (pleasewaitflag) {
+    <div class="pleasewait">
+      <div style="width: 100%; text-align: center">
+        <img
+          style="width: 80px; height: 80px"
+          src="../../../assets/img/loading.gif"
+          alt="Loading"
+        />
+      </div>
+      {{ 'NORECORDSFOUND.loading' | translate }}
+    </div>
+    }
+  </div>
+</ion-content>

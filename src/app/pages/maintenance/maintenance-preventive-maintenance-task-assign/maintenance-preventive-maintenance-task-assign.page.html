@@ -1,0 +1,311 @@
+<ion-header>
+  <ion-toolbar class="bg-brown-color modaltoolbar">
+    <ion-title mode="ios" color="light">{{ title }}</ion-title>
+
+    @if (viewFlag) {
+    <ion-buttons slot="start">
+      <ion-button color="whitefav" (click)="btn_back()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    }
+
+    <ion-buttons slot="end">
+      <ion-button class="bg-light-color" (click)="btn_close()">
+        <ion-icon color="light" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="content">
+  <!-- Routine Preventive Maintenance Form -->
+  @if (module == 'RoPM') {
+  <form [formGroup]="assignForm">
+    <!-- Station -->
+    @if (getstationid != '') {
+    <ion-row class="form-row">
+      <ion-col size="5.5">
+        <div class="title">
+          {{ 'PREVENTIVEMAINTENANCEASSIGN.station' | translate }}
+        </div>
+      </ion-col>
+
+      <ion-col size="0.5" style="text-align: right">
+        <div class="title"><b>:</b></div>
+      </ion-col>
+
+      <ion-col size="6" style="text-align: left">
+        <div class="viewtitle"><b>{{ getstationname }}</b></div>
+      </ion-col>
+    </ion-row>
+    }
+
+    <!-- Machine -->
+    @if (getmachineid != '') {
+    <ion-row class="form-row">
+      <ion-col size="5.5">
+        <div class="title">
+          {{ 'PREVENTIVEMAINTENANCEASSIGN.machine' | translate }}
+        </div>
+      </ion-col>
+
+      <ion-col size="0.5" style="text-align: right">
+        <div class="title"><b>:</b></div>
+      </ion-col>
+
+      <ion-col size="6" style="text-align: left">
+        <div class="viewtitle"><b>{{ getmachinename }}</b></div>
+      </ion-col>
+    </ion-row>
+    }
+
+    <!-- Part Defect Name -->
+    @if (partdefectname != '') {
+    <ion-row class="form-row">
+      <ion-col size="5.5">
+        <div class="title">
+          {{ 'PREVENTIVEMAINTENANCEASSIGN.partname' | translate }}
+        </div>
+      </ion-col>
+
+      <ion-col size="0.5" style="text-align: right">
+        <div class="title"><b>:</b></div>
+      </ion-col>
+
+      <ion-col size="6" style="text-align: left">
+        <div class="viewtitle"><b>{{ partdefectname }}</b></div>
+      </ion-col>
+    </ion-row>
+    }
+
+    <!-- AI Prediction Content -->
+    @if (aicontent != '' && getpmflag == '1') {
+    <div>
+      <ion-row class="form-row">
+        <ion-col size="5.5">
+          <div class="title">
+            {{ 'PREVENTIVEMAINTENANCEASSIGN.aiprediction' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: right">
+          <div class="title"><b>:</b></div>
+        </ion-col>
+
+        <ion-col size="6"></ion-col>
+      </ion-row>
+
+      <ion-row class="form-row">
+        <ion-col style="text-align: left; padding-bottom: 0px">
+          <div
+            style="color: #ffffff; font-size: 14px"
+            [innerHTML]="aicontent"
+          ></div>
+        </ion-col>
+      </ion-row>
+    </div>
+    }
+
+    <!-- Task List Header -->
+    @if (tasklistArr.length > 0) {
+    <ion-row class="form-row">
+      <ion-col size="5.5">
+        <div class="title">
+          {{ 'MAINTENANCENOTIFICATIONVIEW.task' | translate }}
+        </div>
+      </ion-col>
+
+      <ion-col size="0.5" style="text-align: right">
+        <div class="title"><b>:</b></div>
+      </ion-col>
+
+      <ion-col size="6" style="text-align: left"></ion-col>
+    </ion-row>
+    }
+
+    <!-- ================================================ -->
+    <!-- Task List Values — FIXED single-line KV rows     -->
+    <!-- ================================================ -->
+    <div>
+      @for (value of tasklistArr; track $index; let i = $index) {
+      <table class="task-table">
+        <thead>
+          <tr class="table_head">
+            <th colspan="3" class="table-cell">
+              <span class="mdfont text-orange">{{ value.partname }}</span>
+            </th>
+          </tr>
+          <tr class="task_table_head">
+            <th class="table-cell">
+              <span class="mdfont text-orange">
+                {{ 'MAINTENANCENOTIFICATIONVIEW.task' | translate }}
+              </span>
+            </th>
+            <th class="table-cell">
+              <span class="mdfont text-orange">
+                {{ 'GENERALBUTTON.updatebutton' | translate }}
+              </span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of value.tasklistdata; track $index; let j = $index) {
+          <tr>
+            <td class="task-cell" style="text-align: left !important">
+              <div class="task-name">{{ item.task_name }}</div>
+
+              <!-- Status Row -->
+              @if (item.status != '') {
+              <div class="kv-row">
+                <div class="kv-label">
+                  {{ 'CORRECTIVEMAINTENACE.status' | translate }}
+                </div>
+                <div class="kv-colon">:</div>
+                <div class="kv-value">{{ item.status }}</div>
+              </div>
+              }
+
+              <!-- Maintenance Type Row -->
+              @if (item.maintenancetype != '') {
+              <div class="kv-row">
+                <div class="kv-label">
+                  {{ 'SUPERVISORDASHBOARD.maintenancetype' | translate }}
+                </div>
+                <div class="kv-colon">:</div>
+                <div class="kv-value">{{ item.maintenancetype }}</div>
+              </div>
+              }
+
+              <!-- Damage Type Row -->
+              @if (item.damagetype != '') {
+              <div class="kv-row">
+                <div class="kv-label">
+                  {{ 'MAINTENANCENOTIFICATIONVIEW.damagetype' | translate }}
+                </div>
+                <div class="kv-colon">:</div>
+                <div class="kv-value">{{ item.damagetype }}</div>
+              </div>
+              }
+
+              <!-- Reason Row -->
+              @if (item.reason != '') {
+              <div class="kv-row">
+                <div class="kv-label">
+                  {{ 'SUPERVISORDASHBOARD.reason' | translate }}
+                </div>
+                <div class="kv-colon">:</div>
+                <div class="kv-value">{{ item.reason }}</div>
+              </div>
+              }
+
+              <!-- Remarks Row -->
+              @if (item.remarks != '') {
+              <div class="kv-row">
+                <div class="kv-label">
+                  {{ 'SUPERVISORDASHBOARD.remarks' | translate }}
+                </div>
+                <div class="kv-colon">:</div>
+                <div class="kv-value">{{ item.remarks }}</div>
+              </div>
+              }
+            </td>
+            <td
+              class="task-cell"
+              style="cursor: pointer"
+              (click)="btn_taskupdate(value, item)"
+            >
+              <ion-icon name="create-outline"></ion-icon>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+      }
+    </div>
+
+    <!-- Assigned To -->
+    <div>
+      <ion-row style="margin-top: 10px" class="form-row">
+        <ion-col size="5.5">
+          <div class="title">
+            {{ 'PREVENTIVEMAINTENANCEASSIGN.assignto' | translate }}
+          </div>
+        </ion-col>
+
+        <ion-col size="0.5" style="text-align: right">
+          <div class="title"><b>:</b></div>
+        </ion-col>
+
+        <ion-col size="6" style="text-align: initial">
+          <ion-button class="optionbutton" (click)="openAssignedTo()">
+            {{ 'PREVENTIVEMAINTENANCEASSIGN.select' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+
+      <!-- Hidden IonSelect for Assigned To -->
+      <ion-select
+        mode="md"
+        [interfaceOptions]="assignedtoOptions"
+        formControlName="select_assignedto"
+        multiple="true"
+        [okText]="'GENERALBUTTON.okay' | translate"
+        [cancelText]="'GENERALBUTTON.cancelbutton' | translate"
+        class="ionicselect"
+        (ionChange)="assignedtohandleChange($event)"
+        #assignedtoSelect
+      >
+        @for (value of assignedtoArr; track $index; let i = $index) {
+        <ion-select-option value="{{ parseString(value) }}">
+          {{ value.name }}
+        </ion-select-option>
+        }
+      </ion-select>
+
+      <!-- Selected Assigned To Table -->
+      @if (assignedtovalue != '') {
+      <div style="margin-top: 5px">
+        <table class="selected-table">
+          <thead>
+            <tr class="table_head">
+              <th class="table-cell" style="width: 15%">
+                {{ 'SUPERVISORDASHBOARD.no' | translate }}
+              </th>
+              <th class="table-cell" style="width: 85%">
+                {{ 'MAINTENANCEENGINEERINGNOTIFICATIONMODAL.incharge' |
+                translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (value of assignedtovalueArr; track $index; let i = $index) {
+            <tr>
+              <td class="table-cell">{{ i + 1 }}</td>
+              <td class="table-cell">{{ value }}</td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+    </div>
+
+    <!-- Save Button -->
+    <ion-row style="margin-top: 10px">
+      <ion-col style="text-align: center !important">
+        <button
+          type="submit"
+          class="btn btn-next"
+          [disabled]="confirmDisable"
+          (click)="btn_next()"
+        >
+          <span class="icontext" style="color: #ffffff">
+            {{ 'PREVENTIVEMAINTENANCEASSIGN.save' | translate }}
+          </span>
+        </button>
+      </ion-col>
+    </ion-row>
+  </form>
+  }
+</ion-content>

@@ -1,0 +1,87 @@
+<!-- ================= FROM DATE, TO DATE AND GET BUTTON ================= -->
+
+<ion-row class="align-items-center justify-content-between">
+  <!-- From Date -->
+  <ion-col size="1.9" class="text-white fs-12">
+    {{ "GRADINGREPORT.from" | translate }}
+  </ion-col>
+
+  <ion-col
+    size="3"
+    class="text-white text-center fs-12 border rounded"
+    (click)="openFromDateModal()"
+  >
+    {{ fromDate ? (fromDate | date: "dd-MM-yyyy") : "DD-MM-YYYY" }}
+  </ion-col>
+
+  <!-- To date -->
+  <ion-col size="1.3" class="text-white fs-12">
+    {{ "GRADINGREPORT.to" | translate }}
+  </ion-col>
+
+  <ion-col
+    size="3"
+    class="text-white text-center fs-12 border rounded"
+    (click)="openToDateModal()"
+  >
+    {{ toDate ? (toDate | date: "dd-MM-yyyy") : "DD-MM-YYYY" }}
+  </ion-col>
+
+  <!-- Get -->
+  <ion-col size="2.5">
+    <button
+      type="button"
+      class="btn w-100 text-white border-orange fs-12"
+      (click)="onGetReport()"
+    >
+      {{ "GENERALBUTTON.getrecords" | translate }}
+    </button>
+  </ion-col>
+</ion-row>
+
+<!-- ================= FROM DATE MODAL ================= -->
+
+<ion-modal
+  [isOpen]="isFromDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onFromDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempFromDate"
+        [preferWheel]="true"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        cancelText="Cancel"
+        (ionChange)="onFromDateChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
+
+<!-- ================= TO DATE MODAL ================= -->
+
+<ion-modal
+  [isOpen]="isToDateModalOpen"
+  cssClass="date-modal"
+  (didDismiss)="onToDateDismiss()"
+>
+  <ng-template>
+    <div class="calendar-wrapper">
+      <ion-datetime
+        [(ngModel)]="tempToDate"
+        [preferWheel]="true"
+        presentation="date"
+        [showDefaultButtons]="true"
+        doneText="Ok"
+        [min]="tempFromDate"
+        cancelText="Cancel"
+        (ionChange)="onToDateChange($event)"
+      >
+      </ion-datetime>
+    </div>
+  </ng-template>
+</ion-modal>
